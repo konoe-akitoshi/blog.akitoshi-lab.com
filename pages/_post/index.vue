@@ -34,7 +34,7 @@ export const getStaticProps = async (context) => {
 import axios from 'axios'
 
 export default {
-  async created({ params }) {//asyncData
+  async asyncData({ params }) {
     const { data } = await axios.get(
       `https://akitoshi-lab.microcms.io/api/v1/blog/${params.post}`,
       {
