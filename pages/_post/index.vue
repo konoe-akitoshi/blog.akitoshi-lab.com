@@ -7,6 +7,7 @@
 </template>
 
 <script>
+/*
 import { client } from "../../libs/client";
 
 // 静的生成のためのパスを指定します
@@ -28,7 +29,8 @@ export const getStaticProps = async (context) => {
     },
   };
 };
-/*
+*/
+
 import axios from 'axios'
 
 export default {
@@ -42,7 +44,7 @@ export default {
     return data
   }
 }
-*/
+
 </script>
 
 <style lang="scss" scoped>
