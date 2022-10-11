@@ -47,6 +47,18 @@
 
 
 <script>
+import { client } from "../libs/client";
+
+export const getStaticProps = async () => {
+  const data = await client.get({ endpoint: "blog" });
+
+  return {
+    props: {
+      blog: data.contents,
+    },
+  };
+};
+/*
 import axios from "axios";
 export default {
   async asyncData() {
@@ -63,6 +75,7 @@ export default {
     return data;
   },
 };
+*/
 </script>
 
 <style lang="scss" scoped>
