@@ -1,6 +1,6 @@
 <!-- client/pages/index.vue -->
 <script setup lang="ts">
-const { data: posts } = await useFetch("/api/postlist");
+const { data: posts , refresh} = await useFetch('/api/postlist')
 </script>
 
 <template>
