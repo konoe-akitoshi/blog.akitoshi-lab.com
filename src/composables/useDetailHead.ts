@@ -20,7 +20,7 @@ export const useDetailHead = (post: Post) => {
       },
       {
         property: "og:title",
-        content: `${post.title} | Qlitre`,
+        content: `${post.title} | Akitoshi Lab.`,
       },
       {
         property: "og:description",

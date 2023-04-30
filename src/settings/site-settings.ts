@@ -4,10 +4,9 @@
 export const BLOG_PER_PAGE = 5;
 
 export const config = {
-  siteName: "Qlitre's Blog",
-  siteUrl: "https://qlitre-weblog.com",
-  siteDescription:
-    "Pythonを中心にプログラミングの備忘録、チュートリアルを書いています",
+  siteName: "Akitoshi Lab.",
+  siteUrl: "https://akitoshi-lab.com",
+  siteDescription: "ロボットが好きな大学生です．",
   social: {
     repos: "https://github.com/qlitre/qlitre-weblog-nuxt3",
     github: "https://github.com/qlitre",
