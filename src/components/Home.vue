@@ -34,18 +34,20 @@ useIndexHead();
 
 <template>
   <div>
-    <div class="divider">
-      <section class="container">
-        <!-- 記事一覧 -->
-        <PostList :posts="posts.contents" />
-      </section>
-      <aside class="aside">
-        <!-- キーワード検索、タグ一覧 -->
-        <SearchForm />
-        <Tags :tags="tags.contents" :selectedTagId="tagId" />
-      </aside>
-    </div>
-    <Pagination :numPages="numPages" :current="page" />
+    <Html lang="ja">
+      <div class="divider">
+        <section class="container">
+          <!-- 記事一覧 -->
+          <PostList :posts="posts.contents" />
+        </section>
+        <aside class="aside">
+          <!-- キーワード検索、タグ一覧 -->
+          <SearchForm />
+          <Tags :tags="tags.contents" :selectedTagId="tagId" />
+        </aside>
+      </div>
+      <Pagination :numPages="numPages" :current="page" />
+    </Html>
   </div>
 </template>
 

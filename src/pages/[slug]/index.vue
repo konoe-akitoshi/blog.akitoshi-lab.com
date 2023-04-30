@@ -26,18 +26,22 @@ const body = $.html();
 </script>
 
 <template>
-  <div class="main">
-    <span class="published">{{ $formatDate(article.publishedAt) }}</span>
-    <span v-for="(tag, i) in article.tag" :key="tag.id" class="tag"
-      >{{ tag.name }}
-    </span>
-    <h1 class="title">{{ article.title }}</h1>
-    <img
-      class="thumbnail"
-      v-if="article.thumbnail"
-      :src="article.thumbnail.url"
-    />
-    <div class="md" v-html="body" />
+  <div>
+    <Html lang="ja">
+      <div class="main">
+        <span class="published">{{ $formatDate(article.publishedAt) }}</span>
+        <span v-for="(tag, i) in article.tag" :key="tag.id" class="tag"
+          >{{ tag.name }}
+        </span>
+        <h1 class="title">{{ article.title }}</h1>
+        <img
+          class="thumbnail"
+          v-if="article.thumbnail"
+          :src="article.thumbnail.url"
+        />
+        <div class="md" v-html="body" />
+      </div>
+    </Html>
   </div>
 </template>
 
