@@ -28,6 +28,8 @@ const { data: posts } = await useFetch("/api/post-list", { params: queries });
 const { data: tags } = await useFetch("/api/tag-list");
 
 const numPages = Math.ceil(posts.value.totalCount / limit);
+
+useIndexHead();
 </script>
 
 <template>
