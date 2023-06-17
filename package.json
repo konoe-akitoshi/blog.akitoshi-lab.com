@@ -17,6 +17,7 @@
     "cheerio": "^1.0.0-rc.12",
     "dayjs": "^1.11.7",
     "highlight.js": "^11.8.0",
-    "microcms-js-sdk": "^2.3.3"
+    "microcms-js-sdk": "^2.3.3",
+    "vue-gtag": "^2.0.1"
   }
 }
