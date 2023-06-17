@@ -78,7 +78,7 @@ const skillSet = [
 .card-after {
     height: 100%;
     width: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.6);
     ;
     border-radius: 10px;
 
