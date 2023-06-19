@@ -1,8 +1,9 @@
 <!-- src/pages/[slug]/index.vue -->
 <script setup lang="ts">
-import * as cheerio from "cheerio"; //追加
-import hljs from "highlight.js"; //追加
-import "highlight.js/styles/hybrid.css"; //追加
+import * as cheerio from "cheerio";
+import hljs from "highlight.js";
+import "highlight.js/styles/hybrid.css";
+import useMathJax from "~/plugins/mathjax";
 
 const route = useRoute();
 const slug = String(route.params.slug);
@@ -22,25 +23,37 @@ $("pre code").each((_, elm) => {
   $(elm).html(result.value);
   $(elm).addClass("hljs");
 });
+
+// MathJaxのコードを追加
+$("p").each((_, elm) => {
+  const text = $(elm).html();
+  const newText = text.replace(/\$\$(.*?)\$\$/gs, "<div>\\[$1\\]</div>");
+  $(elm).html(newText);
+});
+$("span").each((_, elm) => {
+  const text = $(elm).html();
+  const newText = text.replace(/\$(.*?)\$/gs, "<span>\\($1\\)</span>");
+  $(elm).html(newText);
+});
+
 const body = $.html();
+
+// MathJaxの読み込みをトリガーする
+useMathJax();
 </script>
 
 <template>
   <div>
     <Html lang="ja">
-      <div class="main">
-        <span class="published">{{ $formatDate(article.publishedAt) }}</span>
-        <span v-for="(tag, i) in article.tag" :key="tag.id" class="tag"
-          >{{ tag.name }}
-        </span>
-        <h1 class="title">{{ article.title }}</h1>
-        <img
-          class="thumbnail"
-          v-if="article.thumbnail"
-          :src="article.thumbnail.url"
-        />
-        <div class="md" v-html="body" />
-      </div>
+    <div class="main">
+      <span class="published">{{ $formatDate(article.publishedAt) }}</span>
+      <span v-for="(tag, i) in article.tag" :key="tag.id" class="tag">{{ tag.name }}
+      </span>
+      <h1 class="title">{{ article.title }}</h1>
+      <img class="thumbnail" v-if="article.thumbnail" :src="article.thumbnail.url" />
+      <div class="md" v-html="body" />
+    </div>
+
     </Html>
   </div>
 </template>
@@ -86,8 +99,7 @@ const body = $.html();
 
 .md:deep(*) {
   margin-top: 0;
-  margin-bottom: 2rem;
-  line-height: 1.9;
+  /*margin-bottom: 2rem;*/
   font-size: 1.6rem;
   font-weight: 500;
 }
@@ -114,7 +126,7 @@ const body = $.html();
 .md:deep(p) code {
   background-color: #eee;
   color: #333;
-  padding: 0.2em 0.4em;
+  padding: 0.2em 0.6em; /* 修正 */
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
     monospace;
   margin-left: 0.5rem;

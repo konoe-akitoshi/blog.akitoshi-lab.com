@@ -8,6 +8,10 @@ export default defineNuxtConfig({
     serviceDomain: SERVICE_DOMAIN,
   },
   css: ["~/assets/css/reset.css", "~/assets/css/style.css"],
+  // tex
+  plugins: [
+    { src: '~/plugins/mathjax', mode: 'client' },
+  ],
   // OGP
   app: {
     head: {
