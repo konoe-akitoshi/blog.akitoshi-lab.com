@@ -10,6 +10,7 @@
     "clean": "nuxt clean"
   },
   "devDependencies": {
+    "@nuxt/image": "^1.0.0-rc.1",
     "@types/node": "^18",
     "nuxt": "^3.4.3"
   },

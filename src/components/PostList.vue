@@ -17,11 +17,8 @@ const { posts } = defineProps<Props>();
         tag.name
       }}</span>
       <nuxt-link class="link" :to="`/${post.id}`">
-        <img
-          class="thumbnail"
-          v-if="post.thumbnail"
-          :src="post.thumbnail.url"
-        />
+        <nuxt-img class="thumbnail" v-if="post.thumbnail" :src="post.thumbnail.url" :width="450" :height="230" format="webp"
+          quality="80" fit="contain" />
         <h1 class="title">
           {{ post.title }}
         </h1>

@@ -50,7 +50,8 @@ useDetailHead(article.value);
         <span class="published">{{ $formatDate(article.publishedAt) }}</span>
         <span v-for="(tag, i) in article.tag" :key="tag.id" class="tag">{{ tag.name }}</span>
         <h1 class="title">{{ article.title }}</h1>
-        <img class="thumbnail" v-if="article.thumbnail" :src="article.thumbnail.url" />
+        <nuxt-img class="thumbnail" v-if="article.thumbnail" :src="article.thumbnail.url" :width="1280" :height="720" format="webp"
+          quality="80" fit="contain"/>
         <div class="md" v-html="body" />
       </div>
     </Html>

@@ -8,21 +8,17 @@ export default defineNuxtConfig({
     serviceDomain: SERVICE_DOMAIN,
   },
   css: ["~/assets/css/reset.css", "~/assets/css/style.css"],
+  modules: [
+    '@nuxt/image',
+  ],
   // tex
   plugins: [
-    { src: '~/plugins/mathjax', mode: 'server' },
+    { src: '~/plugins/mathjax', mode: 'client' },
   ],
-  // // OGP
-  // app: {
-  //   head: {
-  //     htmlAttrs: {
-  //       lang: 'ja', prefix: 'og: https://ogp.me/ns#'
-  //     },
-  //     meta: [
-  //       { property: 'og:type', content: 'blog' },
-  //       { property: 'og:site_name', content: 'Akitoshi Lab.' },
-  //       { property: 'og:image', content: '<ogpに使われる画像の絶対パス>', },
-  //     ]
-  //   }
-  // }
+  // image: {
+  //   provider: 'static',
+  //   static: {
+  //     baseURL: '/',
+  //   },
+  // },
 });
