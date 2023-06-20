@@ -10,19 +10,19 @@ export default defineNuxtConfig({
   css: ["~/assets/css/reset.css", "~/assets/css/style.css"],
   // tex
   plugins: [
-    { src: '~/plugins/mathjax', mode: 'client' },
+    { src: '~/plugins/mathjax', mode: 'server' },
   ],
-  // OGP
-  app: {
-    head: {
-      htmlAttrs: {
-        lang: 'ja', prefix: 'og: https://ogp.me/ns#'
-      },
-      meta: [
-        { property: 'og:type', content: 'blog' },
-        { property: 'og:site_name', content: 'Akitoshi Lab.' },
-        { property: 'og:image', content: '<ogpに使われる画像の絶対パス>', },
-      ]
-    }
-  }
+  // // OGP
+  // app: {
+  //   head: {
+  //     htmlAttrs: {
+  //       lang: 'ja', prefix: 'og: https://ogp.me/ns#'
+  //     },
+  //     meta: [
+  //       { property: 'og:type', content: 'blog' },
+  //       { property: 'og:site_name', content: 'Akitoshi Lab.' },
+  //       { property: 'og:image', content: '<ogpに使われる画像の絶対パス>', },
+  //     ]
+  //   }
+  // }
 });

@@ -10,7 +10,7 @@ export const config = {
   social: {
     repos: "https://github.com/qlitre/qlitre-weblog-nuxt3",
     github: "https://github.com/qlitre",
-    twitter: "@kuri_tter",
+    twitter: "@konoe_akitoshi",
     twitterProf: "https://twitter.com/kuri_tter",
     buyMeACoffee: "https://www.buymeacoffee.com/qlitre",
   },

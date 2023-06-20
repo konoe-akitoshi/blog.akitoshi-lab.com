@@ -39,6 +39,8 @@ const body = $.html();
 
 // MathJaxの読み込みをトリガーする
 useMathJax();
+
+useDetailHead(article.value);
 </script>
 
 <template>
