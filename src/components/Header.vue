@@ -4,47 +4,26 @@ import { config } from '../settings/site-settings'
 
 </script>
 
-<!--
-<template>
-  <header class="header wrapper">
-    <nuxt-link :to="`/`">
-      <h1 class="title">Akitoshi Lab.</h1>
-    </nuxt-link>
-  </header>
-</template>
--->
-
 <template>
     <header class="header">
         <div class="container">
-            <nuxt-link :to='`/`'>
+            <nuxt-link :to="`/`">
                 <h1 class="site-title">
                     {{ config.siteName }}
                 </h1>
             </nuxt-link>
             <nav class="main-nav">
-                <!--
-              <li class="nav-item">
-                  <a :href="config.social.repos" target="_blank" rel="noopener noreferrer">
-                      GitHub
-                  </a>
-              </li>
-              -->
                 <li class="nav-item">
-                    <nuxt-link :to='`/`'>
-                        HOME
-                    </nuxt-link>
+                    <nuxt-link :to="`/`">HOME</nuxt-link>
                 </li>
                 <li class="nav-item">
-                    <nuxt-link :to='`/about`'>
-                        ABOUT
-                    </nuxt-link>
+                    <nuxt-link :to="`/about`">ABOUT</nuxt-link>
                 </li>
             </nav>
         </div>
     </header>
     <div class="empty"></div>
-</template>
+</template>  
 
 <style scoped>
 .header {
@@ -76,6 +55,7 @@ import { config } from '../settings/site-settings'
     line-height: 1.4em;
     justify-content: center;
     letter-spacing: 1px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .main-nav {
@@ -87,18 +67,20 @@ import { config } from '../settings/site-settings'
 
 .nav-item {
     margin-right: 1.5rem;
+}
+
+.nav-item a {
     font-size: 1.5rem;
     font-weight: bold;
     color: #fff;
-    letter-spacing: 1px;
+    text-decoration: none;
+    padding: 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
-a {
-    color: #fff;
-
-    &:hover {
-        opacity: 0.6;
-    }
+.nav-item a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .empty {

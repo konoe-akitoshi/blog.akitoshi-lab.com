@@ -8,9 +8,7 @@ import useMathJax from "~/plugins/mathjax";
 const route = useRoute();
 const slug = String(route.params.slug);
 
-const { data: article } = await useFetch(`/api/post-detail`, {
-  params: { slug: slug },
-});
+const { data: article } = await useFetch(`/api/post-detail`, { params: { slug: slug } });
 
 if (!article.value) {
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" });
@@ -27,12 +25,13 @@ $("pre code").each((_, elm) => {
 // MathJaxのコードを追加
 $("p").each((_, elm) => {
   const text = $(elm).html();
-  const newText = text.replace(/\$\$(.*?)\$\$/gs, "<div>\\[$1\\]</div>");
-  $(elm).html(newText);
-});
-$("span").each((_, elm) => {
-  const text = $(elm).html();
-  const newText = text.replace(/\$(.*?)\$/gs, "<span>\\($1\\)</span>");
+  const newText = text.replace(/\$\$?(.*?)\$\$?/gs, (match, p1) => {
+    if (match.startsWith("$$") && match.endsWith("$$")) {
+      return `<div>\\[${p1}\\]</div>`;
+    } else {
+      return `<span>\\(${p1}\\)</span>`;
+    }
+  });
   $(elm).html(newText);
 });
 
@@ -45,15 +44,13 @@ useMathJax();
 <template>
   <div>
     <Html lang="ja">
-    <div class="main">
-      <span class="published">{{ $formatDate(article.publishedAt) }}</span>
-      <span v-for="(tag, i) in article.tag" :key="tag.id" class="tag">{{ tag.name }}
-      </span>
-      <h1 class="title">{{ article.title }}</h1>
-      <img class="thumbnail" v-if="article.thumbnail" :src="article.thumbnail.url" />
-      <div class="md" v-html="body" />
-    </div>
-
+      <div class="main">
+        <span class="published">{{ $formatDate(article.publishedAt) }}</span>
+        <span v-for="(tag, i) in article.tag" :key="tag.id" class="tag">{{ tag.name }}</span>
+        <h1 class="title">{{ article.title }}</h1>
+        <img class="thumbnail" v-if="article.thumbnail" :src="article.thumbnail.url" />
+        <div class="md" v-html="body" />
+      </div>
     </Html>
   </div>
 </template>
@@ -65,6 +62,7 @@ useMathJax();
   margin: 0 auto 0;
   padding: 112px 0;
   color: #0d1a3c;
+  line-height: 1.6;
 }
 
 .published {
@@ -98,8 +96,6 @@ useMathJax();
 }
 
 .md:deep(*) {
-  margin-top: 0;
-  /*margin-bottom: 2rem;*/
   font-size: 1.6rem;
   font-weight: 500;
 }
@@ -126,9 +122,8 @@ useMathJax();
 .md:deep(p) code {
   background-color: #eee;
   color: #333;
-  padding: 0.2em 0.6em; /* 修正 */
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
-    monospace;
+  padding: 0.2em 0.6em;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
 }
@@ -160,7 +155,7 @@ useMathJax();
   margin-bottom: 10px;
 }
 
-.md :deep(h2),
+.md:deep(h2),
 .md:deep(h3) {
   font-size: 20px;
   margin-top: 30px;
@@ -170,6 +165,11 @@ useMathJax();
 
 .md:deep(h2) {
   border-bottom: 1px solid #ccc;
+}
+
+.md:deep(p) {
+  font-size: 1.6rem;
+  font-weight: 500;
 }
 
 .md:deep(.cp_embed_wrapper) {

@@ -15,8 +15,5 @@ export type Post = {
   tag: Tag[];
   date: string;
   content: string;
-  content2: {
-    richeditor: string;
-    html: string;
-  };
+  content2: string;
 } & MicroCMSListContent;

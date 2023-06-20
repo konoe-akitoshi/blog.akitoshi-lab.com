@@ -57,6 +57,13 @@ const skillSet = [
             <hr class="content-sec-line" noshade="">
 
             <table class="prize-table">
+                <thead>
+                    <tr>
+                        <th>年度</th>
+                        <th>イベント名</th>
+                        <th>受賞内容</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr v-for="item in skillSet" :key="item.name">
                         <td>{{ item.since }}</td>
@@ -175,8 +182,16 @@ img {
   border-collapse: collapse;
 }
 
+.prize-table th {
+  padding: 0.8rem;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
 .prize-table td {
-  padding: 0.5rem 1rem;
+  padding: 0.8rem;
   border-bottom: 1px solid #ddd;
 }
 
