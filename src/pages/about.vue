@@ -11,7 +11,7 @@ const skillSet = [
     { name: "Open 準優勝", by: "ロボカップジュニア・京滋奈ブロック大会", since: "2021" },
     { name: "2nd Prize", by: "RoboMaster", since: "2020" },
     { name: "Most Popular Poster in Open", by: "RoboCupJunior Soccer Virtual Poster Session", since: "2020" },
-    { name: "入選3等「自律走行システムの考察-強いキーパー機を作るために」", by: "第64回日本学生科学賞", since: "2020" },
+    { name: "入選3等", by: "第64回日本学生科学賞", since: "2020" },
     { name: "Open 優勝", by: "ロボカップジュニア・京滋奈ブロック大会", since: "2020" },
     { name: "Open 準優勝", by: "関西オープン", since: "2019" },
     { name: "LightWeight4位", by: "BIWAKOオープン", since: "2018" },
@@ -41,16 +41,30 @@ const skillSet = [
         </div>
         <div class="content">
             <h2 class="content-sec">
-                受賞歴
+                Affiliation
             </h2>
             <hr class="content-sec-line" noshade="">
-            <ul>
-                <li class="prize" v-for="item in skillSet" :key="item.name">
-                    <span>{{ item.since }}</span>
-                    <span class="skill-name">{{ item.by }}</span>
-                    <span class="skill-name">{{ item.name }}</span>
-                </li>
-            </ul>
+            <h3>
+                電気通信大学
+                MMA
+                Scramble
+            </h3>
+        </div>
+        <div class="content">
+            <h2 class="content-sec">
+                Prize🏆
+            </h2>
+            <hr class="content-sec-line" noshade="">
+
+            <table class="prize-table">
+                <tbody>
+                    <tr v-for="item in skillSet" :key="item.name">
+                        <td>{{ item.since }}</td>
+                        <td>{{ item.by }}</td>
+                        <td>{{ item.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
 </template>
@@ -150,18 +164,24 @@ img {
     margin-bottom: 10px;
 }
 
-.content-sec-line{
+.content-sec-line {
     color: #26272b;
     margin-top: 0px;
     margin-bottom: 20px;
 }
 
-.skill-name {
-    margin-left: 1rem;
+.prize-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.prize {
-    margin-bottom: 10px;
+.prize-table td {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.prize-table tr:last-child td {
+  border-bottom: none;
 }
 
 hr {
