@@ -10,15 +10,13 @@ export default defineNuxtConfig({
   css: ["~/assets/css/reset.css", "~/assets/css/style.css"],
   modules: [
     '@nuxt/image',
+    ['@nuxtjs/google-adsense', {
+      id: "ca-pub-9582592339710489",
+      pageLevelAds: true
+    }]
   ],
   // tex
   plugins: [
     { src: '~/plugins/mathjax', mode: 'client' },
   ],
-  // image: {
-  //   provider: 'static',
-  //   static: {
-  //     baseURL: '/',
-  //   },
-  // },
 });
