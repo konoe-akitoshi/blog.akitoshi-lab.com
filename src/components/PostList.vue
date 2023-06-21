@@ -17,8 +17,7 @@ const { posts } = defineProps<Props>();
         tag.name
       }}</span>
       <nuxt-link class="link" :to="`/${post.id}`">
-        <nuxt-img class="thumbnail" v-if="post.thumbnail" :src="post.thumbnail.url" :width="450" :height="230" format="webp"
-          quality="80" fit="contain" />
+        <img class="thumbnail" v-if="post.thumbnail" :src="post.thumbnail.url + '?w=450&h=230&fit=crop&fm=webp&lossless=true&auto=format'" />
         <h1 class="title">
           {{ post.title }}
         </h1>
@@ -76,3 +75,15 @@ const { posts } = defineProps<Props>();
   margin-right: 1rem;
 }
 </style>
+
+function defineProps<T>(): { posts: any; } {
+  throw new Error("Function not implemented.");
+}
+
+function defineProps<T>(): { posts: any; } {
+  throw new Error("Function not implemented.");
+}
+
+function defineProps<T>(): { posts: any; } {
+  throw new Error("Function not implemented.");
+}
