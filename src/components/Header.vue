@@ -13,17 +13,19 @@ import { config } from '../settings/site-settings'
                 </h1>
             </nuxt-link>
             <nav class="main-nav">
-                <li class="nav-item">
-                    <nuxt-link :to="`/`">HOME</nuxt-link>
-                </li>
-                <li class="nav-item">
-                    <nuxt-link :to="`/about`">ABOUT</nuxt-link>
-                </li>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <nuxt-link :to="`/`">HOME</nuxt-link>
+                    </li>
+                    <li class="nav-item">
+                        <nuxt-link :to="`/about`">ABOUT</nuxt-link>
+                    </li>
+                </ul>
             </nav>
         </div>
     </header>
     <div class="empty"></div>
-</template>  
+</template> 
 
 <style scoped>
 .header {
@@ -59,10 +61,15 @@ import { config } from '../settings/site-settings'
 }
 
 .main-nav {
+    margin: 0;
+}
+
+.nav-list {
     list-style: none;
     margin: 0;
     display: flex;
     align-items: center;
+    padding: 0;
 }
 
 .nav-item {
