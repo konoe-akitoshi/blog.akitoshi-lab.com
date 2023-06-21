@@ -70,7 +70,7 @@ onUnmounted(() => {
 }
 
 .site-title {
-    font-size: 2rem;
+    font-size: 2.2rem;  /* updated */
     color: #fff;
     margin: 0;
     padding: 0;
@@ -98,7 +98,7 @@ onUnmounted(() => {
 }
 
 .nav-item a {
-    font-size: 1.5rem;
+    font-size: 1.7rem;  /* updated */
     font-weight: bold;
     color: #fff;
     text-decoration: none;
@@ -110,7 +110,6 @@ onUnmounted(() => {
 .nav-item a:hover {
     background-color: rgba(255, 255, 255, 0.2);
 }
-
 
 .empty {
     height: 40px;
@@ -133,7 +132,7 @@ onUnmounted(() => {
     }
 
     .site-title {
-        font-size: 1.5rem;
+        font-size: 1.7rem;  /* updated */
         text-align: center;
     }
 
@@ -151,7 +150,7 @@ onUnmounted(() => {
     }
 
     .nav-item a {
-        font-size: 1.2rem;
+        font-size: 1.4rem;  /* updated */
     }
 
     .header-hidden {

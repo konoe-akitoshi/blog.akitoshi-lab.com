@@ -30,33 +30,38 @@ function getClass(tagId: string) {
 
 <style scoped>
 .wrapper {
-  padding: 20px 0;
+  padding: 30px 0;  /* updated */
 }
 
 .pageTitle {
-  font-size: 2rem;
+  font-size: 2.2rem;  /* updated */
   font-weight: bold;
   color: #5ba9f7;
   background-color: #c8e4ff;
-  padding: 6px 10px;
-  margin-bottom: 10px;
-  border-radius: 5px;
+  padding: 8px 12px;  /* updated */
+  margin-bottom: 20px;  /* updated */
+  border-radius: 8px;  /* updated */
 }
 
 .list {
-  border-bottom: 1px solid #eee;
+  border-bottom: 2px solid #ddd;  /* updated */
   list-style-type: none;
+  padding: 6px 0;  /* added */
 }
 
 .link,
 .active {
   display: block;
-  padding: 10px;
-  color: #888;
-  font-size: 1.6rem;
+  padding: 12px;  /* updated */
+  color: #666;  /* updated */
+  font-size: 1.8rem;  /* updated */
+  text-decoration: none;  /* added */
 }
 
 .active {
   color: #5ba9f7;
+  font-weight: bold;  /* added */
+  background-color: #e0f0ff;  /* added */
+  border-radius: 4px;  /* added */
 }
 </style>

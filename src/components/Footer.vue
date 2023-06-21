@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <ul class="footer_link">
+    <ul class="footer_links">
       <li class="link">
         <nuxt-link :to="`/copyright`">掲載情報について</nuxt-link>
       </li>
@@ -15,7 +15,7 @@
       </li>
     </ul>
     <div class="wrapper">
-      <p class="text"><small>© 2023 Akitoshi Saeki</small></p>
+      <p class="copyright_text"><small>© 2023 Akitoshi Saeki</small></p>
     </div>
   </footer>
 </template>
@@ -24,38 +24,43 @@
 .footer {
   background-color: #101010;
   text-align: center;
-  padding: 1rem;
+  padding: 2rem 1rem;
+  color: #dbdbdb;
+  font-size: 1.1rem; /* 0.9remから1.1remに変更 */
 }
 
 .wrapper {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 4%;
 }
 
-.text {
-  color: #fff;
-  font-size: 1.5rem;
+.copyright_text {
+  margin-top: 1rem;
 }
 
-.footer_link {
-  text-align: center !important;
-  margin-bottom: 1rem;
+.footer_links {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .link {
   display: inline-block;
+  margin: 0 0.5rem;
+}
+
+.link:not(:last-child)::after {
+  content: "|";
+  color: #b5b5b5;
+  margin-left: 0.5rem;
 }
 
 .link a {
-  font-size: .9rem;
   color: #dbdbdb;
-  padding-right: 0.5rem;
-  padding-left: 0.5rem;
+  transition: color 0.3s;
 }
 
-.link::after {
-  content: "|";
-  color: #b5b5b5;
+.link a:hover {
+  color: #fff;
 }
 </style>

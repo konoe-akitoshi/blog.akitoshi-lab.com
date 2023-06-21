@@ -56,29 +56,31 @@ useIndexHead();
 <style scoped>
 .container {
   max-width: 1080px;
-  margin: 20px auto;
-  padding-top: 84px;
-  display: flex;
-  justify-content: center;
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
 .divider {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .main-content {
   flex: 1;
-  margin-right: 40px;
+  min-width: 70%;
+  margin-right: 20px;
 }
 
 .aside {
-  width: 300px;
+  flex: 1;
+  max-width: 300px;
 }
 
 @media (max-width: 1160px) {
   .container {
     max-width: 740px;
-    padding-top: 112px;
+    padding: 20px;
   }
 
   .divider {
@@ -97,9 +99,10 @@ useIndexHead();
 }
 
 @media (max-width: 820px) {
-  .container {
-    padding: 0 20px;
-    padding-top: 112px;
+  .main-content,
+  .aside {
+    min-width: 100%;
+    max-width: 100%;
   }
 }
 </style>

@@ -97,8 +97,17 @@ const { posts } = defineProps<Props>();
   opacity: 0.7;
   letter-spacing: 1px;
   margin-right: 10px;
-  /* Adjust as needed */
+  padding: 5px 8px;  /* added */
+  border: 2px solid #331cbf;  /* added */
+  border-radius: 4px;  /* added */
+  transition: background-color 0.3s ease, color 0.3s ease;  /* added */
 }
+
+.tag:hover {
+  background-color: #331cbf;  /* added */
+  color: #fff;  /* added */
+}
+
 
 @media (max-width: 600px) {
   .link {
