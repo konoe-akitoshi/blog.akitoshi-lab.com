@@ -12,15 +12,18 @@ const { posts } = defineProps<Props>();
 <template>
   <div>
     <article class="article" v-for="post in posts" :key="post.id">
-      <span class="published">{{ $formatDate(String(post.publishedAt)) }}</span>
-      <span v-for="tag in post.tag" :key="tag.id" class="tag">{{
-        tag.name
-      }}</span>
       <nuxt-link class="link" :to="`/${post.id}`">
-        <img class="thumbnail" alt="thumbnail" v-if="post.thumbnail" :src="post.thumbnail.url + '?w=450&h=230&fit=crop&fm=webp&lossless=true&auto=format'" />
-        <h1 class="title">
-          {{ post.title }}
-        </h1>
+        <img class="thumbnail" alt="thumbnail" v-if="post.thumbnail"
+          :src="post.thumbnail.url + '?w=450&h=230&fit=crop&fm=webp&lossless=true&auto=format'" />
+        <div class="title-box">
+          <h1 class="title">
+            {{ post.title }}
+          </h1>
+          <span class="published">{{ $formatDate(String(post.publishedAt)) }}</span>
+          <div class="tags">
+            <span v-for="tag in post.tag" :key="tag.id" class="tag">{{ tag.name }}</span>
+          </div>
+        </div>
       </nuxt-link>
     </article>
   </div>
@@ -36,14 +39,14 @@ const { posts } = defineProps<Props>();
 
 .published {
   font-size: 1.4rem;
-  color: #888;
+  color: #616269;
   margin-right: 20px;
 }
 
 .link {
   margin-top: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .thumbnail {
@@ -55,9 +58,7 @@ const { posts } = defineProps<Props>();
 
 .title {
   flex: 1;
-  margin-top: 6px;
-  margin-left: 40px;
-  font-size: 2.8rem;
+  font-size: 24px;
   color: #0d1a3c;
   line-height: 1.6;
   font-weight: bold;
@@ -67,11 +68,70 @@ const { posts } = defineProps<Props>();
   opacity: 0.5;
 }
 
+.title-box {
+  display: flex;
+  margin-top: 6px;
+  margin-left: 40px;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.published {
+  font-size: 20px;
+  color: #616269;
+  margin-top: 10px;
+  /* Adjust as needed */
+}
+
+.tags {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  /* Adjust as needed */
+  margin-bottom: 20px;
+}
+
 .tag {
-  font-size: 1.4rem;
-  color: 888;
+  font-size: 20px;
+  color: #331cbf;
   opacity: 0.7;
   letter-spacing: 1px;
-  margin-right: 1rem;
+  margin-right: 10px;
+  /* Adjust as needed */
+}
+
+@media (max-width: 600px) {
+  .link {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .thumbnail {
+    width: 100%;
+    height: auto;
+  }
+
+  .title-box {
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  .title {
+    font-size: 20px;
+    line-height: 1.4;
+  }
+
+  .published {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .tags {
+    margin-top: 5px;
+  }
+
+  .tag {
+    font-size: 14px;
+  }
 }
 </style>

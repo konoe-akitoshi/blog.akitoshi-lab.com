@@ -206,4 +206,58 @@ useDetailHead(article.value);
 .md:deep(ol) li {
   margin-bottom: 1rem;
 }
+
+@media (max-width: 600px) {
+  .main {
+    width: 90%;
+    padding: 40px 0;
+  }
+
+  .published {
+    font-size: 1.2rem;
+  }
+
+  .title {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+  }
+
+  .tag {
+    font-size: 1.2rem;
+  }
+
+  .thumbnail {
+    height: 40vw;
+  }
+
+  .md:deep(*) {
+    font-size: 1.4rem;
+  }
+
+  .md:deep(h1) {
+    font-size: 20px;
+  }
+
+  .md:deep(h2),
+  .md:deep(h3) {
+    font-size: 18px;
+  }
+
+  .md:deep(p) {
+    font-size: 1.4rem;
+  }
+
+  .md:deep(ul),
+  .md:deep(ol) {
+    padding-left: 1em;
+    margin: 0.5rem 0;
+    line-height: 1.5;
+  }
+
+  .md:deep(ul) li,
+  .md:deep(ol) li {
+    margin-bottom: 0.5rem;
+  }
+}
 </style>

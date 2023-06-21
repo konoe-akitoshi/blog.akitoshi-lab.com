@@ -10,7 +10,7 @@ export default defineNuxtPlugin(() => {
       formatDate: (inputDate: string) => {
         dayjs.extend(utc);
         dayjs.extend(timezone);
-        return dayjs.utc(inputDate).tz("Asia/Tokyo").format("YYYY-MM-DD");
+        return dayjs.utc(inputDate).tz("Asia/Tokyo").format("YYYY/MM/DD");
       },
     },
   };

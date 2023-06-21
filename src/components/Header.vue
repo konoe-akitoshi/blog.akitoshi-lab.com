@@ -1,11 +1,32 @@
 <script setup lang="ts">
-
+import { onMounted, onUnmounted, ref } from 'vue';
 import { config } from '../settings/site-settings'
 
+let lastScrollPosition = 0;
+const isHeaderVisible = ref(true);
+let handleScroll;
+
+onMounted(() => {
+    handleScroll = () => {
+        const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        if (currentScrollPosition < lastScrollPosition) {
+            isHeaderVisible.value = true;
+        } else {
+            isHeaderVisible.value = false;
+        }
+        lastScrollPosition = currentScrollPosition;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+});
 </script>
 
 <template>
-    <header class="header">
+    <header class="header" :class="{ 'header-hidden': !isHeaderVisible }">
         <div class="container">
             <nuxt-link :to="`/`">
                 <h1 class="site-title">
@@ -90,8 +111,52 @@ import { config } from '../settings/site-settings'
     background-color: rgba(255, 255, 255, 0.2);
 }
 
+
 .empty {
     height: 40px;
     margin-bottom: 40px;
+}
+
+.header-hidden {
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+}
+
+@media screen and (max-width: 768px) {
+    .header {
+        padding: 10px 5% 10px;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .container {
+        flex-direction: column;
+    }
+
+    .site-title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .main-nav {
+        margin-top: 10px;
+    }
+
+    .nav-list {
+        justify-content: center;
+    }
+
+    .nav-item {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .nav-item a {
+        font-size: 1.2rem;
+    }
+
+    .header-hidden {
+        transform: translateY(-100%);
+        transition: transform 0.5s ease-in-out;
+    }
 }
 </style>
