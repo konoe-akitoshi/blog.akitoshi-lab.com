@@ -37,7 +37,7 @@ export const useDetailHead = (post: Post) => {
       },
       {
         property: "og:image",
-        content: post.thumbnail ? `${post.thumbnail.url}?w=450&h=230&fit=crop&fm=webp&lossless=true&auto=format/` : undefined,
+        content: post.thumbnail ? `${post.thumbnail.url}?w=450&h=230&fit=crop&fm=webp&lossless=true&auto=format` : undefined,
       },
       {
         name: "twitter:card",
