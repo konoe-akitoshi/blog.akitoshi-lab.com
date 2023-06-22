@@ -20,7 +20,7 @@ const skillSet = [
     { name: "Classic部門 優勝", by: "SRC@国際ロボット展", since: "2017" },
     { name: "全国予選 8位", by: "SRC13", since: "2016" },
     { name: "2等賞「オクラに見つけた水玉の正体」", by: "第53回自然科学観察コンクール", since: "2012" },
-]
+];
 </script>
 
 <template>
@@ -29,53 +29,48 @@ const skillSet = [
             <div class="card-after">
                 <div class="box">
                     <div class="avatar">
-                        <img src="../assets/img/avatar.png" alt="Avatar">
+                        <img src="../assets/img/avatar.png" alt="Avatar" />
                     </div>
                     <div class="info">
                         <h1 class="name">Aktioshi Saeki</h1>
-                        <h2 class="abst">Engneer,Student</h2>
+                        <h2 class="abst">Engineer, Student</h2>
                         <p class="desc">ロボットを作るのが大好きな大学生です．</p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="content">
-            <h2 class="content-sec">
-                Affiliation
-            </h2>
-            <hr class="content-sec-line" noshade="">
-            <h3>
-                電気通信大学
-                MMA
-                Scramble
-            </h3>
+            <h2 class="content-sec">About this page</h2>
+            <hr class="content-sec-line" noshade="" />
+            <h3>電気通信大学 MMA Scramble</h3>
         </div>
         <div class="content">
-            <h2 class="content-sec">
-                Prize🏆
-            </h2>
-            <hr class="content-sec-line" noshade="">
+            <h2 class="content-sec">Profile🛡️</h2>
+            <hr class="content-sec-line" noshade="" />
+            <details class="profile-sec">
+                <summary>click</summary>
+                <h3>Prize🏆</h3>
 
-            <table class="prize-table">
-                <thead>
-                    <tr>
-                        <th>年度</th>
-                        <th>イベント名</th>
-                        <th>受賞内容</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in skillSet" :key="item.name">
-                        <td>{{ item.since }}</td>
-                        <td>{{ item.by }}</td>
-                        <td>{{ item.name }}</td>
-                    </tr>
-                </tbody>
-            </table>
+                <table class="prize-table">
+                    <thead>
+                        <tr>
+                            <th>年度</th>
+                            <th>イベント名</th>
+                            <th>受賞内容</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="item in skillSet" :key="item.name">
+                            <td>{{ item.since }}</td>
+                            <td>{{ item.by }}</td>
+                            <td>{{ item.name }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+        </details>
         </div>
     </main>
 </template>
-  
 
 <style scoped>
 .main {
@@ -100,9 +95,7 @@ const skillSet = [
     height: 100%;
     width: 100%;
     background: rgba(0, 0, 0, 0.6);
-    ;
     border-radius: 10px;
-
 }
 
 .box {
@@ -133,9 +126,9 @@ const skillSet = [
 
 .desc {
     color: aliceblue;
-    font-size: 10px;
+    font-size: 14px;
+    margin-bottom: 5%;
 }
-
 
 .avatar {
     border-radius: 50%;
@@ -162,8 +155,9 @@ img {
     text-align: center;
 }
 
-.content {}
-
+.content {
+    margin-bottom: 1rem;
+}
 
 .content-sec {
     font-size: 36px;
@@ -177,26 +171,78 @@ img {
     margin-bottom: 20px;
 }
 
+.profile-sec {
+    max-width: 100%;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+.profile-sec summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    color: #000000;
+    font-size: 36px;
+    padding: 0.4em 0.4em;  /* ここで上下左右のパディングを統一しています */
+}
+
+.profile-sec summary::after {
+    position: absolute;
+    right: 1em;
+    transform: translateY(-50%) rotate(45deg);
+    width: 2rem;
+    height: 2rem;
+    border-bottom: 5px solid #f1faee;  /* 太さを5pxに増やす */
+    border-right: 5px solid #f1faee;  /* 太さを5pxに増やす */
+    content: '';
+    transition: transform .3s;
+}
+
+.profile-sec[open] summary::after {
+    transform: rotate(225deg);
+}
+
+/* ホバー時に色を変更 */
+.profile-sec summary:hover::after {
+    border-bottom: 3px solid #457b9d;  /* ホバー時の色を濃い色に */
+    border-right: 3px solid #457b9d;  /* ホバー時の色を濃い色に */
+}
+
+.profile-sec p {
+    transform: translateY(-10px);
+    opacity: 0;
+    margin: 0;
+    padding: 0 2em 1.5em;
+    color: #333333;
+    transition: transform .5s, opacity .5s;
+}
+
+.profile-sec[open] p {
+    transform: none;
+    opacity: 1;
+}
+
 .prize-table {
-  width: 100%;
-  border-collapse: collapse;
+    width: 100%;
+    border-collapse: collapse;
 }
 
 .prize-table th {
-  padding: 0.8rem;
-  background-color: #f2f2f2;
-  font-weight: bold;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+    padding: 0.8rem;
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
 .prize-table td {
-  padding: 0.8rem;
-  border-bottom: 1px solid #ddd;
+    padding: 0.8rem;
+    border-bottom: 1px solid #ddd;
 }
 
 .prize-table tr:last-child td {
-  border-bottom: none;
+    border-bottom: none;
 }
 
 hr {
@@ -206,6 +252,55 @@ hr {
     margin: 30px 0;
     line-height: 0;
     border: 0;
-    background-color: #3E4250;
+    background-color: #3e4250;
+}
+
+@media (max-width: 768px) {
+    .main {
+        width: 100%;
+        padding-top: 50px;
+    }
+
+    .profile-card {
+        margin-bottom: 20px;
+    }
+
+    .box {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .info {
+        margin-left: 0;
+        text-align: center;
+    }
+
+    .name {
+        font-size: 40px;
+        margin-bottom: 5%;
+    }
+
+    .abst {
+        font-size: 16px;
+        margin-bottom: 5%;
+    }
+
+    .desc {
+        font-size: 14px;
+    }
+
+    .avatar img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .content-sec {
+        font-size: 28px;
+    }
+
+    .prize-table th,
+    .prize-table td {
+        padding: 0.5rem;
+    }
 }
 </style>

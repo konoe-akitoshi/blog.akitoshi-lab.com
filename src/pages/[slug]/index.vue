@@ -50,7 +50,7 @@ useDetailHead(article.value);
         <span class="published">{{ $formatDate(article.publishedAt) }}</span>
         <span v-for="(tag, i) in article.tag" :key="tag.id" class="tag">{{ tag.name }}</span>
         <h1 class="title">{{ article.title }}</h1>
-        <img class="thumbnail" alt="thumbnail" v-if="article.thumbnail" :src="article.thumbnail.url + '?w=1920&h=1080&fit=crop&fm=webp&lossless=true&auto=format'"/>
+        <img class="thumbnail" alt="thumbnail" v-if="article.thumbnail" :src="article.thumbnail.url + '?w=720&h=480&fit=crop&fm=webp&lossless=true&auto=format'"/>
         <div class="md" v-html="body" />
       </div>
     </Html>

@@ -2,16 +2,16 @@
   <footer class="footer">
     <ul class="footer_links">
       <li class="link">
-        <nuxt-link :to="`/copyright`">掲載情報について</nuxt-link>
+        <nuxt-link :to="`/copyright/`">掲載情報について</nuxt-link>
       </li>
       <li class="link">
-        <nuxt-link :to="`/disclaimer`">免責事項</nuxt-link>
+        <nuxt-link :to="`/disclaimer/`">免責事項</nuxt-link>
       </li>
       <li class="link">
-        <nuxt-link :to="`/privacy`">プライバシーポリシー</nuxt-link>
+        <nuxt-link :to="`/privacy/`">プライバシーポリシー</nuxt-link>
       </li>
       <li class="link">
-        <nuxt-link :to="`/inquiry`">お問い合わせ</nuxt-link>
+        <nuxt-link :to="`/inquiry/`">お問い合わせ</nuxt-link>
       </li>
     </ul>
     <div class="wrapper">

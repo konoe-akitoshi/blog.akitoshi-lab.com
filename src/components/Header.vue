@@ -39,7 +39,7 @@ onUnmounted(() => {
                         <nuxt-link :to="`/`">HOME</nuxt-link>
                     </li>
                     <li class="nav-item">
-                        <nuxt-link :to="`/about`">ABOUT</nuxt-link>
+                        <nuxt-link :to="`/about/`">ABOUT</nuxt-link>
                     </li>
                 </ul>
             </nav>
