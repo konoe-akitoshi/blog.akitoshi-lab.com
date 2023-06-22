@@ -1,4 +1,4 @@
-// src/server/api/postList.ts
+// src/server/api/post-list.ts
 import client from "./client";
 import { Post } from "../../types/blog";
 
