@@ -19,11 +19,15 @@ const { posts } = defineProps<Props>();
           <h1 class="title">
             {{ post.title }}
           </h1>
-          <FontAwesomeIcon icon="fa-regular fa-clock" />
-          <span class="published">{{ $formatDate(String(post.publishedAt)) }}</span>
-          <FontAwesomeIcon icon="fa-solid fa-tags" />
+          <div class="published">
+            <font-awesome-icon :icon="['far', 'clock']" class="icon-clock" />
+            <span class="published-info">{{ $formatDate(String(post.publishedAt)) }}</span>
+          </div>
           <div class="tags">
-            <span v-for="tag in post.tag" :key="tag.id" class="tag">{{ tag.name }}</span>
+            <font-awesome-icon :icon="['fas', 'tags']" class="icon-tags" />
+            <div class="tags-info">
+              <NuxtLink v-for="tag in post.tag" :to="`/tags/${tag.id}/page/1`" class="tag">{{ tag.name }}</NuxtLink>
+            </div>
           </div>
         </div>
       </nuxt-link>
@@ -41,8 +45,8 @@ const { posts } = defineProps<Props>();
 
 .published {
   font-size: 1.4rem;
-  color: #616269;
-  margin-right: 20px;
+  color: #888;
+  margin-top: 10px;
 }
 
 .link {
@@ -78,38 +82,61 @@ const { posts } = defineProps<Props>();
   justify-content: flex-start;
 }
 
-.published {
-  font-size: 20px;
-  color: #616269;
-  margin-top: 10px;
-  /* Adjust as needed */
+.published{
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.icon-clock {
+  color: #0d1a3c;
+  height: 2rem;
+  width: 2rem;
+  margin-right: 10px;
+}
+
+.published-info {
+  font-size: 1.2rem;
+  color: #000;
+  margin-left: 1rem;
 }
 
 .tags {
   display: flex;
   align-items: center;
   margin-top: 10px;
-  /* Adjust as needed */
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.icon-tags {
+  color: #0d1a3c;
+  height: 2rem;
+  width: 2rem;
+  margin-right: 10px;
+}
+
+.tags-info {
+  display: flex;
+  align-items: center;
+  margin-left: 1rem;
 }
 
 .tag {
-  font-size: 20px;
+  font-size: 1.2rem;
   color: #331cbf;
   opacity: 0.7;
   letter-spacing: 1px;
   margin-right: 10px;
-  padding: 5px 8px;  /* added */
-  border: 2px solid #331cbf;  /* added */
-  border-radius: 4px;  /* added */
-  transition: background-color 0.3s ease, color 0.3s ease;  /* added */
+  padding: 5px 8px;
+  border: 2px solid #331cbf;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .tag:hover {
-  background-color: #331cbf;  /* added */
-  color: #fff;  /* added */
+  background-color: #331cbf;
+  color: #fff;
 }
-
 
 @media (max-width: 600px) {
   .link {
@@ -133,7 +160,7 @@ const { posts } = defineProps<Props>();
   }
 
   .published {
-    font-size: 16px;
+    font-size: 1.2rem;
     margin-top: 10px;
   }
 
@@ -142,7 +169,10 @@ const { posts } = defineProps<Props>();
   }
 
   .tag {
-    font-size: 14px;
+    font-size: 1.2rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+    margin-right: 8px;
   }
 }
 </style>

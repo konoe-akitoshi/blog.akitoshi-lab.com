@@ -20,10 +20,6 @@ export default defineNuxtConfig({
   // tex
   plugins: [
     { src: '~/plugins/mathjax', mode: 'client' },
+    '@/plugins/fontawesome.ts',
   ],
-  build: {
-    rollupOptions: {
-      external: ['@fortawesome/free-regular-svg-icons'],
-    },
-  },
 });

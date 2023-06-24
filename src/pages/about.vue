@@ -23,7 +23,7 @@ const skillSet = [
 ];
 const works = [
     {
-        image: "../_nuxt/assets/img/back.png",
+        image: "../assets/img/back.png",
         title: "Scorpion ver.2023",
         desc: "RobocupJapnOpen2023に出場した機体です．",
         prizes: ["RSJ賞", "デザイン賞"]
@@ -64,7 +64,7 @@ const works = [
                         <h3 class="work-title">{{ work.title }}</h3>
                         <p class="work-desc">{{ work.desc }}</p>
                         <div class="work-prizes">
-                            <FontAwesomeIcon icon="fa-solid fa-award" class="award-icon" />
+                            <font-awesome-icon :icon="['fas', 'award']" class="award-icon" />
                             <ul class="prizes-list">
                                 <li v-for="(prize, index) in work.prizes" :key="index">{{ prize }}</li>
                             </ul>
@@ -270,6 +270,7 @@ const works = [
     border-radius: 20px;
     color: #f1faee;
     margin-bottom: 20px;
+    padding: 20px;
 }
 
 .profile summary {
@@ -277,10 +278,12 @@ const works = [
     justify-content: space-between;
     align-items: center;
     position: relative;
-    color: #000000;
+    color: #f1faee;
     font-size: 36px;
     padding: 0.4em 0.4em;
-    /* ここで上下左右のパディングを統一しています */
+    cursor: pointer;
+    user-select: none;
+    outline: none;
 }
 
 .profile summary::after {
@@ -290,9 +293,7 @@ const works = [
     width: 2rem;
     height: 2rem;
     border-bottom: 5px solid #457b9d;
-    /* 太さを5pxに増やす */
     border-right: 5px solid #457b9d;
-    /* 太さを5pxに増やす */
     content: '';
     transition: transform .3s;
 }
@@ -301,12 +302,9 @@ const works = [
     transform: rotate(225deg);
 }
 
-/* ホバー時に色を変更 */
 .profile summary:hover::after {
     border-bottom: 5px solid #f1faee;
-    /* ホバー時の色を濃い色に */
     border-right: 5px solid #f1faee;
-    /* ホバー時の色を濃い色に */
 }
 
 .profile p {
@@ -321,13 +319,6 @@ const works = [
 .profile[open] p {
     transform: none;
     opacity: 1;
-}
-
-.profile {
-    background-color: #26272b;
-    border-radius: 20px;
-    color: #f1faee;
-    margin-bottom: 20px;
 }
 
 .profile-sec {
