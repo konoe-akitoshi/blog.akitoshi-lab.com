@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { config } from '../settings/site-settings';
+import Image1 from '../assets/img/back.png';
 
 const skillSet = [
     { name: "ロボット学会賞, デザイン賞", by: "RobocupJuniorJapanOpen", since: "2022" },
@@ -23,7 +24,7 @@ const skillSet = [
 ];
 const works = [
     {
-        image: "../assets/img/back.png",
+        image: Image1,
         title: "Scorpion ver.2023",
         desc: "RobocupJapnOpen2023に出場した機体です．",
         prizes: ["RSJ賞", "デザイン賞"]
