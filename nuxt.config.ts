@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     apiKey: API_KEY,
     serviceDomain: SERVICE_DOMAIN,
   },
-  css: ["~/assets/css/reset.css", "~/assets/css/style.css"],
+  css: ["~/assets/css/reset.css", "~/assets/css/style.css",'@fortawesome/fontawesome-svg-core/styles.css'],
   modules: [
     '@nuxt/image',
     ['@nuxtjs/google-adsense', {
@@ -20,5 +20,6 @@ export default defineNuxtConfig({
   // tex
   plugins: [
     { src: '~/plugins/mathjax', mode: 'client' },
+    '@/plugins/fontawesome.ts',
   ],
 });

@@ -21,11 +21,20 @@ const skillSet = [
     { name: "全国予選 8位", by: "SRC13", since: "2016" },
     { name: "2等賞「オクラに見つけた水玉の正体」", by: "第53回自然科学観察コンクール", since: "2012" },
 ];
+const works = [
+    {
+        image: "../_nuxt/assets/img/back.png",
+        title: "Scorpion ver.2023",
+        desc: "RobocupJapnOpen2023に出場した機体です．",
+        prizes: ["RSJ賞", "デザイン賞"]
+    },
+    // ...他の作品
+];
 </script>
 
 <template>
     <main class="main">
-        <div class="profile-card">
+        <div class="card">
             <div class="card-after">
                 <div class="box">
                     <div class="avatar">
@@ -42,15 +51,40 @@ const skillSet = [
         <div class="content">
             <h2 class="content-sec">About this page</h2>
             <hr class="content-sec-line" noshade="" />
-            <h3>電気通信大学 MMA Scramble</h3>
+            <p>このブログ(akitoshi-lab.com)は，@konoe_aktoshiが日常で感じたことやひらめいたことを書いている”メモ帳”です．</p>
+            <p>もちろん，技術的なことも書きますが，必ずしも正しいとは限りません．私が小さい脳で一生懸命考えてやったことの備忘録です．</p>
+        </div>
+        <div class="content">
+            <h2 class="content-sec">Works</h2>
+            <hr class="content-sec-line" noshade="" />
+            <div class="works-grid">
+                <div class="work-card" v-for="(work, index) in works" :key="index">
+                    <img :src="work.image" alt="work image" class="work-image" />
+                    <div class="work-details">
+                        <h3 class="work-title">{{ work.title }}</h3>
+                        <p class="work-desc">{{ work.desc }}</p>
+                        <div class="work-prizes">
+                            <FontAwesomeIcon icon="fa-solid fa-award" class="award-icon" />
+                            <ul class="prizes-list">
+                                <li v-for="(prize, index) in work.prizes" :key="index">{{ prize }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="content">
             <h2 class="content-sec">Profile🛡️</h2>
             <hr class="content-sec-line" noshade="" />
-            <details class="profile-sec">
-                <summary>click</summary>
-                <h3>Prize🏆</h3>
-
+            <details class="profile">
+                <summary>📌</summary>
+                <h3 class="profile-sec">Affiliated</h3>
+                <hr class="profile-sec-line" noshade="" />
+                <p>電気通信大学</p>
+                <p>MMA</p>
+                <p>Scramble</p>
+                <h3 class="profile-sec">Prize</h3>
+                <hr class="profile-sec-line" noshade="" />
                 <table class="prize-table">
                     <thead>
                         <tr>
@@ -67,7 +101,7 @@ const skillSet = [
                         </tr>
                     </tbody>
                 </table>
-        </details>
+            </details>
         </div>
     </main>
 </template>
@@ -76,12 +110,14 @@ const skillSet = [
 .main {
     position: relative;
     width: 720px;
-    margin: 0 auto 0;
-    padding-top: 112px;
+    margin: 0 auto;
+    padding-top: 40px;
     padding-bottom: 50px;
+    /* font-family: Arial, sans-serif; */
+    line-height: 1.5;
 }
 
-.profile-card {
+.card {
     width: 100%;
     background-image: url("../assets/img/back.png");
     background-repeat: no-repeat;
@@ -147,7 +183,7 @@ const skillSet = [
     }
 }
 
-img {
+.avatar img {
     width: 200px;
     height: 200px;
     object-fit: cover;
@@ -166,50 +202,114 @@ img {
 }
 
 .content-sec-line {
-    color: #26272b;
-    margin-top: 0px;
+    height: 2px;
+    background-color: #3E4250;
+    margin-top: 0;
+    margin-bottom: 20px;
+    border: none;
+}
+
+.works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.work-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform .3s;
+}
+
+.work-card:hover {
+    transform: scale(1.05);
+}
+
+.work-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.work-details {
+    padding: 15px;
+}
+
+.work-title {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.work-desc {
+    font-size: 16px;
+    color: #666;
+    margin: 10px 0;
+}
+
+.work-prizes {
+    display: flex;
+    align-items: center;
+}
+
+.award-icon {
+    margin-right: 10px;
+}
+
+.prizes-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.profile {
+    background-color: #26272b;
+    border-radius: 20px;
+    color: #f1faee;
     margin-bottom: 20px;
 }
 
-.profile-sec {
-    max-width: 100%;
-    background-color: #ddd;
-    border-radius: 5px;
-}
-
-.profile-sec summary {
+.profile summary {
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
     color: #000000;
     font-size: 36px;
-    padding: 0.4em 0.4em;  /* ここで上下左右のパディングを統一しています */
+    padding: 0.4em 0.4em;
+    /* ここで上下左右のパディングを統一しています */
 }
 
-.profile-sec summary::after {
+.profile summary::after {
     position: absolute;
     right: 1em;
     transform: translateY(-50%) rotate(45deg);
     width: 2rem;
     height: 2rem;
-    border-bottom: 5px solid #f1faee;  /* 太さを5pxに増やす */
-    border-right: 5px solid #f1faee;  /* 太さを5pxに増やす */
+    border-bottom: 5px solid #457b9d;
+    /* 太さを5pxに増やす */
+    border-right: 5px solid #457b9d;
+    /* 太さを5pxに増やす */
     content: '';
     transition: transform .3s;
 }
 
-.profile-sec[open] summary::after {
+.profile[open] summary::after {
     transform: rotate(225deg);
 }
 
 /* ホバー時に色を変更 */
-.profile-sec summary:hover::after {
-    border-bottom: 3px solid #457b9d;  /* ホバー時の色を濃い色に */
-    border-right: 3px solid #457b9d;  /* ホバー時の色を濃い色に */
+.profile summary:hover::after {
+    border-bottom: 5px solid #f1faee;
+    /* ホバー時の色を濃い色に */
+    border-right: 5px solid #f1faee;
+    /* ホバー時の色を濃い色に */
 }
 
-.profile-sec p {
+.profile p {
     transform: translateY(-10px);
     opacity: 0;
     margin: 0;
@@ -218,27 +318,60 @@ img {
     transition: transform .5s, opacity .5s;
 }
 
-.profile-sec[open] p {
+.profile[open] p {
     transform: none;
     opacity: 1;
 }
 
+.profile {
+    background-color: #26272b;
+    border-radius: 20px;
+    color: #f1faee;
+    margin-bottom: 20px;
+}
+
+.profile-sec {
+    font-weight: 700;
+    font-size: 3.2rem;
+    color: #fff;
+    line-height: 2rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.profile-sec-line {
+    width: 3.5rem;
+    height: 1px;
+    background-color: #f1faee;
+    margin-top: 0;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+}
+
+.profile p {
+    text-align: center;
+    color: #fff;
+}
+
 .prize-table {
     width: 100%;
-    border-collapse: collapse;
+    margin: 0 auto;
+    margin-bottom: 2em;
 }
 
 .prize-table th {
-    padding: 0.8rem;
-    background-color: #f2f2f2;
-    font-weight: bold;
+    padding: 10px;
+    background-color: #3E4250;
+    color: #f1faee;
     text-align: left;
-    border-bottom: 1px solid #ddd;
 }
 
 .prize-table td {
-    padding: 0.8rem;
-    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    background-color: #1d1e22;
+    color: #f1faee;
 }
 
 .prize-table tr:last-child td {
@@ -247,12 +380,29 @@ img {
 
 hr {
     display: block;
-    height: 2px;
-    padding: 0;
-    margin: 30px 0;
-    line-height: 0;
+    height: 1px;
     border: 0;
-    background-color: #3e4250;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 48px;
+    color: #26272b;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h2 {
+    font-size: 36px;
+    color: #26272b;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 18px;
+    color: #26272b;
 }
 
 @media (max-width: 768px) {

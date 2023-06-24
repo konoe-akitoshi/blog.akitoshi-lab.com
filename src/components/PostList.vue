@@ -19,7 +19,9 @@ const { posts } = defineProps<Props>();
           <h1 class="title">
             {{ post.title }}
           </h1>
+          <FontAwesomeIcon icon="fa-regular fa-clock" />
           <span class="published">{{ $formatDate(String(post.publishedAt)) }}</span>
+          <FontAwesomeIcon icon="fa-solid fa-tags" />
           <div class="tags">
             <span v-for="tag in post.tag" :key="tag.id" class="tag">{{ tag.name }}</span>
           </div>
