@@ -10,8 +10,7 @@ import { faClock } from '@fortawesome/free-regular-svg-icons'
 export default defineNuxtPlugin((nuxtApp) => {
 
     // config.autoAddCss = false
-    library.add(faAward, faTags)
-    library.add(faClock)
+    library.add(faAward, faTags, faClock)
     //個別フォントをimportした場合は以下を使う
     //library.add(faCirclePlus, faBars)
     nuxtApp.vueApp.component('FontAwesomeIcon', FontAwesomeIcon)
