@@ -8,7 +8,7 @@ let handleScroll;
 
 onMounted(() => {
     handleScroll = () => {
-        const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        const currentScrollPosition = window.scrollY || document.documentElement.scrollTop;
         if (currentScrollPosition < lastScrollPosition) {
             isHeaderVisible.value = true;
         } else {
@@ -57,6 +57,7 @@ onUnmounted(() => {
     background-color: #101010;
     align-items: center;
     z-index: 10;
+    transition: transform 0.3s ease-in-out;
 }
 
 .container {
@@ -98,7 +99,7 @@ onUnmounted(() => {
 }
 
 .nav-item a {
-    font-size: 1.7rem;  /* updated */
+    font-size: 1.7rem;
     font-weight: bold;
     color: #fff;
     text-decoration: none;

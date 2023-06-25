@@ -1,15 +1,22 @@
 const { API_KEY, SERVICE_DOMAIN } = process.env;
+import { createClient } from 'microcms-js-sdk';
 
 export default defineNuxtConfig({
   srcDir: "src/",
   ssr: true,
-  mode: "universal",
-  target: "server",
   runtimeConfig: {
     apiKey: API_KEY,
     serviceDomain: SERVICE_DOMAIN,
   },
-  css: ["~/assets/css/reset.css", "~/assets/css/style.css",'@fortawesome/fontawesome-svg-core/styles.css'],
+  css: [
+    "~/assets/css/reset.css",
+    "~/assets/css/style.css",
+    "@fortawesome/fontawesome-svg-core/styles.css",
+  ],
+
+  app: {
+    pageTransition: { name: 'page', mode: 'default' }
+  },
   modules: [
     '@nuxt/image',
     ['@nuxtjs/google-adsense', {
@@ -20,6 +27,6 @@ export default defineNuxtConfig({
   // tex
   plugins: [
     { src: '~/plugins/mathjax', mode: 'client' },
-    '@/plugins/fontawesome.ts',
+    { src: '~/plugins/fontawesome.ts', mode: 'client' },
   ],
 });

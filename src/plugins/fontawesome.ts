@@ -1,9 +1,13 @@
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library, config } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faAward, faTags } from '@fortawesome/free-solid-svg-icons'
-import { faClock } from '@fortawesome/free-regular-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+
+config.autoAddCss = false
+
+library.add(far)
+library.add(fas)
 
 export default defineNuxtPlugin((nuxtApp) => {
-  library.add(faAward, faTags, faClock)
-  nuxtApp.vueApp.component('font-awesome-icon', FontAwesomeIcon)
+    nuxtApp.vueApp.component('font-awesome-icon', FontAwesomeIcon, {})
 })

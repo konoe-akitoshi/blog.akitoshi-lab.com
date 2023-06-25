@@ -4,10 +4,14 @@ import { Tag } from "../types/blog";
 
 type Props = {
   tags: Tag[];
-  selectedTagId: string | undefined;
+  selectedTagId?: string | null; // Update the type to include "null" and make it optional
 };
 
-const { tags, selectedTagId } = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  selectedTagId: null,
+});
+
+const { tags, selectedTagId } = props;
 
 function getClass(tagId: string) {
   if (tagId == selectedTagId) return "active";
