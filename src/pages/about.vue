@@ -31,6 +31,10 @@ const works = [
     },
     // ...他の作品
 ];
+
+const meta = ref({ title: "About" });
+
+useIndexHead(meta.value);
 </script>
 
 <template>

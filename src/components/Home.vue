@@ -29,7 +29,9 @@ const { data: tags } = await useFetch("/api/tag-list");
 
 const numPages = Math.ceil(posts.value.totalCount / limit);
 
-useIndexHead();
+const meta = ref({ title: "Home" });
+
+useIndexHead(meta.value);
 </script>
 
 <template>
