@@ -33,7 +33,7 @@ export const useIndexHead = (meta) => {
       },
       {
         property: "og:image",
-        content: `../assets/img/OGP.webp`,
+        content: `https://images.microcms-assets.io/assets/a1f82a67495a4c7c8cd02269aa346701/1b10a9dfa3dc476cb8a9154521d1f4bb/OGP.webp`,
       },
       {
         name: "twitter:card",
