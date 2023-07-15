@@ -20,6 +20,7 @@
     "nuxt": "^3.4.3"
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^6.4.0",
     "@nuxtjs/google-adsense": "^2.1.0",
     "cheerio": "^1.0.0-rc.12",
     "dayjs": "^1.11.7",
