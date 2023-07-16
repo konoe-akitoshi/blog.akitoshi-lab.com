@@ -1,6 +1,24 @@
 <script setup lang="ts">
     import { config } from '../settings/site-settings';
     import Image1 from '../assets/img/back.png';
+    import escape from '../assets/img/works/escape.jpg';
+    import scorpion_2018_1 from '../assets/img/works/scorpion-2018-1.jpg';
+    import scorpion_2018_2 from '../assets/img/works/scorpion-2018-2.jpg';
+    import scorpion_2019_1 from '../assets/img/works/scorpion-2019-1.jpg';
+    import scorpion_2019_2 from '../assets/img/works/scorpion-2019-2.jpg';
+    import scorpion_2019_3 from '../assets/img/works/scorpion-2019-3.jpg';
+    import scorpion_2020_1 from '../assets/img/works/scorpion-2020-1.jpg';
+    import scorpion_2020_2 from '../assets/img/works/scorpion-2020-2.jpg';
+    import scorpion_2021_1 from '../assets/img/works/scorpion-2021-1.jpg';
+    import scorpion_2021_2 from '../assets/img/works/scorpion-2021-2.jpg';
+    import scorpion_2021_3 from '../assets/img/works/scorpion-2021-3.jpg';
+    import scorpion_2022_1 from '../assets/img/works/scorpion-2022-1.jpg';
+    import scorpion_2022_2 from '../assets/img/works/scorpion-2022-2.jpg';
+    import scorpion_2023_1 from '../assets/img/works/scorpion-2023-1.jpg';
+    import scorpion_2023_2 from '../assets/img/works/scorpion-2023-2.jpg';
+    import emorobo from '../assets/img/works/emorobo.jpg';
+    import coursebreaker_2018 from '../assets/img/works/coursebreaker-2018.jpg';
+    import coursebreaker_2019 from '../assets/img/works/coursebreaker-2019.jpg';
 
     const skillSet = [
         { name: "ロボット学会賞, デザイン賞", by: "RobocupJuniorJapanOpen", since: "2022" },
@@ -24,12 +42,119 @@
     ];
     const works = [
         {
-            image: Image1,
-            title: "Scorpion ver.2023",
-            desc: "RobocupJapnOpen2023に出場した機体です．",
+            image: scorpion_2023_2,
+            title: "Scorpion ver.2023-2",
+            desc: "RobocupJuniorJapnOpen2023に出場した機体です．",
             prizes: ["RSJ賞", "デザイン賞"]
         },
-        // ...他の作品
+        {
+            image: scorpion_2023_1,
+            title: "Scorpion Ver.2023-1",
+            desc: "RobocupJunior関東ブロック2023に出場した機体です",
+            prizes: ["優勝"]
+        },
+        {
+            image: scorpion_2022_2,
+            title: "Scorpion Ver.2022-2",
+            desc: "RobocupJuniorJapnOpen2022に出場した機体です．モーターや回路の大幅な改善を行いました．個人的には失敗作です．",
+            prizes: ["5位"]
+        },
+        {
+            image: scorpion_2022_1,
+            title: "Scorpion Ver.2022-1",
+            desc: "RobocupJunior京滋奈ブロック2022に出場した機体です．RCAPの機体をブラッシュアップし，ソフトウェアの改善を行いました．",
+            prizes: ["優勝"]
+        },
+        {
+            image: emorobo,
+            title: "emorobo",
+            desc: "「感情を読み取る配膳ロボット」というコンセプトです．THK賞の資金を基に製作しました",
+            prizes: ["サイエンスキャッスル研究費 THK賞"]
+        },
+        {
+            image: Image1,
+            title: "Scorpion ver.2021-3",
+            desc: "RCAPに出場した機体です．「サッカーをすること」を目指し大幅な改善を行いました．",
+            prizes: ["2nd", "試合結果1位"]
+        },
+        {
+            image: scorpion_2021_3,
+            title: "Scorpion Ver.2021-3",
+            desc: "世界大会で使用した機体です．ゴルフボールに対応したロボットを作るという課題に対応するため急遽作成しました．1日でゴルフボール対応のドリブラーを製作しました．",
+            prizes: ["加点"]
+        },
+        {
+            image: scorpion_2021_2,
+            title: "Scorpion Ver.2021-2",
+            desc: "世界大会で使用した機体です．多くの思い出が詰まった機体です．",
+            prizes: ["4nd", "SestTDP"]
+        },
+        {
+            image: scorpion_2021_1,
+            title: "Scorpion Ver.2021-1",
+            desc: "RobocupJuniorJapnOpen2021に出場した機体です",
+            prizes: ["準優勝"]
+        },
+        {
+            image: scorpion_2020_2,
+            title: "Scorpion Ver.2020-2",
+            desc: "試作機体です．",
+            prizes: []
+        },
+        {
+            image: coursebreaker_2019,
+            title: "CourseBreaker Ver.2020",
+            desc: "RobocupJunior京滋奈ブロック2020に出場した機体です．ゴールキーパー用途として製作しました．",
+            prizes: ["優勝", "学生科学賞3等"]
+        },
+        {
+            image: scorpion_2020_1,
+            title: "Scorpion Ver.2020-1",
+            desc: "RobocupJunior京滋奈ブロック2020に出場した機体です．アタッカー機体です．",
+            prizes: ["優勝"]
+        },
+        {
+            image: scorpion_2019_3,
+            title: "Scorpion Ver.2019-3",
+            desc: "関西オープン2019に出場した機体です．Open初参戦の機体です．",
+            prizes: ["4位"]
+        },
+        {
+            image: scorpion_2019_2,
+            title: "Scorpion Ver.2019-2",
+            desc: "試作機体です．せとうちオープンに持っていきました．",
+            prizes: []
+        },
+        {
+            image: scorpion_2019_1,
+            title: "Scorpion Ver.2019-1",
+            desc: "ビギナーの機体をLightweight対応に改造したものです．BIWAKOオープンやせとうちオープンで活躍しました．",
+            prizes: ["4位", "SuperTeam優勝"]
+        },
+        {
+            image: scorpion_2018_2,
+            title: "Scorpion Ver.2018-2",
+            desc: "RobocupJuniorJapnOpen2018に出場した機体です．ビギナーリーグに出場していました．",
+            prizes: ["12位"]
+        },
+        {
+            image: coursebreaker_2018,
+            title: "CourseBreaker Ver.2018",
+            desc: "RobocupJuniorJapnOpen&京滋奈ブロック2018に出場した機体です．",
+            prizes: ["12位", "優勝"]
+        },
+        {
+            image: scorpion_2018_1,
+            title: "Scorpion Ver.2018-1",
+            desc: "RobocupJunior京滋奈ブロック2018に出場した機体です．",
+            prizes: ["優勝"]
+        },
+        {
+            image: escape,
+            title: "Escape",
+            desc: "SRC13&国際ロボット展に出場していた時の機体です．",
+            prizes: ["SRC13敢闘賞", "SRC国際ロボット展優勝"]
+        },
     ];
 
     const meta = ref({ title: "About" });
@@ -112,8 +237,10 @@
                 <div class="work-card" v-for="(work, index) in works" :key="index">
                     <img :src="work.image" alt="work image" class="work-image" />
                     <div class="work-details">
-                        <h3 class="work-title">{{ work.title }}</h3>
-                        <p class="work-desc">{{ work.desc }}</p>
+                        <div class="work-details-info">
+                            <h3 class="work-title">{{ work.title }}</h3>
+                            <p class="work-desc">{{ work.desc }}</p>
+                        </div>
                         <div class="work-prizes">
                             <font-awesome-icon :icon="['fas', 'award']" class="award-icon" />
                             <ul class="prizes-list">
@@ -310,6 +437,8 @@
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         overflow: hidden;
         transition: transform .3s;
+        display: flex;
+        flex-direction: column;
     }
 
     .work-card:hover {
@@ -318,12 +447,22 @@
 
     .work-image {
         width: 100%;
-        height: 200px;
+        height: 160px; /* 気持ち悪いけど仕方ない */
         object-fit: cover;
     }
 
     .work-details {
         padding: 15px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .work-details-info {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
     }
 
     .work-title {
@@ -336,6 +475,11 @@
         font-size: 16px;
         color: #666;
         margin: 10px 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
     }
 
     .work-prizes {
