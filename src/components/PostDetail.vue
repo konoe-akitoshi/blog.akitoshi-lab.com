@@ -87,7 +87,8 @@ useDetailHead(article.value);
         />
         <div class="tags-info">
           <NuxtLink
-            v-for="(tag, i) in article.tag"
+            v-for="tag in article.tag"
+            :key="tag.id"
             :to="`/tags/${tag.id}/page/1`"
             class="tag"
             >{{ tag.name }}</NuxtLink
