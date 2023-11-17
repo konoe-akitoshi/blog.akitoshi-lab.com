@@ -27,7 +27,7 @@ export default defineNuxtConfig({
     }]
   ],
   // sitemap の設定
-  sitemap: {
+  simpleSitemap: {
     hostname: 'https://akitoshi-lab.com',
     gzip: true,
     // 他の設定...
