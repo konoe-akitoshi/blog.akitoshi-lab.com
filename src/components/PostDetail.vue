@@ -60,7 +60,7 @@ useDetailHead(article.value);
   <div>
     <div class="main">
       <h1 class="title">{{ article.title }}</h1>
-      <img
+      <nuxt-img
         class="thumbnail"
         alt="thumbnail"
         v-if="article.thumbnail"
