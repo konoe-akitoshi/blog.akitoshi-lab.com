@@ -37,7 +37,7 @@ export default defineNuxtConfig({
       xxl: 1536,
       '2xl': 1536
     },
-    domains: ['https://images.microcms-assets.io'], // 画像のドメインを指定
+    // domains: ['https://images.microcms-assets.io'], // 画像のドメインを指定
   },
 
   plugins: [
