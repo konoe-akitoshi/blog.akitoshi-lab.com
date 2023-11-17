@@ -11,29 +11,46 @@ const { posts } = defineProps<Props>();
 
 <template>
   <div>
-    <article class="article" v-for="post in posts" :key="post.id">
-      <nuxt-link class="link" :to="`/${post.id}/`">
-        <img class="thumbnail" alt="thumbnail" v-if="post.thumbnail"
-          :src="post.thumbnail.url + '?w=450&h=230&fit=crop&fm=webp&lossless=true&auto=format'" />
-        <div class="title-box">
-          <h1 class="title">
-            {{ post.title }}
-          </h1>
-          <div class="published">
-            <font-awesome-icon :icon="['far', 'clock']" class="icon-clock" />
-            <span class="published-info">{{ $formatDate(String(post.publishedAt)) }}</span>
-          </div>
-          <div class="tags">
-            <font-awesome-icon :icon="['fas', 'tags']" class="icon-tags" />
-            <div class="tags-info">
-              <NuxtLink v-for="tag in post.tag" :to="`/tags/${tag.id}/page/1`" class="tag">{{ tag.name }}</NuxtLink>
+    <template v-for="post in posts">
+      <article class="article" :key="post.id">
+        <nuxt-link class="link" :to="`/${post.id}/`">
+          <nuxt-img
+            class="thumbnail"
+            alt="thumbnail"
+            v-if="post.thumbnail"
+            :src="
+              post.thumbnail.url +
+              '?w=450&h=230&fit=crop&fm=webp&lossless=true&auto=format'
+            "
+          />
+          <div class="title-box">
+            <h1 class="title">
+              {{ post.title }}
+            </h1>
+            <div class="published">
+              <font-awesome-icon :icon="['far', 'clock']" class="icon-clock" />
+              <span class="published-info">{{
+                $formatDate(String(post.publishedAt))
+              }}</span>
+            </div>
+            <div class="tags">
+              <font-awesome-icon :icon="['fas', 'tags']" class="icon-tags" />
+              <div class="tags-info">
+                <NuxtLink
+                  v-for="tag in post.tag"
+                  :to="`/tags/${tag.id}/page/1`"
+                  class="tag"
+                  >{{ tag.name }}</NuxtLink
+                >
+              </div>
             </div>
           </div>
-        </div>
-      </nuxt-link>
-    </article>
+        </nuxt-link>
+      </article>
+    </template>
   </div>
 </template>
+
 
 <style scoped>
 .article {
@@ -82,7 +99,7 @@ const { posts } = defineProps<Props>();
   justify-content: flex-start;
 }
 
-.published{
+.published {
   display: flex;
   align-items: center;
   margin-bottom: 0.4rem;

@@ -24,9 +24,35 @@ export default defineNuxtConfig({
       pageLevelAds: true
     }]
   ],
-  // tex
+  // 画像の最適化設定
+  image: {
+    // 画像の最適化に関する設定をここに追加
+    // 例: 画像のサイズを自動的に調整
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+      '2xl': 1536
+    },
+    domains: ['https://images.microcms-assets.io'], // 画像のドメインを指定
+  },
+
   plugins: [
     { src: '~/plugins/mathjax', mode: 'client' },
     { src: '~/plugins/fontawesome.ts', mode: 'client' },
   ],
+
+  // その他のパフォーマンス向上のための設定
+  build: {
+    // 例: JavaScriptのファイルサイズを小さくする
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+      },
+    },
+  },
 });
