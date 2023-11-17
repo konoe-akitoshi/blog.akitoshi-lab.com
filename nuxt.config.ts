@@ -19,15 +19,21 @@ export default defineNuxtConfig({
   },
   modules: [
     '@nuxt/image',
+    '@nuxtjs/robots', // @nuxtjs/robots モジュールを追加
     ['@nuxtjs/google-adsense', {
       id: "ca-pub-9582592339710489",
       pageLevelAds: true
     }]
   ],
+  // robots.txt の設定
+  robots: {
+    UserAgent: '*', // すべてのクローラーに適用
+    Disallow: '',   // すべてのページをクロール許可
+    // 他の設定が必要な場合はここに追加
+  },
   // 画像の最適化設定
   image: {
     // 画像の最適化に関する設定をここに追加
-    // 例: 画像のサイズを自動的に調整
     screens: {
       xs: 320,
       sm: 640,
