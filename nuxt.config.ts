@@ -1,5 +1,5 @@
 const { API_KEY, SERVICE_DOMAIN } = process.env;
-import { createClient } from 'microcms-js-sdk';
+// import { createClient } from 'microcms-js-sdk';
 
 export default defineNuxtConfig({
   srcDir: "src/",
@@ -14,9 +14,9 @@ export default defineNuxtConfig({
     "@fortawesome/fontawesome-svg-core/styles.css",
   ],
 
-  app: {
-    pageTransition: { name: 'page', mode: 'default' }
-  },
+  // app: {
+  //   pageTransition: { name: 'page', mode: 'default' }
+  // },
   modules: [
     '@nuxt/image',
     ['@nuxtjs/google-adsense', {
