@@ -6,19 +6,19 @@
   import useMathJax from "~/plugins/mathjax";
   import { config } from '../settings/site-settings'
 
-  // type Props = {
-  //   slug: string;
-  //   draftKey?: string;
-  // }
+  type Props = {
+    slug: string;
+    draftKey?: string;
+  }
 
-  // const { slug, draftKey } = defineProps < Props > ()
+  const { slug, draftKey } = defineProps < Props > ()
 
 
-  // const params = {
-  //   slug: slug,
-  //   draftKey: draftKey,
-  //   fields: config.postDetailField
-  // }
+  const params = {
+    slug: slug,
+    draftKey: draftKey,
+    fields: config.postDetailField
+  }
 
   const { data: article } = await useFetch('/api/post-detail', { params: params })
 
