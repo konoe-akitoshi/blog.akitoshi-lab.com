@@ -20,11 +20,11 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/image',
     '@nuxtjs/robots', // @nuxtjs/robots モジュールを追加
+    'nuxt-simple-sitemap',
     ['@nuxtjs/google-adsense', {
       id: "ca-pub-9582592339710489",
       pageLevelAds: true
-    }],
-    '@nuxtjs/sitemap',
+    }]
   ],
   // sitemap の設定
   sitemap: {
