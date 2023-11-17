@@ -38,6 +38,7 @@ const { posts } = defineProps<Props>();
               <div class="tags-info">
                 <NuxtLink
                   v-for="tag in post.tag"
+                  :key="tag.id"
                   :to="`/tags/${tag.id}/page/1`"
                   class="tag"
                   >{{ tag.name }}</NuxtLink
