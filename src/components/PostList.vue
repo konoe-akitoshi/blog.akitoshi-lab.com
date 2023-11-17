@@ -12,7 +12,7 @@ const { posts } = defineProps<Props>();
 <template>
   <div>
     <template v-for="post in posts" :key="post.id">
-      <article class="article" :key="post.id">
+      <article class="article">
         <nuxt-link class="link" :to="`/${post.id}/`">
           <nuxt-img class="thumbnail" alt="thumbnail" v-if="post.thumbnail"
             :src="post.thumbnail.url" width="450" height="230" />
