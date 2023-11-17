@@ -59,13 +59,13 @@ export default defineNuxtConfig({
   ],
 
   // その他のパフォーマンス向上のための設定
-  build: {
-    // 例: JavaScriptのファイルサイズを小さくする
-    extractCSS: true,
-    optimization: {
-      splitChunks: {
-        chunks: 'all',
-      },
-    },
-  },
+  // build: {
+  //   // 例: JavaScriptのファイルサイズを小さくする
+  //   extractCSS: true,
+  //   optimization: {
+  //     splitChunks: {
+  //       chunks: 'all',
+  //     },
+  //   },
+  // },
 });
