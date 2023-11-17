@@ -20,11 +20,18 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/image',
     '@nuxtjs/robots', // @nuxtjs/robots モジュールを追加
+    '@nuxtjs/sitemap',
     ['@nuxtjs/google-adsense', {
       id: "ca-pub-9582592339710489",
       pageLevelAds: true
     }]
   ],
+  // sitemap の設定
+  sitemap: {
+    hostname: 'https://akitoshi-lab.com',
+    gzip: true,
+    // 他の設定...
+  },
   // robots.txt の設定
   robots: {
     UserAgent: '*', // すべてのクローラーに適用
