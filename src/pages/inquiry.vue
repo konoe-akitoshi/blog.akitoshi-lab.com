@@ -16,7 +16,7 @@ import { config } from '../settings/site-settings';
     position: relative;
     width: 720px;
     margin: 0 auto;
-    padding-top: 112px;
+    padding-top: 40px;
     padding-bottom: 50px;
     font-family: Arial, sans-serif;
     line-height: 1.5;
