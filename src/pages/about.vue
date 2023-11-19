@@ -254,32 +254,29 @@
         <div class="content">
             <h2 class="content-sec">Profile🛡️</h2>
             <hr class="content-sec-line" noshade="" />
-            <details class="profile">
-                <summary>📌</summary>
-                <h3 class="profile-sec">Affiliated</h3>
-                <hr class="profile-sec-line" noshade="" />
-                <p>電気通信大学</p>
-                <p>MMA</p>
-                <p>Scramble</p>
-                <h3 class="profile-sec">Prize</h3>
-                <hr class="profile-sec-line" noshade="" />
-                <table class="prize-table">
-                    <thead>
-                        <tr>
-                            <th>年度</th>
-                            <th>イベント名</th>
-                            <th>受賞内容</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="item in skillSet" :key="item.name">
-                            <td>{{ item.since }}</td>
-                            <td>{{ item.by }}</td>
-                            <td>{{ item.name }}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </details>
+            <h3 class="profile-sec">Affiliated</h3>
+            <hr class="profile-sec-line" noshade="" />
+            <p>電気通信大学</p>
+            <p>MMA</p>
+            <p>Scramble</p>
+            <h3 class="profile-sec">Prize</h3>
+            <hr class="profile-sec-line" noshade="" />
+            <table class="prize-table">
+                <thead>
+                    <tr>
+                        <th>年度</th>
+                        <th>イベント名</th>
+                        <th>受賞内容</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="item in skillSet" :key="item.name">
+                        <td>{{ item.since }}</td>
+                        <td>{{ item.by }}</td>
+                        <td>{{ item.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </main>
 </template>
@@ -447,7 +444,8 @@
 
     .work-image {
         width: 100%;
-        height: 160px; /* 気持ち悪いけど仕方ない */
+        height: 160px;
+        /* 気持ち悪いけど仕方ない */
         object-fit: cover;
     }
 
@@ -500,63 +498,15 @@
     .profile {
         background-color: #26272b;
         border-radius: 20px;
-        color: #f1faee;
+        /* color: #f1faee; */
         margin-bottom: 20px;
         padding: 20px;
-    }
-
-    .profile summary {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        position: relative;
-        color: #f1faee;
-        font-size: 36px;
-        padding: 0.4em 0.4em;
-        cursor: pointer;
-        user-select: none;
-        outline: none;
-    }
-
-    .profile summary::after {
-        position: absolute;
-        right: 1em;
-        transform: translateY(-50%) rotate(45deg);
-        width: 2rem;
-        height: 2rem;
-        border-bottom: 5px solid #457b9d;
-        border-right: 5px solid #457b9d;
-        content: '';
-        transition: transform .3s;
-    }
-
-    .profile[open] summary::after {
-        transform: rotate(225deg);
-    }
-
-    .profile summary:hover::after {
-        border-bottom: 5px solid #f1faee;
-        border-right: 5px solid #f1faee;
-    }
-
-    .profile p {
-        transform: translateY(-10px);
-        opacity: 0;
-        margin: 0;
-        padding: 0 2em 1.5em;
-        color: #333333;
-        transition: transform .5s, opacity .5s;
-    }
-
-    .profile[open] p {
-        transform: none;
-        opacity: 1;
     }
 
     .profile-sec {
         font-weight: 700;
         font-size: 3.2rem;
-        color: #fff;
+        /* color: #fff; */
         line-height: 2rem;
         text-align: center;
         margin-bottom: 1.5rem;
@@ -565,7 +515,7 @@
     .profile-sec-line {
         width: 3.5rem;
         height: 1px;
-        background-color: #f1faee;
+        /* background-color: #f1faee; */
         margin-top: 0;
         margin-bottom: 20px;
         margin-left: auto;
@@ -575,7 +525,7 @@
 
     .profile p {
         text-align: center;
-        color: #fff;
+        /* color: #fff; */
     }
 
     .prize-table {
