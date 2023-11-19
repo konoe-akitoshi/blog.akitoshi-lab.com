@@ -1,4 +1,4 @@
-<!-- src/pages/[slug]/index.vue -->
+<!-- src\components\PostDetail.vue -->
 <script setup lang="ts">
 import * as cheerio from "cheerio";
 import hljs from "highlight.js";
