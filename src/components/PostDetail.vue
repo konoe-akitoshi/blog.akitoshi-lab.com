@@ -27,28 +27,34 @@ if (!article.value) {
   throw createError({ statusCode: 404, statusMessage: "Page Not Found" });
 }
 
-// hljsクラスをつける
-const $ = cheerio.load(article.value.content2);
-$("pre code").each((_, elm) => {
-  const result = hljs.highlightAuto($(elm).text());
-  $(elm).html(result.value);
-  $(elm).addClass("hljs");
-});
+let body = '';
 
-// MathJaxのコードを追加
-$("p").each((_, elm) => {
-  const text = $(elm).html();
-  const newText = text.replace(/\$\$?(.*?)\$\$?/gs, (match, p1) => {
-    if (match.startsWith("$$") && match.endsWith("$$")) {
-      return `<div>\\[${p1}\\]</div>`;
-    } else {
-      return `<span>\\(${p1}\\)</span>`;
-    }
+if (typeof article.value.content2 === 'string') {
+  const $ = cheerio.load(article.value.content2);
+
+  $("pre code").each((_, elm) => {
+    const result = hljs.highlightAuto($(elm).text());
+    $(elm).html(result.value);
+    $(elm).addClass("hljs");
   });
-  $(elm).html(newText);
-});
 
-const body = $.html();
+  $("p").each((_, elm) => {
+    const text = $(elm).html();
+    const newText = text.replace(/\$\$?(.*?)\$\$?/gs, (match, p1) => {
+      if (match.startsWith("$$") && match.endsWith("$$")) {
+        return `<div>\\[${p1}\\]</div>`;
+      } else {
+        return `<span>\\(${p1}\\)</span>`;
+      }
+    });
+    $(elm).html(newText);
+  });
+
+  body = $.html();
+} else {
+  console.error("Expected a string for cheerio.load(), received:", article.value.content2);
+  // ここで適切なエラーハンドリングを行う
+}
 
 // MathJaxの読み込みをトリガーする
 useMathJax();
@@ -60,54 +66,27 @@ useDetailHead(article.value);
   <div>
     <div class="main">
       <h1 class="title">{{ article.title }}</h1>
-      <nuxt-img
-        class="thumbnail"
-        alt="thumbnail"
-        v-if="article.thumbnail"
-        :src="
-          article.thumbnail.url +
-          '?w=720&h=480&fit=crop&fm=webp&lossless=true&auto=format'
-        "
-      />
+      <nuxt-img class="thumbnail" alt="thumbnail" v-if="article.thumbnail" :src="article.thumbnail.url +
+        '?w=720&h=480&fit=crop&fm=webp&lossless=true&auto=format'
+        " />
       <div class="published">
-        <font-awesome-icon
-          :icon="['far', 'clock']"
-          style="height: 2rem"
-          class="icon-clock"
-        />
+        <font-awesome-icon :icon="['far', 'clock']" style="height: 2rem" class="icon-clock" />
         <span class="published-info">{{
           $formatDate(article.publishedAt)
         }}</span>
       </div>
       <div class="tags">
-        <font-awesome-icon
-          :icon="['fas', 'tags']"
-          style="height: 2rem"
-          class="icon-tags"
-        />
+        <font-awesome-icon :icon="['fas', 'tags']" style="height: 2rem" class="icon-tags" />
         <div class="tags-info">
-          <NuxtLink
-            v-for="tag in article.tag"
-            :key="tag.id"
-            :to="`/tags/${tag.id}/page/1`"
-            class="tag"
-            >{{ tag.name }}</NuxtLink
-          >
+          <NuxtLink v-for="tag in article.tag" :key="tag.id" :to="`/tags/${tag.id}/page/1`" class="tag">{{ tag.name }}
+          </NuxtLink>
         </div>
       </div>
       <div class="md" v-html="body" />
       <div class="buymeacoffee">
-        <a
-          :href="config.social.buyMeACoffee"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            height="60"
-            alt="Buy Me A Coffee"
-            src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-            class="img-buymeacoffee"
-          />
+        <a :href="config.social.buyMeACoffee" target="_blank" rel="noopener noreferrer">
+          <img height="60" alt="Buy Me A Coffee" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+            class="img-buymeacoffee" />
         </a>
       </div>
     </div>
