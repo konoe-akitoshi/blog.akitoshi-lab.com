@@ -5,7 +5,7 @@ export const BLOG_PER_PAGE = 10;
 
 export const config = {
   siteName: "Akitoshi Lab.",
-  siteUrl: "https://akitoshi-lab.com",
+  siteUrl: "https://blog.akitoshi-lab.com",
   siteDescription: "ロボットが大好きな大学生です．思ったことや日常の出来事をつぶやきます．たまに技術．",
   social: {
     repos: "https://github.com/",
