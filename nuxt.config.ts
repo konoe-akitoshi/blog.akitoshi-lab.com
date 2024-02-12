@@ -20,14 +20,15 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/image',
     '@nuxtjs/robots', // @nuxtjs/robots モジュールを追加
-    'nuxt-simple-sitemap',
+    '@nuxtjs/sitemap',
     ['@nuxtjs/google-adsense', {
       id: "ca-pub-9582592339710489",
       pageLevelAds: true
     }]
   ],
   // sitemap の設定
-  simpleSitemap: {
+  site: {
+    url: 'https://blog.akitoshi-lab.com',
     hostname: 'https://blog.akitoshi-lab.com',
     gzip: true,
     // 他の設定...
