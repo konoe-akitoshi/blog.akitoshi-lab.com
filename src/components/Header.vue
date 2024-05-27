@@ -28,7 +28,7 @@ onUnmounted(() => {
 <template>
     <header class="header" :class="{ 'header-hidden': !isHeaderVisible }">
         <div class="container">
-            <nuxt-link :to="`/`">
+            <nuxt-link :to="`https://akitoshi-lab.com/`">
                 <h1 class="site-title">
                     {{ config.siteName }}
                 </h1>
@@ -36,10 +36,16 @@ onUnmounted(() => {
             <nav class="main-nav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <nuxt-link :to="`/`">HOME</nuxt-link>
+                        <nuxt-link :to="`https://akitoshi-lab.com/about/`">About</nuxt-link>
                     </li>
                     <li class="nav-item">
-                        <nuxt-link :to="`/about/`">ABOUT</nuxt-link>
+                        <nuxt-link :to="`/`">Blog</nuxt-link>
+                    </li>
+                    <li class="nav-item">
+                        <nuxt-link :to="`https://akitoshi-lab.com/works/`">Works</nuxt-link>
+                    </li>
+                    <li class="nav-item">
+                        <nuxt-link :to="`https://akitoshi-lab.com/`">Gallery</nuxt-link>
                     </li>
                 </ul>
             </nav>
