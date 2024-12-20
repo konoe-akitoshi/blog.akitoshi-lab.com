@@ -1,37 +1,47 @@
 {
-  "name": "nuxt-app",
+  "name": "blog.akitoshi-lab.com",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "clean": "nuxt clean"
-  },
-  "devDependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.5.2",
-    "@fortawesome/free-regular-svg-icons": "^6.5.2",
-    "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/vue-fontawesome": "^3.0.8",
-    "@nuxt/image": "^1.7.0",
-    "@nuxtjs/sitemap": "^5.2.0",
-    "@types/node": "^20.12.12",
-    "nuxt": "^3.11.2"
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
-    "@fortawesome/free-brands-svg-icons": "^6.5.2",
-    "@nuxtjs/google-adsense": "^3.0.0",
-    "@nuxtjs/robots": "^3.0.0",
-    "cheerio": "1.0.0-rc.12",
-    "dayjs": "^1.11.11",
-    "forever": "^4.0.3",
-    "highlight.js": "^11.9.0",
-    "microcms-js-sdk": "^2.7.0",
-    "node-cache": "^5.1.2",
-    "pm2": "^5.4.0",
-    "vue-gtag": "^2.0.1"
+    "@tailwindcss/typography": "^0.5.15",
+    "axios": "^1.7.9",
+    "highlight.js": "^11.11.0",
+    "html-to-markdown": "^1.0.0",
+    "image-size": "^1.1.1",
+    "jsdom": "^25.0.1",
+    "next": "15.1.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^9.0.1",
+    "react-syntax-highlighter": "^15.6.1",
+    "rehype-highlight": "^7.0.1",
+    "rehype-raw": "^7.0.0",
+    "rehype-stringify": "^10.0.1",
+    "remark": "^15.0.1",
+    "remark-directive": "^3.0.0",
+    "remark-gfm": "^4.0.0",
+    "remark-html": "^16.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.1",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.0.0"
   },
-  "packageManager": "pnpm@9.1.2+sha512.127dc83b9ea10c32be65d22a8efb4a65fb952e8fefbdfded39bdc3c97efc32d31b48b00420df2c1187ace28c921c902f0cb5a134a4d032b8b5295cbfa2c681e2"
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9",
+    "eslint-config-next": "15.1.2",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5"
+  }
 }
