@@ -9,10 +9,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        primary: "#f5f5f5", // Notionの背景色
+        secondary: "#ffffff", // コンテンツ部分
+        border: "#e0e0e0", // 境界線色
+      },
+      fontFamily: {
+        sans: ["Inter", "sans-serif"], // Notion風のフォント
       },
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [],
 } satisfies Config;
