@@ -5,6 +5,7 @@ export async function getStaticProps() {
   const { data: posts, error } = await supabase
     .from('posts')
     .select('id, title, tags, thumbnail, created_at')
+    .eq('draft', false) // 公開状態の記事のみ取得
     .order('created_at', { ascending: false });
 
   if (error) {
