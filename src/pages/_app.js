@@ -1,25 +1,17 @@
 import '../styles/globals.css';
 import Navbar from '../components/Navbar';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <header>
-        <div className="container">
-          <nav>
-            <a href="/" className="font-bold text-lg">My Blog</a>
-          </nav>
-        </div>
-      </header>
+      <Header />
       <main className="container content-wrapper">
         <Component {...pageProps} />
       </main>
       <Navbar />
-      <footer>
-        <div className="container">
-          <p>&copy; 2024 My Blog. All rights reserved.</p>
-        </div>
-      </footer>
+      <Footer />
     </>
   );
 }
