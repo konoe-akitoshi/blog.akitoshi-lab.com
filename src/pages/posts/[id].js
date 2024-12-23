@@ -1,4 +1,5 @@
 import { supabase } from '../../lib/supabase';
+import ReactMarkdown from 'react-markdown';
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -11,7 +12,7 @@ export async function getServerSideProps(context) {
 
   if (error) {
     console.error('Error fetching post:', error.message);
-    return { notFound: true }; // 記事が見つからない場合、404 ページを表示
+    return { notFound: true };
   }
 
   return {
@@ -30,10 +31,24 @@ const PostDetail = ({ post }) => {
     <div>
       <h1>{post.title}</h1>
       <p>Created at: {new Date(post.created_at).toLocaleDateString()}</p>
-      <div>
-        {post.thumbnail && <img src={post.thumbnail} alt="Thumbnail" style={{ maxWidth: '400px' }} />}
-      </div>
-      <p>{post.content}</p>
+      {post.thumbnail && (
+        <div>
+          <img src={post.thumbnail} alt="Thumbnail" style={{ maxWidth: '400px' }} />
+        </div>
+      )}
+      <ReactMarkdown>{post.content}</ReactMarkdown>
+      {post.tags && (
+        <div>
+          <strong>Tags:</strong>
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {post.tags.map((tag, index) => (
+              <li key={index} style={{ display: 'inline', marginRight: '10px' }}>
+                #{tag}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
