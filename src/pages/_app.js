@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }) {
       <main className="container content-wrapper">
         <Component {...pageProps} />
       </main>
-      <Navbar />
+      {/* <Navbar /> */}
       <Footer />
     </>
   );
