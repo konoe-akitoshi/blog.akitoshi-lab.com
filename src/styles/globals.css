@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === グローバルリセット === */
+html,
+body {
+  @apply bg-gray-50 text-gray-900 font-sans;
+  margin: 0;
+  padding: 0;
+  line-height: 1.75;
+}
+
+/* リンク */
+a {
+  @apply text-blue-500 no-underline hover:text-blue-600 transition-colors;
+}
+
+a:hover {
+  text-decoration: none; /* 再確認: Hover 時も下線をつけない */
+}
+
+/* 見出し */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-bold text-gray-800 leading-tight;
+}
+
+h1 {
+  @apply text-4xl mt-10 mb-6 text-center;
+}
+
+h2 {
+  @apply text-3xl mt-8 mb-5;
+}
+
+h3 {
+  @apply text-2xl mt-6 mb-4;
+}
+
+/* 段落 */
+p {
+  @apply mb-6 text-base leading-relaxed;
+}
+
+/* リスト */
+ul {
+  @apply list-disc ml-6 mb-6;
+}
+
+ol {
+  @apply list-decimal ml-6 mb-6;
+}
+
+li {
+  @apply mb-2;
+}
+
+/* === レイアウト用クラス === */
+
+/* メインコンテンツの幅と余白 */
+.container {
+  @apply mx-auto px-6;
+
+  /* スクリーンサイズによる最大幅調整 */
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px; /* タブレット */
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 960px; /* PC */
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1280px; /* 大型ディスプレイ */
+  }
+}
+
+/* コンテンツラッパー */
+.content-wrapper {
+  @apply p-4 sm:p-6 md:p-8 bg-white shadow-md rounded-lg;
+}
+
+/* === ヘッダーとフッター === */
+header,
+footer {
+  @apply w-full bg-gray-200 text-gray-600;
+}
+
+header {
+  @apply sticky top-0 z-10 px-6 py-4 shadow-md;
+}
+
+footer {
+  @apply py-6 mt-10 text-center;
+}
+
+header .container,
+footer .container {
+  @apply max-w-6xl mx-auto;
+}

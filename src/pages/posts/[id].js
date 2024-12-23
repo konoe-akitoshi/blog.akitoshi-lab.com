@@ -1,8 +1,25 @@
 import { supabase } from '../../lib/supabase';
-import ReactMarkdown from 'react-markdown';
 
-export async function getServerSideProps(context) {
-  const { id } = context.params;
+export async function getStaticPaths() {
+  const { data: posts, error } = await supabase.from('posts').select('id');
+
+  if (error) {
+    console.error('Error fetching paths:', error.message);
+    return { paths: [], fallback: 'blocking' };
+  }
+
+  const paths = posts.map((post) => ({
+    params: { id: post.id },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking', // 必要に応じて動的に生成
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const { id } = params;
 
   const { data: post, error } = await supabase
     .from('posts')
@@ -16,41 +33,29 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {
-      post,
-    },
+    props: { post },
+    revalidate: 10, // ISRを使用
   };
 }
 
-const PostDetail = ({ post }) => {
+const Post = ({ post }) => {
   if (!post) {
-    return <p>Loading...</p>;
+    return <div>Post not found</div>;
   }
 
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>Created at: {new Date(post.created_at).toLocaleDateString()}</p>
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
       {post.thumbnail && (
-        <div>
-          <img src={post.thumbnail} alt="Thumbnail" style={{ maxWidth: '400px' }} />
-        </div>
+        <img
+          src={post.thumbnail}
+          alt={post.title}
+          className="w-full h-auto rounded-md shadow-sm"
+        />
       )}
-      <ReactMarkdown>{post.content}</ReactMarkdown>
-      {post.tags && (
-        <div>
-          <strong>Tags:</strong>
-          <ul style={{ listStyle: 'none', padding: 0 }}>
-            {post.tags.map((tag, index) => (
-              <li key={index} style={{ display: 'inline', marginRight: '10px' }}>
-                #{tag}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <div className="mt-4">{post.content}</div>
     </div>
   );
 };
 
-export default PostDetail;
+export default Post;
