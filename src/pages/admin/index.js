@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase';
 import { Menu, Transition, Dialog } from '@headlessui/react';
 import { Fragment, useState } from 'react';
 import { HiDotsVertical, HiTrash, HiPencilAlt, HiPlus } from 'react-icons/hi';
+import Image from 'next/image';
 
 export async function getServerSideProps() {
   const { data: posts, error } = await supabase
@@ -65,10 +66,12 @@ const Admin = ({ posts }) => {
               {/* サムネイル */}
               {post.thumbnail && (
                 <div className="w-32 h-20 bg-gray-200 flex-shrink-0 rounded overflow-hidden">
-                  <img
+                  <Image
                     src={post.thumbnail}
                     alt="thumbnail"
-                    className="w-full h-full object-cover"
+                    width={128}
+                    height={80}
+                    className="rounded-md"
                   />
                 </div>
               )}
@@ -189,8 +192,8 @@ const Admin = ({ posts }) => {
                 Confirm Deletion
               </Dialog.Title>
               <Dialog.Description className="text-sm text-gray-600 mt-2">
-                Are you sure you want to delete "{selectedPost?.title}"? This action cannot be
-                undone.
+                Are you sure you want to delete &quot;{selectedPost?.title}&quot;? This action
+                cannot be undone.
               </Dialog.Description>
               <div className="mt-4 flex justify-end space-x-4">
                 <button
