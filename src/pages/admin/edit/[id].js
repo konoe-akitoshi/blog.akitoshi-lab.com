@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { supabase } from '../../../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
-import ReactMarkdown from 'react-markdown';
+import PostContent from '../../../components/PostContent';
 import { Switch } from '@headlessui/react';
 
 const EditPost = () => {
@@ -183,7 +183,14 @@ const EditPost = () => {
       {/* プレビュー */}
       <h2 className="text-xl font-semibold mt-6 mb-4">Preview</h2>
       <div className="p-4 border rounded bg-gray-50">
-        <ReactMarkdown>{content}</ReactMarkdown>
+      <PostContent
+  title={title}
+  content={content}
+  thumbnail={thumbnail}
+  created_at={new Date()} // プレビューなので現在日時を利用
+  tags={tags.split(',').map((tag) => tag.trim())}
+/>
+
       </div>
     </div>
   );
