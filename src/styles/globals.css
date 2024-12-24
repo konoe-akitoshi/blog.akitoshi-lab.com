@@ -100,7 +100,7 @@ footer {
 }
 
 header {
-  @apply sticky top-0 z-10 px-6 py-4 shadow-md;
+  @apply sticky top-0 z-10 px-6 py-1.5 shadow-md;
 }
 
 footer {

@@ -33,19 +33,19 @@ const Header = () => {
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
     >
-      <div className="mx-auto max-w-screen-xl flex flex-col lg:flex-row justify-between items-center p-4 lg:px-8 gap-1 lg:gap-0">
+      <div className="mx-auto max-w-screen-xl flex flex-col lg:flex-row justify-between items-center p-2 lg:px-4 gap-1 lg:gap-0">
         <Link
           href="https://akitoshi-lab.com/"
-          className="text-2xl lg:text-3xl text-white no-underline pb-1 leading-tight tracking-wider shadow-lg"
+          className="text-lg lg:text-xl text-white no-underline pb-1 leading-tight tracking-wide shadow-lg"
         >
           Akitoshi Lab.
         </Link>
         <nav className="w-full lg:w-auto">
-          <ul className="flex justify-center lg:justify-end gap-4 lg:gap-6 m-0 p-0 list-none items-center w-full lg:w-auto">
+          <ul className="flex justify-center lg:justify-end gap-2 lg:gap-4 m-0 p-0 list-none items-center w-full lg:w-auto">
             <li>
               <Link
                 href="https://akitoshi-lab.com/about/"
-                className="text-base lg:text-xl text-white no-underline p-2 rounded transition duration-300 hover:bg-white hover:bg-opacity-20"
+                className="text-sm lg:text-base text-white no-underline px-2 py-1 rounded transition duration-300 hover:bg-white hover:bg-opacity-20"
               >
                 ABOUT
               </Link>
@@ -53,7 +53,7 @@ const Header = () => {
             <li>
               <Link
                 href="/"
-                className="text-base lg:text-xl text-white no-underline p-2 rounded transition duration-300 hover:bg-white hover:bg-opacity-20"
+                className="text-sm lg:text-base text-white no-underline px-2 py-1 rounded transition duration-300 hover:bg-white hover:bg-opacity-20"
               >
                 Blog
               </Link>
@@ -61,7 +61,7 @@ const Header = () => {
             <li>
               <Link
                 href="https://akitoshi-lab.com/works/"
-                className="text-base lg:text-xl text-white no-underline p-2 rounded transition duration-300 hover:bg-white hover:bg-opacity-20"
+                className="text-sm lg:text-base text-white no-underline px-2 py-1 rounded transition duration-300 hover:bg-white hover:bg-opacity-20"
               >
                 Works
               </Link>
@@ -69,7 +69,7 @@ const Header = () => {
             <li>
               <Link
                 href="https://akitoshi-lab.com/"
-                className="text-base lg:text-xl text-white no-underline p-2 rounded transition duration-300 hover:bg-white hover:bg-opacity-20"
+                className="text-sm lg:text-base text-white no-underline px-2 py-1 rounded transition duration-300 hover:bg-white hover:bg-opacity-20"
               >
                 Gallery
               </Link>

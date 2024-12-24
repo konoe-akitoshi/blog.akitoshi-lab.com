@@ -1,4 +1,5 @@
 import React from 'react';
+import Head from 'next/head';
 import { supabase } from '../../lib/supabase';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -83,6 +84,22 @@ const PostDetail = ({ post }) => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+            <Head>
+        {/* SEO */}
+        <title>{post.title} | Akitoshi Lab.</title>
+        <meta name="description" content={post.content.slice(0, 160)} />
+
+        {/* OGP */}
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.content.slice(0, 160)} />
+        <meta property="og:image" content={post.thumbnail} />
+        <meta property="og:url" content={`${process.env.NEXT_PUBLIC_SITE_URL}/posts/${post.id}`} />
+        <meta property="og:type" content="article" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.content.slice(0, 160)} />
+        <meta name="twitter:image" content={post.thumbnail} />
+      </Head>
       {post.thumbnail && (
         <div
           className="relative w-full h-72 bg-cover bg-center rounded-lg shadow-lg"
