@@ -39,20 +39,29 @@ const EditPost = () => {
   }, [id]);
 
   const handleImageUpload = async (file, insertIntoContent = false) => {
+    // まだ記事IDがない場合の対処(新規作成時でIDが決まっていないケース)
+    if (!id) {
+      alert('まずは記事を保存して ID を発行してください。');
+      return;
+    }
+  
     const uniqueId = uuidv4().split('-')[0];
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const fileExtension = file.name.split('.').pop();
-    const newFileName = `${uniqueId}-${date}.${fileExtension}`;
-
+  
+    // 記事ごとにフォルダを分けるため、"content-images/${id}/" を追加
+    const folderPath = `posts/${id}`;
+    const newFileName = `${folderPath}/${uniqueId}-${date}.${fileExtension}`;
+  
     const { data, error } = await supabase.storage
       .from('images')
-      .upload(`content-images/${newFileName}`, file);
-
+      .upload(newFileName, file);
+  
     if (error) {
       console.error('Upload error:', error.message);
     } else {
       const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data.fullPath}`;
-
+  
       if (insertIntoContent) {
         setContent((prevContent) => `${prevContent}\n\n![Image](${publicUrl})\n\n`);
       } else {
@@ -60,7 +69,7 @@ const EditPost = () => {
       }
     }
   };
-
+  
   const handleDrop = async (event) => {
     event.preventDefault();
     event.stopPropagation();
