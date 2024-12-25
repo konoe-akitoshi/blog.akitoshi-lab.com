@@ -36,6 +36,12 @@ const PostDetail = ({ post }) => {
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.content.slice(0, 160)} />
         <meta property="og:image" content={post.thumbnail} />
+
+        {/* Twitter Meta Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.content.slice(0, 160)} />
+        <meta name="twitter:image" content={post.thumbnail} />
       </Head>
       <PostContent
         title={post.title}
