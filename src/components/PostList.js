@@ -10,19 +10,25 @@ const PostList = ({ posts }) => {
   return (
     <div className="space-y-12">
       {posts.map((post) => (
-        <article key={post.id} className="flex items-start space-x-6">
-          <Link href={`/posts/${post.id}`} className="block flex-shrink-0">
+        <article
+          key={post.id}
+          className="flex flex-col md:flex-row items-start md:space-x-6"
+        >
+          {/* サムネイル */}
+          <Link href={`/posts/${post.id}`} className="block w-full md:w-1/3 flex-shrink-0">
             {post.thumbnail && (
               <img
                 src={post.thumbnail}
                 alt="thumbnail"
-                className="w-80 h-40 object-cover rounded-md shadow-sm"
+                className="w-full h-48 md:h-40 object-cover rounded-md shadow-sm"
               />
             )}
           </Link>
-          <div className="flex-grow">
+
+          {/* 記事情報 */}
+          <div className="flex-grow mt-4 md:mt-0">
             <Link href={`/posts/${post.id}`}>
-              <h2 className="text-2xl font-bold text-gray-800 hover:opacity-75 transition-opacity">
+              <h2 className="text-xl md:text-2xl font-bold text-gray-800 hover:opacity-75 transition-opacity">
                 {post.title}
               </h2>
             </Link>
