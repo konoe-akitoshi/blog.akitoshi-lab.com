@@ -1,11 +1,23 @@
 import { useRouter } from 'next/router';
 import { supabase } from '../../lib/supabase';
 import { Menu, Transition, Dialog } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { HiDotsVertical, HiTrash, HiPencilAlt, HiPlus } from 'react-icons/hi';
 import Image from 'next/image';
+import { getSession, useSession } from 'next-auth/react';
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login', // サインインページへリダイレクト
+        permanent: false,
+      },
+    };
+  }
+
   const { data: posts, error } = await supabase
     .from('posts')
     .select('id, title, thumbnail, tags, created_at, updated_at, draft')
@@ -25,8 +37,19 @@ export async function getServerSideProps() {
 
 const Admin = ({ posts }) => {
   const router = useRouter();
+  const { data: session, status } = useSession();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/login');
+    }
+  }, [status, router]);
+
+  if (status === 'loading') {
+    return <p>Loading...</p>;
+  }
 
   const handleDelete = async () => {
     const { error } = await supabase.from('posts').delete().eq('id', selectedPost?.id);
@@ -168,11 +191,11 @@ const Admin = ({ posts }) => {
           show={isDialogOpen}
           as={Fragment}
           enter="transition-opacity duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
+          enterFrom="opacity-0 scale-95"
+          enterTo="opacity-100 scale-100"
           leave="transition-opacity duration-300"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+          leaveFrom="opacity-100 scale-100"
+          leaveTo="opacity-0 scale-95"
         >
           <div className="fixed inset-0 bg-black bg-opacity-30" />
         </Transition>

@@ -1,19 +1,20 @@
 import '../styles/globals.css';
-// import Navbar from '../components/Navbar';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { SessionProvider } from 'next-auth/react';
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
-    <>
-      <Header />
-      <div className="h-20"></div>
-      <main className="container content-wrapper">
-        <Component {...pageProps} />
-      </main>
-      {/* <Navbar /> */}
-      <Footer />
-    </>
+    <SessionProvider session={session}>
+      <>
+        <Header />
+        <div className="h-20"></div>
+        <main className="content-wrapper">
+          <Component {...pageProps} />
+        </main>
+        <Footer />
+      </>
+    </SessionProvider>
   );
 }
 
