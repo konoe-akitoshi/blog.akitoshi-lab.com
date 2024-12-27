@@ -9,9 +9,8 @@ const EditPost = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [thumbnail, setThumbnail] = useState('');
-  const [tags, setTags] = useState('');
+  const [tags, setTags] = useState(''); // カンマ区切りで管理
   const [isDraft, setIsDraft] = useState(true);
-  const [isPasting, setIsPasting] = useState(false);
   const router = useRouter();
   const { id } = router.query;
 
@@ -39,64 +38,45 @@ const EditPost = () => {
     if (id) fetchPost();
   }, [id]);
 
-  const handleImageUpload = async (file, cursorPosition = null) => {
+  const handleImageUpload = async (file, insertIntoContent = false) => {
+    // まだ記事IDがない場合の対処(新規作成時でIDが決まっていないケース)
     if (!id) {
       alert('まずは記事を保存して ID を発行してください。');
       return;
     }
-
-    setIsPasting(true);
+  
     const uniqueId = uuidv4().split('-')[0];
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const fileExtension = file.name.split('.').pop();
+  
+    // 記事ごとにフォルダを分けるため、"content-images/${id}/" を追加
     const folderPath = `posts/${id}`;
     const newFileName = `${folderPath}/${uniqueId}-${date}.${fileExtension}`;
-
+  
     const { data, error } = await supabase.storage
       .from('images')
       .upload(newFileName, file);
-
+  
     if (error) {
       console.error('Upload error:', error.message);
     } else {
-      const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data.path}`;
-
-      setContent((prevContent) => {
-        if (cursorPosition !== null) {
-          const before = prevContent.slice(0, cursorPosition.start);
-          const after = prevContent.slice(cursorPosition.end);
-          return `${before}![Image](${publicUrl})${after}`;
-        }
-        return `${prevContent}\n\n![Image](${publicUrl})\n\n`;
-      });
-    }
-    setIsPasting(false);
-  };
-
-  const handlePaste = async (event) => {
-    const items = event.clipboardData.items;
-    const cursorPosition = {
-      start: event.target.selectionStart,
-      end: event.target.selectionEnd,
-    };
-
-    for (const item of items) {
-      if (item.type.startsWith('image/')) {
-        const file = item.getAsFile();
-        if (file) {
-          await handleImageUpload(file, cursorPosition);
-        }
+      const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data.fullPath}`;
+  
+      if (insertIntoContent) {
+        setContent((prevContent) => `${prevContent}\n\n![Image](${publicUrl})\n\n`);
+      } else {
+        setThumbnail(publicUrl);
       }
     }
   };
-
+  
   const handleDrop = async (event) => {
     event.preventDefault();
     event.stopPropagation();
 
     if (event.dataTransfer.files.length > 0) {
       const file = event.dataTransfer.files[0];
-      await handleImageUpload(file);
+      await handleImageUpload(file, true);
     }
   };
 
@@ -169,14 +149,10 @@ const EditPost = () => {
         placeholder="Write your content in Markdown..."
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        onPaste={handlePaste}
         onDrop={handleDrop}
         onDragOver={(event) => event.preventDefault()}
         className="w-full h-40 p-2 border rounded mb-4"
       />
-
-      {/* ペースト中インジケータ */}
-      {isPasting && <div className="text-blue-500">ペースト中...</div>}
 
       {/* ドラフトスイッチ */}
       <Switch.Group>
@@ -207,13 +183,14 @@ const EditPost = () => {
       {/* プレビュー */}
       <h2 className="text-xl font-semibold mt-6 mb-4">Preview</h2>
       <div className="p-4 border rounded bg-gray-50">
-        <PostContent
-          title={title}
-          content={content}
-          thumbnail={thumbnail}
-          created_at={new Date()}
-          tags={tags.split(',').map((tag) => tag.trim())}
-        />
+      <PostContent
+  title={title}
+  content={content}
+  thumbnail={thumbnail}
+  created_at={new Date()} // プレビューなので現在日時を利用
+  tags={tags.split(',').map((tag) => tag.trim())}
+/>
+
       </div>
     </div>
   );
