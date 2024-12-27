@@ -52,6 +52,30 @@ const Admin = ({ posts }) => {
   }
 
   const handleDelete = async () => {
+    if (!selectedPost?.id) return;
+
+    // 写真フォルダ削除処理
+    const folderPath = `posts/${selectedPost.id}`;
+    const { data: fileList, error: listError } = await supabase.storage
+      .from('images')
+      .list(folderPath, { limit: 100 });
+
+    if (listError) {
+      console.error('Error listing files for deletion:', listError.message);
+    } else {
+      const filesToDelete = fileList.map((file) => `${folderPath}/${file.name}`);
+      const { error: deleteError } = await supabase.storage
+        .from('images')
+        .remove(filesToDelete);
+
+      if (deleteError) {
+        console.error('Error deleting images:', deleteError.message);
+      } else {
+        console.log('Images deleted successfully.');
+      }
+    }
+
+    // 記事削除処理
     const { error } = await supabase.from('posts').delete().eq('id', selectedPost?.id);
     if (error) {
       console.error('Error deleting post:', error.message);
