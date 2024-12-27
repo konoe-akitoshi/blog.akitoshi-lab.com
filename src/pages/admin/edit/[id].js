@@ -4,6 +4,22 @@ import { supabase } from '../../../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 import PostContent from '../../../components/PostContent';
 import { Switch } from '@headlessui/react';
+import { getSession } from 'next-auth/react';
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+
+  return { props: {} };
+}
 
 const EditPost = () => {
   const [title, setTitle] = useState('');
@@ -39,29 +55,24 @@ const EditPost = () => {
   }, [id]);
 
   const handleImageUpload = async (file, insertIntoContent = false) => {
-    // まだ記事IDがない場合の対処(新規作成時でIDが決まっていないケース)
     if (!id) {
       alert('まずは記事を保存して ID を発行してください。');
       return;
     }
-  
+
     const uniqueId = uuidv4().split('-')[0];
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const fileExtension = file.name.split('.').pop();
-  
-    // 記事ごとにフォルダを分けるため、"content-images/${id}/" を追加
     const folderPath = `posts/${id}`;
     const newFileName = `${folderPath}/${uniqueId}-${date}.${fileExtension}`;
-  
-    const { data, error } = await supabase.storage
-      .from('images')
-      .upload(newFileName, file);
-  
+
+    const { data, error } = await supabase.storage.from('images').upload(newFileName, file);
+
     if (error) {
       console.error('Upload error:', error.message);
     } else {
-      const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data.fullPath}`;
-  
+      const { publicUrl } = supabase.storage.from('images').getPublicUrl(data.path);
+
       if (insertIntoContent) {
         setContent((prevContent) => `${prevContent}\n\n![Image](${publicUrl})\n\n`);
       } else {
@@ -69,11 +80,9 @@ const EditPost = () => {
       }
     }
   };
-  
+
   const handleDrop = async (event) => {
     event.preventDefault();
-    event.stopPropagation();
-
     if (event.dataTransfer.files.length > 0) {
       const file = event.dataTransfer.files[0];
       await handleImageUpload(file, true);
@@ -98,12 +107,12 @@ const EditPost = () => {
         router.push('/admin');
       }
     } else {
-      const { error } = await supabase.from('posts').insert(postData);
+      const { data, error } = await supabase.from('posts').insert(postData).select('id').single();
       if (error) {
         console.error('Error creating post:', error.message);
       } else {
         alert('Post created successfully');
-        router.push('/admin');
+        router.push(`/admin/edit/${data.id}`);
       }
     }
   };
@@ -183,14 +192,13 @@ const EditPost = () => {
       {/* プレビュー */}
       <h2 className="text-xl font-semibold mt-6 mb-4">Preview</h2>
       <div className="p-4 border rounded bg-gray-50">
-      <PostContent
-  title={title}
-  content={content}
-  thumbnail={thumbnail}
-  created_at={new Date()} // プレビューなので現在日時を利用
-  tags={tags.split(',').map((tag) => tag.trim())}
-/>
-
+        <PostContent
+          title={title}
+          content={content}
+          thumbnail={thumbnail}
+          created_at={new Date()} // プレビューなので現在日時を利用
+          tags={tags.split(',').map((tag) => tag.trim())}
+        />
       </div>
     </div>
   );
