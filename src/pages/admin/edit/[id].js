@@ -55,24 +55,29 @@ const EditPost = () => {
   }, [id]);
 
   const handleImageUpload = async (file, insertIntoContent = false) => {
+    // まだ記事IDがない場合の対処(新規作成時でIDが決まっていないケース)
     if (!id) {
       alert('まずは記事を保存して ID を発行してください。');
       return;
     }
-
+  
     const uniqueId = uuidv4().split('-')[0];
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const fileExtension = file.name.split('.').pop();
+  
+    // 記事ごとにフォルダを分けるため、"content-images/${id}/" を追加
     const folderPath = `posts/${id}`;
     const newFileName = `${folderPath}/${uniqueId}-${date}.${fileExtension}`;
-
-    const { data, error } = await supabase.storage.from('images').upload(newFileName, file);
-
+  
+    const { data, error } = await supabase.storage
+      .from('images')
+      .upload(newFileName, file);
+  
     if (error) {
       console.error('Upload error:', error.message);
     } else {
-      const { publicUrl } = supabase.storage.from('images').getPublicUrl(data.path);
-
+      const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data.fullPath}`;
+  
       if (insertIntoContent) {
         setContent((prevContent) => `${prevContent}\n\n![Image](${publicUrl})\n\n`);
       } else {
@@ -80,9 +85,11 @@ const EditPost = () => {
       }
     }
   };
-
+  
   const handleDrop = async (event) => {
     event.preventDefault();
+    event.stopPropagation();
+
     if (event.dataTransfer.files.length > 0) {
       const file = event.dataTransfer.files[0];
       await handleImageUpload(file, true);
@@ -107,12 +114,12 @@ const EditPost = () => {
         router.push('/admin');
       }
     } else {
-      const { data, error } = await supabase.from('posts').insert(postData).select('id').single();
+      const { error } = await supabase.from('posts').insert(postData);
       if (error) {
         console.error('Error creating post:', error.message);
       } else {
         alert('Post created successfully');
-        router.push(`/admin/edit/${data.id}`);
+        router.push('/admin');
       }
     }
   };
@@ -192,13 +199,14 @@ const EditPost = () => {
       {/* プレビュー */}
       <h2 className="text-xl font-semibold mt-6 mb-4">Preview</h2>
       <div className="p-4 border rounded bg-gray-50">
-        <PostContent
-          title={title}
-          content={content}
-          thumbnail={thumbnail}
-          created_at={new Date()} // プレビューなので現在日時を利用
-          tags={tags.split(',').map((tag) => tag.trim())}
-        />
+      <PostContent
+  title={title}
+  content={content}
+  thumbnail={thumbnail}
+  created_at={new Date()} // プレビューなので現在日時を利用
+  tags={tags.split(',').map((tag) => tag.trim())}
+/>
+
       </div>
     </div>
   );
