@@ -90,13 +90,13 @@ li {
 
 /* コンテンツラッパー */
 .content-wrapper {
-  @apply p-4 sm:p-6 md:p-8 bg-white shadow-md rounded-lg;
+  @apply p-4 sm:p-6 md:p-8;
 }
 
 /* === ヘッダーとフッター === */
 header,
 footer {
-  @apply w-full bg-gray-200 text-gray-600;
+  @apply w-full text-gray-600;
 }
 
 header {
@@ -104,7 +104,7 @@ header {
 }
 
 footer {
-  @apply py-6 mt-10 text-center;
+  @apply py-6 text-center;
 }
 
 header .container,

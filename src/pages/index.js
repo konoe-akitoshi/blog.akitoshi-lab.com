@@ -28,7 +28,7 @@ export async function getStaticProps() {
 
 const Home = ({ posts }) => {
   return (
-    <div className="bg-gray-50 min-h-screen py-8">
+    <div className="min-h-screen py-8">
       <main className="container mx-auto px-4">
         <PostList posts={posts} />
       </main>
