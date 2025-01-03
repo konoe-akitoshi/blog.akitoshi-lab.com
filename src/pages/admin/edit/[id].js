@@ -27,6 +27,7 @@ const EditPost = () => {
   const [thumbnail, setThumbnail] = useState('');
   const [tags, setTags] = useState(''); // カンマ区切りで管理
   const [isDraft, setIsDraft] = useState(true);
+  const [showPreview, setShowPreview] = useState(false); // プレビューの表示状態
   const router = useRouter();
   const { id } = router.query;
 
@@ -52,49 +53,11 @@ const EditPost = () => {
     };
 
     if (id) fetchPost();
+
+    // スマホ画面ではデフォルトでプレビューを非表示
+    const isMobile = window.innerWidth <= 768;
+    setShowPreview(!isMobile);
   }, [id]);
-
-  const handleImageUpload = async (file, insertIntoContent = false) => {
-    // まだ記事IDがない場合の対処(新規作成時でIDが決まっていないケース)
-    if (!id) {
-      alert('まずは記事を保存して ID を発行してください。');
-      return;
-    }
-  
-    const uniqueId = uuidv4().split('-')[0];
-    const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
-    const fileExtension = file.name.split('.').pop();
-  
-    // 記事ごとにフォルダを分けるため、"content-images/${id}/" を追加
-    const folderPath = `posts/${id}`;
-    const newFileName = `${folderPath}/${uniqueId}-${date}.${fileExtension}`;
-  
-    const { data, error } = await supabase.storage
-      .from('images')
-      .upload(newFileName, file);
-  
-    if (error) {
-      console.error('Upload error:', error.message);
-    } else {
-      const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data.fullPath}`;
-  
-      if (insertIntoContent) {
-        setContent((prevContent) => `${prevContent}\n\n![Image](${publicUrl})\n\n`);
-      } else {
-        setThumbnail(publicUrl);
-      }
-    }
-  };
-  
-  const handleDrop = async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-
-    if (event.dataTransfer.files.length > 0) {
-      const file = event.dataTransfer.files[0];
-      await handleImageUpload(file, true);
-    }
-  };
 
   const handleSave = async () => {
     const postData = {
@@ -125,88 +88,123 @@ const EditPost = () => {
   };
 
   return (
-    <div className="p-6 max-w-4xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">{id ? 'Edit Post' : 'Create New Post'}</h1>
+    <div className="p-6 max-w-6xl mx-auto">
+      {/* ヘッダー */}
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">{id ? 'Edit Post' : 'Create New Post'}</h1>
 
-      {/* サムネイル */}
-      <div className="mb-4">
-        <label className="block text-gray-700 mb-2">Thumbnail</label>
-        <input
-          type="file"
-          onChange={(e) => handleImageUpload(e.target.files[0])}
-          className="mb-2"
-        />
-        {thumbnail && <img src={thumbnail} alt="Thumbnail" className="max-w-xs rounded shadow" />}
+        {/* プレビュー表示切り替えスイッチ */}
+        <Switch.Group>
+          <div className="flex items-center">
+            <Switch
+              checked={showPreview}
+              onChange={setShowPreview}
+              className={`${
+                showPreview ? 'bg-blue-500' : 'bg-gray-300'
+              } relative inline-flex items-center h-6 rounded-full w-11 transition-colors`}
+            >
+              <span
+                className={`${
+                  showPreview ? 'translate-x-6' : 'translate-x-1'
+                } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              />
+            </Switch>
+            <Switch.Label className="ml-3">
+              {showPreview ? 'Hide Preview' : 'Show Preview'}
+            </Switch.Label>
+          </div>
+        </Switch.Group>
       </div>
 
-      {/* タイトル入力 */}
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="w-full p-2 border rounded mb-4"
-      />
+      <div className="flex flex-col md:flex-row gap-6">
+        {/* 編集フォーム */}
+        <div className="flex-1">
+          {/* サムネイル */}
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">Thumbnail</label>
+            <input
+              type="file"
+              onChange={(e) => handleImageUpload(e.target.files[0])}
+              className="mb-2"
+            />
+            {thumbnail && (
+              <img src={thumbnail} alt="Thumbnail" className="max-w-xs rounded shadow" />
+            )}
+          </div>
 
-      {/* タグ */}
-      <div className="mb-4">
-        <label className="block text-gray-700 mb-2">Tags (comma-separated)</label>
-        <input
-          type="text"
-          placeholder="e.g. tech, programming, javascript"
-          value={tags}
-          onChange={(e) => setTags(e.target.value)}
-          className="w-full p-2 border rounded"
-        />
-      </div>
-
-      {/* 本文入力 */}
-      <textarea
-        placeholder="Write your content in Markdown..."
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        onDrop={handleDrop}
-        onDragOver={(event) => event.preventDefault()}
-        className="w-full h-40 p-2 border rounded mb-4"
-      />
-
-      {/* ドラフトスイッチ */}
-      <Switch.Group>
-        <Switch
-          checked={isDraft}
-          onChange={setIsDraft}
-          className={`${
-            isDraft ? 'bg-blue-500' : 'bg-gray-300'
-          } relative inline-flex items-center h-6 rounded-full w-11 transition-colors`}
-        >
-          <span
-            className={`${
-              isDraft ? 'translate-x-6' : 'translate-x-1'
-            } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+          {/* タイトル入力 */}
+          <input
+            type="text"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full p-2 border rounded mb-4"
           />
-        </Switch>
-        <Switch.Label className="ml-3">{isDraft ? 'Draft' : 'Published'}</Switch.Label>
-      </Switch.Group>
 
-      {/* 保存ボタン */}
-      <button
-        onClick={handleSave}
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
-      >
-        Save
-      </button>
+          {/* タグ */}
+          <div className="mb-4">
+            <label className="block text-gray-700 mb-2">Tags (comma-separated)</label>
+            <input
+              type="text"
+              placeholder="e.g. tech, programming, javascript"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              className="w-full p-2 border rounded"
+            />
+          </div>
 
-      {/* プレビュー */}
-      <h2 className="text-xl font-semibold mt-6 mb-4">Preview</h2>
-      <div className="p-4 border rounded bg-gray-50">
-      <PostContent
-  title={title}
-  content={content}
-  thumbnail={thumbnail}
-  created_at={new Date()} // プレビューなので現在日時を利用
-  tags={tags.split(',').map((tag) => tag.trim())}
-/>
+          {/* 本文入力 */}
+          <textarea
+            placeholder="Write your content in Markdown..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            className="w-full h-40 p-2 border rounded mb-4"
+          />
 
+          {/* ドラフト切り替え */}
+          <Switch.Group>
+            <Switch
+              checked={isDraft}
+              onChange={setIsDraft}
+              className={`${
+                isDraft ? 'bg-blue-500' : 'bg-gray-300'
+              } relative inline-flex items-center h-6 rounded-full w-11 transition-colors`}
+            >
+              <span
+                className={`${
+                  isDraft ? 'translate-x-6' : 'translate-x-1'
+                } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
+              />
+            </Switch>
+            <Switch.Label className="ml-3">
+              {isDraft ? 'Draft' : 'Published'}
+            </Switch.Label>
+          </Switch.Group>
+
+          {/* 保存ボタン */}
+          <button
+            onClick={handleSave}
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+          >
+            Save
+          </button>
+        </div>
+
+        {/* プレビュー */}
+        {showPreview && (
+          <div className="flex-1">
+            <h2 className="text-xl font-semibold mb-4">Preview</h2>
+            <div className="p-4 border rounded bg-gray-50">
+              <PostContent
+                title={title}
+                content={content}
+                thumbnail={thumbnail}
+                created_at={new Date()} // プレビューなので現在日時を利用
+                tags={tags.split(',').map((tag) => tag.trim())}
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
