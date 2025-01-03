@@ -28,6 +28,7 @@ const EditPost = () => {
   const [tags, setTags] = useState(''); // カンマ区切りで管理
   const [showPreview, setShowPreview] = useState(false); // プレビューの表示状態
   const [uploading, setUploading] = useState(false); // アップロード中の状態
+  const [cursorPosition, setCursorPosition] = useState(0); // カーソル位置
   const router = useRouter();
   const { id } = router.query;
 
@@ -57,48 +58,76 @@ const EditPost = () => {
     setShowPreview(!isMobile);
   }, [id]);
 
-  const handleImageUpload = async (file, insertIntoContent = false) => {
+  const handleImageUpload = async (file) => {
     const uniqueId = uuidv4().split('-')[0];
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const fileExtension = file.name.split('.').pop();
     const folderPath = `posts/${id || 'new-post'}`;
     const newFileName = `${folderPath}/${uniqueId}-${date}.${fileExtension}`;
-
+  
     setUploading(true);
-
+  
     const placeholder = `![Image](Uploading...)`;
-    if (insertIntoContent) {
-      setContent((prevContent) => `${prevContent}\n\n${placeholder}\n\n`);
-    }
-
+    const newCursorPosition = cursorPosition + placeholder.length;
+  
+    // 現在のカーソル位置にプレースホルダーを挿入
+    setContent((prevContent) => {
+      const beforeCursor = prevContent.slice(0, cursorPosition);
+      const afterCursor = prevContent.slice(cursorPosition);
+      return `${beforeCursor}${placeholder}${afterCursor}`;
+    });
+  
+    // アップロード処理
     const { data, error } = await supabase.storage
       .from('images')
       .upload(newFileName, file);
-
+  
     if (error) {
       console.error('Upload error:', error.message);
     } else {
       const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${data.path}`;
-      if (insertIntoContent) {
-        setContent((prevContent) =>
-          prevContent.replace(placeholder, `![Image](${publicUrl})`)
-        );
-      } else {
-        setThumbnail(publicUrl);
-      }
+  
+      // プレースホルダーを画像URLに置き換え
+      setContent((prevContent) =>
+        prevContent.replace(placeholder, `![Image](${publicUrl})`)
+      );
+  
+      // カーソル位置を新しいテキストの末尾に更新
+      setCursorPosition(newCursorPosition);
     }
-
+  
     setUploading(false);
   };
+  
+  const handlePaste = async (event) => {
+    const items = event.clipboardData.items;
+  
+    for (const item of items) {
+      if (item.type.startsWith('image/')) {
+        const file = item.getAsFile();
+        if (file) {
+          // Prevent the default behavior to avoid inserting file names or other text
+          event.preventDefault();
+          await handleImageUpload(file);
+        }
+      }
+    }
+  };
+  
 
   const handleDrop = async (event) => {
     event.preventDefault();
     event.stopPropagation();
-
-    if (event.dataTransfer.files.length > 0) {
+  
+    if (event.dataTransfer && event.dataTransfer.files.length > 0) {
       const file = event.dataTransfer.files[0];
-      await handleImageUpload(file, true);
+      await handleImageUpload(file); // 既存の handleImageUpload 関数を再利用
+      event.dataTransfer.clearData(); // ドラッグ中のデータをクリア
     }
+  };
+
+  const handleCursorChange = (event) => {
+    setCursorPosition(event.target.selectionStart);
   };
 
   const handleSave = async (draft = true) => {
@@ -199,8 +228,10 @@ const EditPost = () => {
             placeholder="Write your content in Markdown..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            onPaste={handlePaste}
             onDrop={handleDrop}
             onDragOver={(event) => event.preventDefault()}
+            onSelect={handleCursorChange}
             className="w-full h-40 p-2 border rounded mb-4"
           />
 
