@@ -1,5 +1,7 @@
 import Head from 'next/head';
-import PostContent from '../../components/PostContent';
+import Thumbnail from '../../components/Thumbnail';
+import TableOfContents from '../../components/TOC';
+import ContentBody from '../../components/PostContent';
 import { supabase } from '../../lib/supabase';
 
 export async function getServerSideProps(context) {
@@ -43,13 +45,24 @@ const PostDetail = ({ post }) => {
         <meta name="twitter:description" content={post.content.slice(0, 160)} />
         <meta name="twitter:image" content={post.thumbnail} />
       </Head>
-      <PostContent
-        title={post.title}
-        content={post.content}
-        thumbnail={post.thumbnail}
-        created_at={post.created_at}
-        tags={post.tags}
-      />
+      <div className="container mx-auto px-4 py-8">
+        {/* サムネイル */}
+        <div className="mb-8">
+          <Thumbnail
+            title={post.title}
+            thumbnail={post.thumbnail}
+            created_at={post.created_at}
+            tags={post.tags}
+          />
+        </div>
+        {/* 本文とTOC */}
+        <div className="flex gap-8">
+          <div className="w-3/4">
+            <ContentBody content={post.content} />
+          </div>
+          <TableOfContents />
+        </div>
+      </div>
     </>
   );
 };
