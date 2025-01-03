@@ -26,8 +26,8 @@ const EditPost = () => {
   const [content, setContent] = useState('');
   const [thumbnail, setThumbnail] = useState('');
   const [tags, setTags] = useState(''); // カンマ区切りで管理
-  const [isDraft, setIsDraft] = useState(true);
   const [showPreview, setShowPreview] = useState(false); // プレビューの表示状態
+  const [uploading, setUploading] = useState(false); // アップロード中の状態
   const router = useRouter();
   const { id } = router.query;
 
@@ -47,23 +47,65 @@ const EditPost = () => {
           setContent(data.content);
           setThumbnail(data.thumbnail);
           setTags(Array.isArray(data.tags) ? data.tags.join(', ') : '');
-          setIsDraft(data.draft);
         }
       }
     };
 
     if (id) fetchPost();
 
-    // スマホ画面ではデフォルトでプレビューを非表示
     const isMobile = window.innerWidth <= 768;
     setShowPreview(!isMobile);
   }, [id]);
 
-  const handleSave = async () => {
+  const handleImageUpload = async (file, insertIntoContent = false) => {
+    const uniqueId = uuidv4().split('-')[0];
+    const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
+    const fileExtension = file.name.split('.').pop();
+    const folderPath = `posts/${id || 'new-post'}`;
+    const newFileName = `${folderPath}/${uniqueId}-${date}.${fileExtension}`;
+
+    setUploading(true);
+
+    const placeholder = `![Image](Uploading...)`;
+    if (insertIntoContent) {
+      setContent((prevContent) => `${prevContent}\n\n${placeholder}\n\n`);
+    }
+
+    const { data, error } = await supabase.storage
+      .from('images')
+      .upload(newFileName, file);
+
+    if (error) {
+      console.error('Upload error:', error.message);
+    } else {
+      const publicUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${data.path}`;
+      if (insertIntoContent) {
+        setContent((prevContent) =>
+          prevContent.replace(placeholder, `![Image](${publicUrl})`)
+        );
+      } else {
+        setThumbnail(publicUrl);
+      }
+    }
+
+    setUploading(false);
+  };
+
+  const handleDrop = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (event.dataTransfer.files.length > 0) {
+      const file = event.dataTransfer.files[0];
+      await handleImageUpload(file, true);
+    }
+  };
+
+  const handleSave = async (draft = true) => {
     const postData = {
       title,
       content,
-      draft: isDraft,
+      draft,
       thumbnail,
       tags: tags.split(',').map((tag) => tag.trim()),
     };
@@ -73,7 +115,7 @@ const EditPost = () => {
       if (error) {
         console.error('Error updating post:', error.message);
       } else {
-        alert('Post updated successfully');
+        alert(draft ? 'Draft saved successfully' : 'Post published successfully');
         router.push('/admin');
       }
     } else {
@@ -81,7 +123,7 @@ const EditPost = () => {
       if (error) {
         console.error('Error creating post:', error.message);
       } else {
-        alert('Post created successfully');
+        alert(draft ? 'Draft saved successfully' : 'Post published successfully');
         router.push('/admin');
       }
     }
@@ -89,8 +131,7 @@ const EditPost = () => {
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
-      {/* ヘッダー */}
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">{id ? 'Edit Post' : 'Create New Post'}</h1>
 
         {/* プレビュー表示切り替えスイッチ */}
@@ -158,36 +199,28 @@ const EditPost = () => {
             placeholder="Write your content in Markdown..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            onDrop={handleDrop}
+            onDragOver={(event) => event.preventDefault()}
             className="w-full h-40 p-2 border rounded mb-4"
           />
 
-          {/* ドラフト切り替え */}
-          <Switch.Group>
-            <Switch
-              checked={isDraft}
-              onChange={setIsDraft}
-              className={`${
-                isDraft ? 'bg-blue-500' : 'bg-gray-300'
-              } relative inline-flex items-center h-6 rounded-full w-11 transition-colors`}
-            >
-              <span
-                className={`${
-                  isDraft ? 'translate-x-6' : 'translate-x-1'
-                } inline-block w-4 h-4 transform bg-white rounded-full transition-transform`}
-              />
-            </Switch>
-            <Switch.Label className="ml-3">
-              {isDraft ? 'Draft' : 'Published'}
-            </Switch.Label>
-          </Switch.Group>
-
           {/* 保存ボタン */}
-          <button
-            onClick={handleSave}
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
-          >
-            Save
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={() => handleSave(true)}
+              className="bg-gray-500 text-white px-4 py-2 rounded shadow hover:bg-gray-600"
+              disabled={uploading} // アップロード中は無効化
+            >
+              Save as Draft
+            </button>
+            <button
+              onClick={() => handleSave(false)}
+              className="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600"
+              disabled={uploading} // アップロード中は無効化
+            >
+              Publish
+            </button>
+          </div>
         </div>
 
         {/* プレビュー */}
