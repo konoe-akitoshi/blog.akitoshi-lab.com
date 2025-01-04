@@ -1,8 +1,10 @@
+// pages/posts/[id].js
 import Head from 'next/head';
-import Thumbnail from '../../components/Thumbnail';
-import TableOfContents from '../../components/TOC';
-import ContentBody from '../../components/PostContent';
 import { supabase } from '../../lib/supabase';
+import Thumbnail from '../../components/Thumbnail';
+import ContentBody from '../../components/PostContent';
+import TableOfContents from '../../components/TOC';
+import MobileTOCButton from '../../components/MobileTOCButton';
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -13,8 +15,8 @@ export async function getServerSideProps(context) {
     .eq('id', id)
     .single();
 
-  if (error) {
-    console.error('Error fetching post:', error.message);
+  if (error || !post) {
+    console.error('Error fetching post:', error?.message);
     return { notFound: true };
   }
 
@@ -38,13 +40,9 @@ const PostDetail = ({ post }) => {
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.content.slice(0, 160)} />
         <meta property="og:image" content={post.thumbnail} />
-
-        {/* Twitter Meta Tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={post.title} />
-        <meta name="twitter:description" content={post.content.slice(0, 160)} />
-        <meta name="twitter:image" content={post.thumbnail} />
+        {/* 他のOGPやTwitterカードのメタタグも適宜 */}
       </Head>
+
       <div className="container mx-auto px-4 py-8">
         {/* サムネイル */}
         <div className="mb-8">
@@ -55,14 +53,37 @@ const PostDetail = ({ post }) => {
             tags={post.tags}
           />
         </div>
-        {/* 本文とTOC */}
+
+        {/* 本文＋デスクトップ用TOC */}
         <div className="flex gap-8">
-          <div className="w-3/4">
+          {/* 本文部分。className="content" を付与して tocbot が見出しを検出できるように */}
+          <div className="w-full md:w-3/4 content">
             <ContentBody content={post.content} />
           </div>
-          <TableOfContents />
+
+          {/* デスクトップ向けサイドバーTOC (md以上で表示) */}
+          <div className="hidden md:block md:w-1/4">
+            <div className="sticky top-8">
+              <TableOfContents
+                tocSelector=".toc"
+                contentSelector=".content"
+                headingSelector="h1, h2, h3, h4" // 必要に応じて変更
+                collapseDepth={4} // 必要に応じて変更
+                // その他のtocbot設定を追加可能
+              />
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* モバイル向け目次ボタン (md未満で表示) */}
+      <MobileTOCButton
+        tocSelector=".mobile-toc" // モバイル専用のTOCセレクター
+        contentSelector=".content"
+        headingSelector="h1, h2, h3, h4"
+        collapseDepth={4}
+        // その他のtocbot設定を追加可能
+      />
     </>
   );
 };
