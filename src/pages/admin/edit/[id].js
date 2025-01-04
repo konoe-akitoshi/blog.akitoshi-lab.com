@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { supabase } from '../../../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
+import Thumbnail from '../../../components/Thumbnail';
 import PostContent from '../../../components/PostContent';
 import { Switch } from '@headlessui/react';
 import { getSession } from 'next-auth/react';
@@ -259,12 +260,14 @@ const EditPost = () => {
           <div className="flex-1">
             <h2 className="text-xl font-semibold mb-4">Preview</h2>
             <div className="p-4 border rounded bg-gray-50">
+          <Thumbnail
+            title={title}
+            thumbnail={thumbnail}
+            created_at={new Date()} // プレビューなので現在日時を利用
+            tags={tags.split(',').map((tag) => tag.trim())}
+          />
               <PostContent
-                title={title}
                 content={content}
-                thumbnail={thumbnail}
-                created_at={new Date()} // プレビューなので現在日時を利用
-                tags={tags.split(',').map((tag) => tag.trim())}
               />
             </div>
           </div>
