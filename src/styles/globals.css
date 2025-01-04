@@ -151,3 +151,33 @@ footer .container {
   font-size: 14px;
   color: #666;
 }
+
+/* styles/globals.css */
+
+/* TOCリストのスタイル */
+.toc-desktop .toc-list,
+.toc-mobile .toc-list {
+  @apply list-none pl-0;
+}
+
+.toc-desktop .toc-list-item,
+.toc-mobile .toc-list-item {
+  @apply mb-2;
+}
+
+.toc-desktop .toc-link,
+.toc-mobile .toc-link {
+  @apply text-blue-600 hover:text-blue-800 transition-colors;
+}
+
+/* ネストされたリストのスタイル */
+.toc-desktop .toc-list .toc-list,
+.toc-mobile .toc-list .toc-list {
+  @apply pl-4;
+}
+
+/* アクティブなリンクのスタイル */
+.toc-desktop .is-active-link,
+.toc-mobile .is-active-link {
+  @apply font-bold text-blue-800;
+}
