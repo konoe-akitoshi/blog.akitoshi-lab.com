@@ -4,7 +4,6 @@ import { supabase } from '../../lib/supabase';
 import Thumbnail from '../../components/Thumbnail';
 import ContentBody from '../../components/PostContent';
 import TableOfContents from '../../components/TOC';
-import MobileTOCButton from '../../components/MobileTOCButton';
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -54,7 +53,7 @@ const PostDetail = ({ post }) => {
           />
         </div>
 
-        {/* 本文＋デスクトップ用TOC */}
+        {/* 本文＋TOC */}
         <div className="flex gap-8">
           {/* 本文部分。className="content" を付与して tocbot が見出しを検出できるように */}
           <div className="w-full md:w-3/4 content">
@@ -65,7 +64,7 @@ const PostDetail = ({ post }) => {
           <div className="hidden md:block md:w-1/4">
             <div className="sticky top-8">
               <TableOfContents
-                tocSelector=".toc"
+                tocSelector=".toc, .mobile-toc" // デスクトップとモバイル両方を指定
                 contentSelector=".content"
                 headingSelector="h1, h2, h3, h4" // 必要に応じて変更
                 collapseDepth={4} // 必要に応じて変更
@@ -75,15 +74,6 @@ const PostDetail = ({ post }) => {
           </div>
         </div>
       </div>
-
-      {/* モバイル向け目次ボタン (md未満で表示) */}
-      <MobileTOCButton
-        tocSelector=".mobile-toc" // モバイル専用のTOCセレクター
-        contentSelector=".content"
-        headingSelector="h1, h2, h3, h4"
-        collapseDepth={4}
-        // その他のtocbot設定を追加可能
-      />
     </>
   );
 };
