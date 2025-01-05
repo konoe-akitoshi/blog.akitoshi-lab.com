@@ -3,8 +3,11 @@ import Head from 'next/head';
 import { supabase } from '../../lib/supabase';
 import Thumbnail from '../../components/Thumbnail';
 import ContentBody from '../../components/PostContent';
-import TableOfContents from '../../components/TOC';
-import MobileTOCButton from '../../components/MobileTOCButton'; // モバイル用ボタンをインポート
+import dynamic from 'next/dynamic';
+
+// Dynamically import TableOfContents and MobileTOCButton to prevent SSR
+const TableOfContents = dynamic(() => import('../../components/TOC'), { ssr: false });
+const MobileTOCButton = dynamic(() => import('../../components/MobileTOCButton'), { ssr: false });
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
