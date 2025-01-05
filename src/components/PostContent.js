@@ -51,31 +51,6 @@ const PostContent = ({ content }) => {
             }
             return <div {...props}>{children}</div>;
           },
-          p({ node, children }) {
-            // 子要素が存在しない場合は早期リターン
-            if (!children || children.length === 0) {
-              return <p>{children}</p>;
-            }
-
-            // 子要素がリンク1つだけの場合はリンクカードにする
-            const firstChild = children[0];
-            if (
-              firstChild &&
-              firstChild.props &&
-              firstChild.props.href &&
-              firstChild.props.children &&
-              firstChild.props.children[0] === firstChild.props.href
-            ) {
-              const href = firstChild.props.href;
-              return (
-                <div className="my-4">
-                  <OGPCard url={href} />
-                </div>
-              );
-            }
-
-            return <p>{children}</p>;
-          },
         }}
       >
         {processedContent}
