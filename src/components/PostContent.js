@@ -6,6 +6,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import OGPCard from './OGPCard';
 import Note from './Note';
+import '../styles/markdown.css'; // markdown.css をインポート
 
 const preprocessContent = (content) => {
   return content.replace(
@@ -20,7 +21,7 @@ const PostContent = ({ content }) => {
   const processedContent = preprocessContent(content);
 
   return (
-    <div className="prose max-w-none mt-8 content">
+    <div className="markdown mt-8">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw, rehypeSlug]}
@@ -50,12 +51,30 @@ const PostContent = ({ content }) => {
             }
             return <div {...props}>{children}</div>;
           },
-          a({ href }) {
-            return (
-              <div className="my-4">
-                <OGPCard url={href} />
-              </div>
-            );
+          p({ node, children }) {
+            // 子要素が存在しない場合は早期リターン
+            if (!children || children.length === 0) {
+              return <p>{children}</p>;
+            }
+
+            // 子要素がリンク1つだけの場合はリンクカードにする
+            const firstChild = children[0];
+            if (
+              firstChild &&
+              firstChild.props &&
+              firstChild.props.href &&
+              firstChild.props.children &&
+              firstChild.props.children[0] === firstChild.props.href
+            ) {
+              const href = firstChild.props.href;
+              return (
+                <div className="my-4">
+                  <OGPCard url={href} />
+                </div>
+              );
+            }
+
+            return <p>{children}</p>;
           },
         }}
       >

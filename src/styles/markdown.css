@@ -1,0 +1,106 @@
+
+.markdown {
+  @apply text-gray-800 leading-relaxed break-words max-w-3xl mx-auto;
+}
+
+/* 段落と要素間の余白 */
+.markdown > * + * {
+  @apply mt-0 mb-6;
+}
+
+/* リストのスタイリング */
+.markdown ul {
+  @apply text-base pl-6 list-disc;
+}
+
+.markdown ol {
+  @apply text-base pl-6 list-decimal;
+}
+
+.markdown li + li {
+  @apply mt-2;
+}
+
+/* ヘッダーのデザイン */
+.markdown h1 {
+  @apply leading-tight border-b border-gray-300 text-4xl font-bold mb-6 mt-8 pb-2 text-gray-900;
+}
+
+.markdown h2 {
+  @apply leading-tight border-b border-gray-200 text-3xl font-semibold mb-5 mt-7 pb-1 text-gray-800;
+}
+
+.markdown h3 {
+  @apply leading-snug text-2xl font-semibold mb-4 mt-6 text-gray-700;
+}
+
+.markdown h4 {
+  @apply leading-snug text-xl font-semibold mb-4 mt-5 text-gray-600;
+}
+
+.markdown h5 {
+  @apply leading-tight text-lg font-medium mb-4 mt-5 text-gray-500;
+}
+
+.markdown h6 {
+  @apply leading-tight text-base font-medium mb-4 mt-5 text-gray-400;
+}
+
+/* 強調とリンク */
+.markdown strong {
+  @apply font-semibold text-gray-900;
+}
+
+.markdown a {
+  @apply text-blue-600 font-medium hover:underline;
+}
+
+.markdown strong a {
+  @apply font-bold text-blue-700;
+}
+
+/* 引用ブロック */
+.markdown blockquote {
+  @apply text-base border-l-4 border-gray-300 pl-5 italic text-gray-600 bg-gray-50 rounded-md py-3;
+}
+
+/* インラインコード */
+.markdown code {
+  @apply font-mono text-sm inline bg-gray-100 text-gray-800 rounded px-1 py-0.5;
+}
+
+/* コードブロック */
+.markdown pre {
+  @apply bg-gray-900 text-gray-100 rounded-lg p-4 overflow-auto shadow-lg;
+}
+
+.markdown pre code {
+  @apply block bg-transparent text-sm p-0 rounded-none text-gray-100;
+}
+
+/* テーブル */
+.markdown table {
+  @apply text-sm table-auto border-collapse border border-gray-300 w-full mt-6 mb-6;
+}
+
+.markdown th {
+  @apply bg-gray-200 border border-gray-300 py-2 px-4 text-left font-semibold text-gray-800;
+}
+
+.markdown td {
+  @apply border border-gray-300 py-2 px-4 text-gray-700;
+}
+
+/* キーボードキーの表現 */
+.markdown kbd {
+  @apply text-xs inline-block rounded border border-gray-400 bg-gray-100 px-1 py-0.5 align-middle font-mono text-gray-700 shadow-sm;
+}
+
+/* ハイライト用のコードブロック背景 */
+.markdown .highlight pre {
+  @apply bg-gray-800 text-gray-100 !important;
+}
+
+.markdown img {
+  @apply max-w-full max-h-96 rounded-lg shadow-lg my-6 mx-auto;
+}
