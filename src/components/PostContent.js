@@ -4,7 +4,6 @@ import rehypeRaw from 'rehype-raw';
 import rehypeSlug from 'rehype-slug';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
-import OGPCard from './OGPCard';
 import Note from './Note';
 import '../styles/markdown.css'; // markdown.css をインポート
 
