@@ -7,7 +7,6 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import Note from './Note';
 import LinkCard from './LinkCard';
-import '../styles/markdown.css';
 
 // preprocessContent関数
 const preprocessContent = (content) => {
