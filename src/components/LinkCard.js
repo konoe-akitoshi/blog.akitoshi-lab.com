@@ -40,7 +40,7 @@ const LinkCard = ({ url }) => {
       rel="nofollow noopener"
       className="text-decoration-none text-dark"
     >
-      <div className="card mb-3" style={{ maxWidth: '540px' }}>
+      <div className="card mb-3">
         <div className="row g-0 align-items-stretch">
           <div className="col-md-4">
             {meta?.image && (
