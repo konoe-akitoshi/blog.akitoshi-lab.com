@@ -1,5 +1,5 @@
 import '../styles/global.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'zenn-content-css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { SessionProvider } from 'next-auth/react';
@@ -51,6 +51,17 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       `;
       document.head.appendChild(scriptInit);
     }
+  }, []);
+
+  useEffect(() => {
+    // Zenn埋め込み要素を初期化
+    import('zenn-embed-elements').then((module) => {
+      if (module.activateElements) {
+        module.activateElements();
+      } else {
+        console.warn('Failed to activate Zenn embed elements.');
+      }
+    });
   }, []);
 
   return (
