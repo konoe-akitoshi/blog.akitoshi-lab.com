@@ -43,20 +43,22 @@ const PostDetail = ({ post }) => {
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.content.slice(0, 160)} />
         <meta property="og:image" content={post.thumbnail} />
-        
+
         {/* Twitter Meta Tags */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.title} />
         <meta name="twitter:description" content={post.content.slice(0, 160)} />
         <meta name="twitter:image" content={post.thumbnail} />
 
-        {/* 他のOGPやTwitterカードのメタタグも適宜 */}
-        <script src="https://embed.zenn.studio/js/listen-embed-event.js"></script> // 一部の埋め込みで、高さ調節のためにスクリプトを利用します
-
+        {/* Add async script for Zenn embedding */}
+        <script
+          async
+          src="https://embed.zenn.studio/js/listen-embed-event.js"
+        ></script>
       </Head>
 
       <div className="container mx-auto px-4 py-8">
-        {/* サムネイル */}
+        {/* Thumbnail */}
         <div className="mb-8">
           <Thumbnail
             title={post.title}
@@ -66,35 +68,29 @@ const PostDetail = ({ post }) => {
           />
         </div>
 
-        {/* 本文とデスクトップTOC */}
+        {/* Main content and desktop TOC */}
         <div className="flex gap-8">
-          {/* 本文部分。className="content" を付与して tocbot が見出しを検出できるように */}
           <div className="w-full md:w-3/4 content">
             <ContentBody content={post.content} />
           </div>
-
-          {/* デスクトップ向けサイドバーTOC (md以上で表示) */}
           <div className="hidden md:block md:w-1/4">
             <div className="sticky top-8">
               <TableOfContents
-                tocSelector=".toc-desktop" // デスクトップ用TOCのセレクター
+                tocSelector=".toc-desktop"
                 contentSelector=".content"
                 headingSelector="h1, h2, h3, h4"
                 collapseDepth={4}
-                // その他のtocbot設定があればここに追加
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* モバイル用TOCボタンとモーダルを <main> の外に配置 */}
       <MobileTOCButton
-        tocSelector=".toc-mobile" // モバイル用TOCのセレクター
+        tocSelector=".toc-mobile"
         contentSelector=".content"
         headingSelector="h1, h2, h3, h4"
         collapseDepth={4}
-        // その他のtocbot設定があればここに追加
       />
     </>
   );
