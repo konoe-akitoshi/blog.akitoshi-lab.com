@@ -233,20 +233,7 @@ export default function CreatePostPage() {
                 </div>
               )}
               
-              {/* 既存のURL入力フィールド */}
-              <div className="mt-2">
-                <label htmlFor="thumbnail" className="block text-sm font-medium text-gray-700 mb-1">
-                  または画像URLを入力
-                </label>
-                <input
-                  type="url"
-                  id="thumbnail"
-                  value={thumbnail}
-                  onChange={(e) => setThumbnail(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                  placeholder="https://example.com/image.jpg"
-                />
-              </div>
+              {/* URL入力フィールドは削除 */}
             </div>
 
             <div>
@@ -267,14 +254,151 @@ export default function CreatePostPage() {
               <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-1">
                 本文（Markdown）
               </label>
-              <textarea
-                id="content"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                required
-                rows={15}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-              />
+              <div 
+                className={`relative border border-gray-300 rounded-md ${
+                  isDragging ? 'border-indigo-500 bg-indigo-50' : ''
+                }`}
+              >
+                <textarea
+                  id="content"
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  onDragOver={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsDragging(true);
+                  }}
+                  onDragLeave={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsDragging(false);
+                  }}
+                  onDrop={async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsDragging(false);
+                    
+                    // ファイルがドロップされた場合
+                    const files = e.dataTransfer.files;
+                    if (files && files.length > 0) {
+                      const file = files[0];
+                      
+                      // 画像ファイルのみ処理
+                      if (file.type.startsWith('image/')) {
+                        try {
+                          setIsSubmitting(true);
+                          
+                          // 一時的なIDを生成
+                          const tempId = uuidv4();
+                          const fileExt = file.name.split('.').pop();
+                          const fileName = `temp_${tempId}.${fileExt}`;
+                          const filePath = `temp/${fileName}`;
+                          
+                          // Supabaseにアップロード
+                          const { error: uploadError } = await supabase.storage
+                            .from('images')
+                            .upload(filePath, file, {
+                              cacheControl: '3600',
+                              upsert: true,
+                            });
+                            
+                          if (uploadError) throw uploadError;
+                          
+                          // 公開URLを取得
+                          const { data: { publicUrl } } = supabase.storage
+                            .from('images')
+                            .getPublicUrl(filePath);
+                            
+                          // カーソル位置に画像のMarkdownを挿入
+                          if (e.currentTarget && e.currentTarget instanceof HTMLTextAreaElement) {
+                            const textarea = e.currentTarget;
+                            const cursorPos = textarea.selectionStart || 0;
+                            const textBefore = content.substring(0, cursorPos);
+                            const textAfter = content.substring(cursorPos);
+                            const imageMarkdown = `![${file.name}](${publicUrl})`;
+                            
+                            setContent(textBefore + imageMarkdown + textAfter);
+                          } else {
+                            // テキストエリアが見つからない場合は、末尾に追加
+                            const imageMarkdown = `![${file.name}](${publicUrl})`;
+                            setContent(content + '\n\n' + imageMarkdown);
+                          }
+                        } catch (err) {
+                          console.error('Error uploading image:', err);
+                          setError('画像のアップロードに失敗しました。');
+                        } finally {
+                          setIsSubmitting(false);
+                        }
+                      }
+                    }
+                  }}
+                  onPaste={async (e) => {
+                    const items = e.clipboardData.items;
+                    
+                    for (let i = 0; i < items.length; i++) {
+                      if (items[i].type.indexOf('image') !== -1) {
+                        e.preventDefault();
+                        
+                        const file = items[i].getAsFile();
+                        if (!file) continue;
+                        
+                        try {
+                          setIsSubmitting(true);
+                          
+                          // 一時的なIDを生成
+                          const tempId = uuidv4();
+                          const fileExt = file.type.split('/')[1] || 'png';
+                          const fileName = `paste_${tempId}.${fileExt}`;
+                          const filePath = `temp/${fileName}`;
+                          
+                          // Supabaseにアップロード
+                          const { error: uploadError } = await supabase.storage
+                            .from('images')
+                            .upload(filePath, file, {
+                              cacheControl: '3600',
+                              upsert: true,
+                            });
+                            
+                          if (uploadError) throw uploadError;
+                          
+                          // 公開URLを取得
+                          const { data: { publicUrl } } = supabase.storage
+                            .from('images')
+                            .getPublicUrl(filePath);
+                            
+                          // カーソル位置に画像のMarkdownを挿入
+                          if (e.currentTarget && e.currentTarget instanceof HTMLTextAreaElement) {
+                            const textarea = e.currentTarget;
+                            const cursorPos = textarea.selectionStart || 0;
+                            const textBefore = content.substring(0, cursorPos);
+                            const textAfter = content.substring(cursorPos);
+                            const imageMarkdown = `![Pasted Image](${publicUrl})`;
+                            
+                            setContent(textBefore + imageMarkdown + textAfter);
+                          } else {
+                            // テキストエリアが見つからない場合は、末尾に追加
+                            const imageMarkdown = `![Pasted Image](${publicUrl})`;
+                            setContent(content + '\n\n' + imageMarkdown);
+                          }
+                        } catch (err) {
+                          console.error('Error uploading pasted image:', err);
+                          setError('画像のアップロードに失敗しました。');
+                        } finally {
+                          setIsSubmitting(false);
+                        }
+                        
+                        break;
+                      }
+                    }
+                  }}
+                  required
+                  rows={15}
+                  className="w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                />
+                <div className="absolute bottom-2 right-2 text-xs text-gray-500">
+                  画像をドラッグ＆ドロップまたはペーストできます
+                </div>
+              </div>
             </div>
 
             <div className="flex items-center">
