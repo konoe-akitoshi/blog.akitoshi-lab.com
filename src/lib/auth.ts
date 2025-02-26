@@ -1,7 +1,7 @@
-import NextAuth from 'next-auth';
+import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -9,12 +9,10 @@ export default NextAuth({
         username: { label: 'Username', type: 'text' },
         password: { label: 'Password', type: 'password' },
       },
-      authorize: async (credentials) => {
-        const { username, password } = credentials;
-
+      async authorize(credentials) {
         // 簡易的なユーザー認証 (実際のアプリではDBや外部サービスで検証)
-        if (username === 'admin' && password === 'pass') {
-          return { id: 1, name: 'Admin User' };
+        if (credentials?.username === 'admin' && credentials?.password === 'pass') {
+          return { id: '1', name: 'Admin User' };
         }
 
         // 認証失敗
@@ -30,12 +28,14 @@ export default NextAuth({
       return token;
     },
     async session({ session, token }) {
-      session.user.id = token.id;
+      if (session.user) {
+        session.user.id = token.id as string;
+      }
       return session;
     },
   },
   pages: {
     signIn: '/login',
   },
-  secret: process.env.NEXTAUTH_SECRET || 'your-secret',
-});
+  secret: process.env.NEXTAUTH_SECRET,
+};

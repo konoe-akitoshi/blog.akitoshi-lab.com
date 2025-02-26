@@ -6,6 +6,8 @@ import { supabase } from '../../../lib/supabase';
 export async function generateMetadata(
   { params }: { params: { tag: string } }
 ): Promise<Metadata> {
+  // paramsオブジェクト全体をawaitする
+  params = await params;
   const tag = params.tag;
 
   return {
@@ -19,7 +21,7 @@ async function getPostsByTag(tag: string) {
     .from('posts')
     .select('id, title, tags, thumbnail, created_at')
     .eq('draft', false)
-    .contains('tags', [tag]);
+    .filter('tags', 'cs', `{${tag}}`);
 
   if (error) {
     console.error(error.message);
@@ -30,6 +32,8 @@ async function getPostsByTag(tag: string) {
 }
 
 export default async function TagPage({ params }: { params: { tag: string } }) {
+  // paramsオブジェクト全体をawaitする
+  params = await params;
   const tag = params.tag;
   const posts = await getPostsByTag(tag);
 

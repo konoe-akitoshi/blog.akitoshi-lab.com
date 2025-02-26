@@ -45,7 +45,7 @@ export function Analytics() {
   }, []);
 
   useEffect(() => {
-    if (!GA_TRACKING_ID || !window.gtag) return;
+    if (!GA_TRACKING_ID || !window.gtag || !searchParams) return;
 
     // URLが変更されたときにページビューを送信
     const url = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');

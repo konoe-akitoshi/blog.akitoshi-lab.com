@@ -2,17 +2,15 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { supabase } from '../../../lib/supabase';
 import Thumbnail from '../../../components/Thumbnail';
 import PostContent from '../../../components/PostContent';
-import dynamic from 'next/dynamic';
-
-// Dynamically import TableOfContents and MobileTOCButton to prevent SSR
-const TableOfContents = dynamic(() => import('../../../components/TOC'), { ssr: false });
-const MobileTOCButton = dynamic(() => import('../../../components/MobileTOCButton'), { ssr: false });
+import ClientTOC from '../../../components/ClientTOC';
 
 // 動的メタデータの生成
 export async function generateMetadata(
   { params }: { params: { id: string } },
   parent: ResolvingMetadata
 ): Promise<Metadata> {
+  // paramsオブジェクト全体をawaitする
+  params = await params;
   const id = params.id;
 
   // 投稿データの取得
@@ -64,7 +62,10 @@ async function getPost(id: string) {
 }
 
 export default async function PostDetail({ params }: { params: { id: string } }) {
-  const post = await getPost(params.id);
+  // paramsオブジェクト全体をawaitする
+  params = await params;
+  const id = params.id;
+  const post = await getPost(id);
 
   if (!post) {
     return <p>記事が見つかりませんでした。</p>;
@@ -83,30 +84,11 @@ export default async function PostDetail({ params }: { params: { id: string } })
           />
         </div>
 
-        {/* Main content and desktop TOC */}
-        <div className="flex gap-8">
-          <div className="w-full md:w-3/4 content">
-            <PostContent content={post.content} />
-          </div>
-          <div className="hidden md:block md:w-1/4">
-            <div className="sticky top-8">
-              <TableOfContents
-                tocSelector=".toc-desktop"
-                contentSelector=".content"
-                headingSelector="h1, h2, h3, h4"
-                collapseDepth={4}
-              />
-            </div>
-          </div>
-        </div>
+        {/* Main content and TOC */}
+        <ClientTOC>
+          <PostContent content={post.content} />
+        </ClientTOC>
       </div>
-
-      <MobileTOCButton
-        tocSelector=".toc-mobile"
-        contentSelector=".content"
-        headingSelector="h1, h2, h3, h4"
-        collapseDepth={4}
-      />
     </>
   );
 }

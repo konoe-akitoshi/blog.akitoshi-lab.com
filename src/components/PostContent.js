@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useEffect } from 'react';
 import markdownToHtml from 'zenn-markdown-html';
 import 'zenn-content-css';
