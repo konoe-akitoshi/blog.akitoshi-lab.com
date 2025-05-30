@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 import PostContent from '../../../../components/PostContent';
 import Image from 'next/image';
-import { storageOperations } from '../../../../lib/storage';
+import { clientStorageOperations } from '../../../../lib/client-storage';
 
 export default function EditPostPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -119,7 +119,7 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
 
     try {
       setUploadProgress(0);
-      const publicUrl = await storageOperations.uploadImage(thumbnailFile, filePath);
+      const publicUrl = await clientStorageOperations.uploadImage(thumbnailFile, filePath);
       setUploadProgress(100);
       return publicUrl;
     } catch (err) {
@@ -324,7 +324,7 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
                           const filePath = `temp/${fileName}`;
                           
                           // ストレージにアップロード
-                          const publicUrl = await storageOperations.uploadImage(file, filePath);
+                          const publicUrl = await clientStorageOperations.uploadImage(file, filePath);
                             
                           // カーソル位置に画像のMarkdownを挿入
                           if (e.currentTarget && e.currentTarget instanceof HTMLTextAreaElement) {
@@ -369,7 +369,7 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
                           const filePath = `temp/${fileName}`;
                           
                           // ストレージにアップロード
-                          const publicUrl = await storageOperations.uploadImage(file, filePath);
+                          const publicUrl = await clientStorageOperations.uploadImage(file, filePath);
                             
                           // カーソル位置に画像のMarkdownを挿入
                           if (e.currentTarget && e.currentTarget instanceof HTMLTextAreaElement) {

@@ -6,7 +6,7 @@ import { Fragment, useState, useEffect } from 'react';
 import { HiDotsVertical, HiTrash, HiPencilAlt, HiPlus } from 'react-icons/hi';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
-import { storageOperations } from '../../lib/storage';
+import { clientStorageOperations } from '../../lib/client-storage';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -43,7 +43,7 @@ export default function AdminPage() {
     try {
       // 写真フォルダ削除処理
       const folderPath = `posts/${selectedPost.id}`;
-      await storageOperations.deleteFolder(folderPath);
+      await clientStorageOperations.deleteFolder(folderPath);
 
       // 記事削除処理（APIエンドポイント経由）
       const response = await fetch(`/api/admin/posts/${selectedPost.id}`, {
