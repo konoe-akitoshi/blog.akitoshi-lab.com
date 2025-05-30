@@ -23,11 +23,12 @@ const PostContent: React.FC<PostContentProps> = ({ content }) => {
   }, []);
 
   // MarkdownをHTMLに変換 (埋め込みサーバーを指定)
-  const processedContent = markdownToHtml(content, {
-    embedOrigin: 'https://embed.zenn.studio',
-    customEmbed: {
-    },
-  });
+  const processedContent = React.useMemo(() => {
+    return markdownToHtml(content, {
+      embedOrigin: 'https://embed.zenn.studio',
+      customEmbed: {}
+    });
+  }, [content]);
 
   return (
     <div
