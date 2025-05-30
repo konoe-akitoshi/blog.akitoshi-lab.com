@@ -10,16 +10,20 @@ interface PostContentProps {
 
 const PostContent: React.FC<PostContentProps> = ({ content }) => {
   useEffect(() => {
-    // 数式や埋め込みコンテンツをブラウザ側でレンダリング
-    import('zenn-embed-elements').then((module: any) => {
-      const zennModule = module.default || module;
-      
-      if (typeof zennModule.activateElements === 'function') {
-        zennModule.activateElements();
-      } else {
-        console.error('Failed to activate Zenn embed elements');
+    async function activateZenn() {
+      try {
+        const module = await import('zenn-embed-elements');
+        const zennModule = module.default || module;
+        if (typeof zennModule.activateElements === 'function') {
+          zennModule.activateElements();
+        } else {
+          console.warn('Zenn embed elements are not available.');
+        }
+      } catch (error) {
+        console.error('Error activating Zenn embed elements', error);
       }
-    });
+    }
+    activateZenn();
   }, []);
 
   // MarkdownをHTMLに変換 (埋め込みサーバーを指定)
