@@ -95,7 +95,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
     <nav className={`toc ${className}`} aria-label="目次">
       <div className="bg-gray-100 rounded-lg shadow-lg p-4">
         <div className="max-h-[70vh] overflow-y-auto">
-          <ul className="space-y-1">
+          <ul className="space-y-1 list-none pl-0">
             {headings.map((heading) => {
               const indent = (heading.level - minLevel) * 16;
               const isActive = activeId === heading.id;
