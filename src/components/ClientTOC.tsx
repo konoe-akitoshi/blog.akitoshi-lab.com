@@ -14,27 +14,28 @@ interface ClientTOCProps {
 export default function ClientTOC({ children }: ClientTOCProps) {
   return (
     <>
-      <div className="flex gap-8">
-        <div className="w-full md:w-3/4 content">
+      <div className="relative flex gap-8">
+        {/* メインコンテンツ */}
+        <div className="w-full lg:w-3/4 content">
           {children}
         </div>
-        <div className="hidden md:block md:w-1/4">
-          <div className="sticky top-8">
+        
+        {/* デスクトップ用TOC */}
+        <aside className="hidden lg:block lg:w-1/4">
+          <div className="sticky top-24">
             <TableOfContents
-              tocSelector=".toc-desktop"
               contentSelector=".content"
               headingSelector="h1, h2, h3, h4"
-              collapseDepth={4}
+              className="toc-desktop"
             />
           </div>
-        </div>
+        </aside>
       </div>
 
+      {/* モバイル用TOCボタン */}
       <MobileTOCButton
-        tocSelector=".toc-mobile"
         contentSelector=".content"
         headingSelector="h1, h2, h3, h4"
-        collapseDepth={4}
       />
     </>
   );
