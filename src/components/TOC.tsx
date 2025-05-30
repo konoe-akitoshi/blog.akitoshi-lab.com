@@ -92,10 +92,9 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
   const minLevel = Math.min(...headings.map(h => h.level));
 
   return (
-    <nav className={`toc ${className} w-64`} aria-label="目次">
-      <div className="bg-gray-100 rounded-lg shadow-lg p-6">
-        <div className="max-h-[70vh] overflow-y-auto">
-          <ul className="m-0 space-y-2 list-none pl-0">
+    <nav className={`toc ${className} w-56`} aria-label="目次">
+      <div className="bg-gray-100 rounded-lg shadow-lg p-4">
+          <ul className="m-0 space-y-1 list-none pl-0">
             {headings.map((heading) => {
               const indent = (heading.level - minLevel) * 16;
               const isActive = activeId === heading.id;
@@ -110,7 +109,7 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
                     href={`#${heading.id}`}
                     onClick={(e) => handleClick(e, heading.id)}
                     className={`
-                      block py-3 px-4 text-sm rounded transition-all duration-200
+                      block py-2 px-3 text-sm rounded transition-all duration-200
                       ${isActive 
                         ? 'bg-gray-200 text-gray-900 font-medium' 
                         : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
@@ -123,7 +122,6 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({
               );
             })}
           </ul>
-        </div>
       </div>
     </nav>
   );
