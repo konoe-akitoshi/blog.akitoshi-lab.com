@@ -46,6 +46,10 @@ backups/
 docker/postgres/data/
 docker/pgadmin/
 
+# Uploads
+public/uploads/
+!public/uploads/.gitkeep
+
 # Environment files
 .env
 .env.local
