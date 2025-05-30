@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Docker
+backups/
+!backups/.gitkeep
+docker/postgres/data/
+docker/pgadmin/
+
+# Environment files
+.env
+.env.local
+.env.production
