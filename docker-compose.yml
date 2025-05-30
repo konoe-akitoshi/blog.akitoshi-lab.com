@@ -86,15 +86,7 @@ services:
         condition: service_healthy
     networks:
       - blog_network
-    command: >
-      sh -c "
-        echo 'Waiting for database...' &&
-        sleep 5 &&
-        echo 'Running migrations...' &&
-        pnpm db:push &&
-        echo 'Starting Next.js...' &&
-        pnpm dev
-      "
+    command: pnpm dev
 
   # バックアップサービス
   backup:
