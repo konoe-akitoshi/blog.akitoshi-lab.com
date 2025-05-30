@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 interface ThumbnailProps {
   title: string;
@@ -19,12 +20,13 @@ const Thumbnail: React.FC<ThumbnailProps> = ({ title, thumbnail, created_at, tag
         <div className="flex gap-2">
           {tags &&
             tags.map((tag, index) => (
-              <span
+              <Link
                 key={index}
-                className="px-2 py-1 bg-blue-500 text-white text-xs rounded"
+                href={`/tags/${tag}`}
+                className="px-2 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-400 hover:shadow-md hover:scale-105 transition-all duration-200"
               >
                 #{tag}
-              </span>
+              </Link>
             ))}
         </div>
       </div>
