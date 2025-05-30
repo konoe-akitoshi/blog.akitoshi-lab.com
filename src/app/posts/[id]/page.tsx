@@ -3,6 +3,7 @@ import { postOperations } from '../../../db/utils';
 import Thumbnail from '../../../components/Thumbnail';
 import PostContent from '../../../components/PostContent';
 import ClientTOC from '../../../components/ClientTOC';
+import TagList from '../../../components/TagList';
 
 // 動的メタデータの生成
 export async function generateMetadata(
@@ -80,6 +81,7 @@ export default async function PostDetail({ params }: { params: { id: string } })
         {/* Main content and TOC */}
         <ClientTOC>
           <PostContent content={post.content} />
+          <TagList tags={post.tags} />
         </ClientTOC>
       </div>
     </>

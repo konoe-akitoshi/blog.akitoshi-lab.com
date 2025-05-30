@@ -1,14 +1,15 @@
 'use client';
 
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, use } from 'react';
 import { useRouter } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 import PostContent from '../../../../components/PostContent';
 import Image from 'next/image';
 import { clientStorageOperations } from '../../../../lib/client-storage';
 
-export default function EditPostPage({ params }: { params: { id: string } }) {
+export default function EditPostPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
+  const { id } = use(params);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [thumbnail, setThumbnail] = useState('');
@@ -27,12 +28,10 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
 
   // 投稿データの取得
   useEffect(() => {
-    const postId = params.id;
-    
     async function fetchPost() {
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/posts/${postId}`);
+        const response = await fetch(`/api/posts/${id}`);
         if (!response.ok) {
           throw new Error('Failed to fetch post');
         }
@@ -134,7 +133,7 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
     setError('');
 
     try {
-      const postId = params.id;
+      const postId = id;
       const now = new Date().toISOString();
       const tagsArray = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
 
