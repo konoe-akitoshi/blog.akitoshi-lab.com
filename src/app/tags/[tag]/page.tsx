@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import PostList from '../../../components/PostList';
-import { supabase } from '../../../lib/supabase';
+import { postOperations } from '../../../db/utils';
 
 // 動的メタデータの生成
 export async function generateMetadata(
@@ -17,18 +17,20 @@ export async function generateMetadata(
 }
 
 async function getPostsByTag(tag: string) {
-  const { data: posts, error } = await supabase
-    .from('posts')
-    .select('id, title, tags, thumbnail, created_at')
-    .eq('draft', false)
-    .filter('tags', 'cs', `{${tag}}`);
-
-  if (error) {
-    console.error(error.message);
+  try {
+    const posts = await postOperations.getByTag(tag);
+    
+    return posts.map((post) => ({
+      id: post.id,
+      title: post.title,
+      tags: post.tags || [],
+      thumbnail: post.thumbnail || undefined,
+      created_at: post.createdAt.toISOString(),
+    }));
+  } catch (error) {
+    console.error('Error fetching posts by tag:', error);
     return [];
   }
-
-  return posts || [];
 }
 
 export default async function TagPage({ params }: { params: { tag: string } }) {

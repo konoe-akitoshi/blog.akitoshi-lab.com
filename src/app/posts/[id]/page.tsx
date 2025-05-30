@@ -1,5 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next';
-import { supabase } from '../../../lib/supabase';
+import { postOperations } from '../../../db/utils';
 import Thumbnail from '../../../components/Thumbnail';
 import PostContent from '../../../components/PostContent';
 import ClientTOC from '../../../components/ClientTOC';
@@ -14,11 +14,7 @@ export async function generateMetadata(
   const id = params.id;
 
   // 投稿データの取得
-  const { data: post } = await supabase
-    .from('posts')
-    .select('title, content, thumbnail')
-    .eq('id', id)
-    .single();
+  const post = await postOperations.getById(id);
 
   if (!post) {
     return {
@@ -35,30 +31,25 @@ export async function generateMetadata(
     openGraph: {
       title: post.title,
       description,
-      images: [post.thumbnail],
+      images: post.thumbnail ? [post.thumbnail] : [],
     },
     twitter: {
       card: 'summary_large_image',
       title: post.title,
       description,
-      images: [post.thumbnail],
+      images: post.thumbnail ? [post.thumbnail] : [],
     },
   };
 }
 
 async function getPost(id: string) {
-  const { data: post, error } = await supabase
-    .from('posts')
-    .select('*')
-    .eq('id', id)
-    .single();
-
-  if (error || !post) {
-    console.error('Error fetching post:', error?.message);
+  try {
+    const post = await postOperations.getById(id);
+    return post || null;
+  } catch (error) {
+    console.error('Error fetching post:', error);
     return null;
   }
-
-  return post;
 }
 
 export default async function PostDetail({ params }: { params: { id: string } }) {
@@ -75,14 +66,16 @@ export default async function PostDetail({ params }: { params: { id: string } })
     <>
       <div className="container mx-auto px-4 py-8">
         {/* Thumbnail */}
-        <div className="mb-8">
-          <Thumbnail
-            title={post.title}
-            thumbnail={post.thumbnail}
-            created_at={post.created_at}
-            tags={post.tags}
-          />
-        </div>
+        {post.thumbnail && (
+          <div className="mb-8">
+            <Thumbnail
+              title={post.title}
+              thumbnail={post.thumbnail}
+              created_at={post.createdAt.toISOString()}
+              tags={post.tags}
+            />
+          </div>
+        )}
 
         {/* Main content and TOC */}
         <ClientTOC>

@@ -1,12 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { supabase } from '../../lib/supabase';
 import { Menu, Transition, Dialog } from '@headlessui/react';
 import { Fragment, useState, useEffect } from 'react';
 import { HiDotsVertical, HiTrash, HiPencilAlt, HiPlus } from 'react-icons/hi';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
+import { storageOperations } from '../../lib/storage';
 
 export default function AdminPage() {
   const router = useRouter();
@@ -20,16 +20,16 @@ export default function AdminPage() {
   useEffect(() => {
     async function fetchPosts() {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('posts')
-        .select('id, title, thumbnail, tags, created_at, updated_at, draft')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error fetching posts:', error.message);
+      try {
+        const response = await fetch('/api/admin/posts');
+        if (!response.ok) {
+          throw new Error('Failed to fetch posts');
+        }
+        const data = await response.json();
+        setPosts(data);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
         setPosts([]);
-      } else {
-        setPosts(data || []);
       }
       setLoading(false);
     }
@@ -40,36 +40,28 @@ export default function AdminPage() {
   const handleDelete = async () => {
     if (!selectedPost?.id) return;
 
-    // 写真フォルダ削除処理
-    const folderPath = `posts/${selectedPost.id}`;
-    const { data: fileList, error: listError } = await supabase.storage
-      .from('images')
-      .list(folderPath, { limit: 100 });
+    try {
+      // 写真フォルダ削除処理
+      const folderPath = `posts/${selectedPost.id}`;
+      await storageOperations.deleteFolder(folderPath);
 
-    if (listError) {
-      console.error('Error listing files for deletion:', listError.message);
-    } else {
-      const filesToDelete = fileList.map((file) => `${folderPath}/${file.name}`);
-      const { error: deleteError } = await supabase.storage
-        .from('images')
-        .remove(filesToDelete);
+      // 記事削除処理（APIエンドポイント経由）
+      const response = await fetch(`/api/admin/posts/${selectedPost.id}`, {
+        method: 'DELETE',
+      });
 
-      if (deleteError) {
-        console.error('Error deleting images:', deleteError.message);
-      } else {
-        console.log('Images deleted successfully.');
+      if (!response.ok) {
+        throw new Error('Failed to delete post');
       }
-    }
 
-    // 記事削除処理
-    const { error } = await supabase.from('posts').delete().eq('id', selectedPost?.id);
-    if (error) {
-      console.error('Error deleting post:', error.message);
-    } else {
       alert('Post deleted successfully');
       // 投稿リストを更新
       setPosts(posts.filter(post => post.id !== selectedPost.id));
+    } catch (error) {
+      console.error('Error deleting post:', error);
+      alert('Failed to delete post');
     }
+    
     setIsDialogOpen(false);
   };
 

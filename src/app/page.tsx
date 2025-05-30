@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import PostList from '../components/PostList';
-import { supabase } from '../lib/supabase';
+import { postOperations } from '../db/utils';
 
 export const metadata: Metadata = {
   title: 'ブログ | Akitoshi Lab.',
@@ -10,21 +10,20 @@ export const metadata: Metadata = {
 export const revalidate = 10; // ISRの設定
 
 async function getPosts() {
-  const { data: posts, error } = await supabase
-    .from('posts')
-    .select('id, title, tags, thumbnail, created_at')
-    .eq('draft', false)
-    .order('created_at', { ascending: false });
-
-  if (error) {
-    console.error('Error fetching posts:', error.message);
+  try {
+    const posts = await postOperations.getAllPublished();
+    
+    return posts.map((post) => ({
+      id: post.id,
+      title: post.title,
+      tags: post.tags || [],
+      thumbnail: post.thumbnail || undefined,
+      created_at: post.createdAt.toISOString(),
+    }));
+  } catch (error) {
+    console.error('Error fetching posts:', error);
     return [];
   }
-
-  return posts.map((post) => ({
-    ...post,
-    tags: post.tags || [],
-  }));
 }
 
 export default async function Home() {

@@ -2,10 +2,10 @@
 
 import { useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '../../../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 import PostContent from '../../../components/PostContent';
 import Image from 'next/image';
+import { storageOperations } from '../../../lib/storage';
 
 export default function CreatePostPage() {
   const router = useRouter();
@@ -84,26 +84,8 @@ export default function CreatePostPage() {
 
     try {
       setUploadProgress(0);
-      
-      const { error: uploadError, data } = await supabase.storage
-        .from('images')
-        .upload(filePath, thumbnailFile, {
-          cacheControl: '3600',
-          upsert: true,
-        });
-
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      // アップロード完了
+      const publicUrl = await storageOperations.uploadImage(thumbnailFile, filePath);
       setUploadProgress(100);
-
-      // 公開URLを取得
-      const { data: { publicUrl } } = supabase.storage
-        .from('images')
-        .getPublicUrl(filePath);
-
       return publicUrl;
     } catch (err) {
       console.error('Error uploading thumbnail:', err);
@@ -127,19 +109,24 @@ export default function CreatePostPage() {
         thumbnailUrl = await uploadThumbnail(postId) || '';
       }
 
-      const { error } = await supabase.from('posts').insert({
-        id: postId,
-        title,
-        content,
-        thumbnail: thumbnailUrl,
-        tags: tagsArray,
-        created_at: now,
-        updated_at: now,
-        draft: isDraft,
+      // APIエンドポイント経由で投稿を作成
+      const response = await fetch('/api/admin/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: postId,
+          title,
+          content,
+          thumbnail: thumbnailUrl,
+          tags: tagsArray,
+          draft: isDraft,
+        }),
       });
 
-      if (error) {
-        throw error;
+      if (!response.ok) {
+        throw new Error('Failed to create post');
       }
 
       // 投稿作成成功
@@ -294,20 +281,8 @@ export default function CreatePostPage() {
                           const fileName = `temp_${tempId}.${fileExt}`;
                           const filePath = `temp/${fileName}`;
                           
-                          // Supabaseにアップロード
-                          const { error: uploadError } = await supabase.storage
-                            .from('images')
-                            .upload(filePath, file, {
-                              cacheControl: '3600',
-                              upsert: true,
-                            });
-                            
-                          if (uploadError) throw uploadError;
-                          
-                          // 公開URLを取得
-                          const { data: { publicUrl } } = supabase.storage
-                            .from('images')
-                            .getPublicUrl(filePath);
+                          // ストレージにアップロード
+                          const publicUrl = await storageOperations.uploadImage(file, filePath);
                             
                           // カーソル位置に画像のMarkdownを挿入
                           if (e.currentTarget && e.currentTarget instanceof HTMLTextAreaElement) {
@@ -351,20 +326,8 @@ export default function CreatePostPage() {
                           const fileName = `paste_${tempId}.${fileExt}`;
                           const filePath = `temp/${fileName}`;
                           
-                          // Supabaseにアップロード
-                          const { error: uploadError } = await supabase.storage
-                            .from('images')
-                            .upload(filePath, file, {
-                              cacheControl: '3600',
-                              upsert: true,
-                            });
-                            
-                          if (uploadError) throw uploadError;
-                          
-                          // 公開URLを取得
-                          const { data: { publicUrl } } = supabase.storage
-                            .from('images')
-                            .getPublicUrl(filePath);
+                          // ストレージにアップロード
+                          const publicUrl = await storageOperations.uploadImage(file, filePath);
                             
                           // カーソル位置に画像のMarkdownを挿入
                           if (e.currentTarget && e.currentTarget instanceof HTMLTextAreaElement) {

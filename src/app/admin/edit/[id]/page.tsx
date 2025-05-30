@@ -2,10 +2,10 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '../../../../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 import PostContent from '../../../../components/PostContent';
 import Image from 'next/image';
+import { storageOperations } from '../../../../lib/storage';
 
 export default function EditPostPage({ params }: { params: { id: string } }) {
   const router = useRouter();
@@ -32,15 +32,12 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
     async function fetchPost() {
       setIsLoading(true);
       try {
-        const { data, error } = await supabase
-          .from('posts')
-          .select('*')
-          .eq('id', postId)
-          .single();
-
-        if (error) {
-          throw error;
+        const response = await fetch(`/api/posts/${postId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch post');
         }
+        
+        const data = await response.json();
 
         if (data) {
           setTitle(data.title || '');
@@ -122,26 +119,8 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
 
     try {
       setUploadProgress(0);
-      
-      const { error: uploadError, data } = await supabase.storage
-        .from('images')
-        .upload(filePath, thumbnailFile, {
-          cacheControl: '3600',
-          upsert: true,
-        });
-
-      if (uploadError) {
-        throw uploadError;
-      }
-
-      // アップロード完了
+      const publicUrl = await storageOperations.uploadImage(thumbnailFile, filePath);
       setUploadProgress(100);
-
-      // 公開URLを取得
-      const { data: { publicUrl } } = supabase.storage
-        .from('images')
-        .getPublicUrl(filePath);
-
       return publicUrl;
     } catch (err) {
       console.error('Error uploading thumbnail:', err);
@@ -165,20 +144,23 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
         thumbnailUrl = await uploadThumbnail(postId) || '';
       }
 
-      const { error } = await supabase
-        .from('posts')
-        .update({
+      // APIエンドポイント経由で投稿を更新
+      const response = await fetch(`/api/admin/posts/${postId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
           title,
           content,
           thumbnail: thumbnailUrl,
           tags: tagsArray,
-          updated_at: now,
           draft: isDraft,
-        })
-        .eq('id', postId);
+        }),
+      });
 
-      if (error) {
-        throw error;
+      if (!response.ok) {
+        throw new Error('Failed to update post');
       }
 
       // 投稿更新成功
@@ -341,20 +323,8 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
                           const fileName = `temp_${tempId}.${fileExt}`;
                           const filePath = `temp/${fileName}`;
                           
-                          // Supabaseにアップロード
-                          const { error: uploadError } = await supabase.storage
-                            .from('images')
-                            .upload(filePath, file, {
-                              cacheControl: '3600',
-                              upsert: true,
-                            });
-                            
-                          if (uploadError) throw uploadError;
-                          
-                          // 公開URLを取得
-                          const { data: { publicUrl } } = supabase.storage
-                            .from('images')
-                            .getPublicUrl(filePath);
+                          // ストレージにアップロード
+                          const publicUrl = await storageOperations.uploadImage(file, filePath);
                             
                           // カーソル位置に画像のMarkdownを挿入
                           if (e.currentTarget && e.currentTarget instanceof HTMLTextAreaElement) {
@@ -398,20 +368,8 @@ export default function EditPostPage({ params }: { params: { id: string } }) {
                           const fileName = `paste_${tempId}.${fileExt}`;
                           const filePath = `temp/${fileName}`;
                           
-                          // Supabaseにアップロード
-                          const { error: uploadError } = await supabase.storage
-                            .from('images')
-                            .upload(filePath, file, {
-                              cacheControl: '3600',
-                              upsert: true,
-                            });
-                            
-                          if (uploadError) throw uploadError;
-                          
-                          // 公開URLを取得
-                          const { data: { publicUrl } } = supabase.storage
-                            .from('images')
-                            .getPublicUrl(filePath);
+                          // ストレージにアップロード
+                          const publicUrl = await storageOperations.uploadImage(file, filePath);
                             
                           // カーソル位置に画像のMarkdownを挿入
                           if (e.currentTarget && e.currentTarget instanceof HTMLTextAreaElement) {
