@@ -14,8 +14,10 @@ const PostContent: React.FC<PostContentProps> = ({ content }) => {
       try {
         const module = await import('zenn-embed-elements');
         const zennModule = module.default || module;
-        if (typeof zennModule.activateElements === 'function') {
-          zennModule.activateElements();
+        if (typeof (zennModule as any).activateElements === 'function') {
+          (zennModule as any).activateElements();
+        } else if (typeof (zennModule as any).init === 'function') {
+          (zennModule as any).init();
         } else {
           console.warn('Zenn embed elements are not available.');
         }
