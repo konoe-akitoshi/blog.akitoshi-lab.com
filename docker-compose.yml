@@ -47,7 +47,7 @@ services:
   # Next.jsアプリケーション
   nextjs:
     build:
-      context: .
+      context: ./app
       dockerfile: Dockerfile.dev
     container_name: blog_nextjs
     restart: unless-stopped
@@ -68,12 +68,12 @@ services:
       - "3000:3000"
     volumes:
       # 開発時のホットリロード用
-      - ./src:/app/src
-      - ./public:/app/public
-      - ./next.config.ts:/app/next.config.ts
-      - ./tailwind.config.ts:/app/tailwind.config.ts
-      - ./tsconfig.json:/app/tsconfig.json
-      - ./postcss.config.mjs:/app/postcss.config.mjs
+      - ./app/src:/app/src
+      - ./app/public:/app/public
+      - ./app/next.config.ts:/app/next.config.ts
+      - ./app/tailwind.config.ts:/app/tailwind.config.ts
+      - ./app/tsconfig.json:/app/tsconfig.json
+      - ./app/postcss.config.mjs:/app/postcss.config.mjs
       # node_modulesは除外
       - /app/node_modules
       - /app/.next
@@ -93,7 +93,7 @@ services:
       PGPASSWORD: ${POSTGRES_PASSWORD:-blogpassword}
     volumes:
       - ./backups:/backups
-      - ./docker/scripts:/scripts
+      - ./scripts:/scripts
     depends_on:
       postgres:
         condition: service_healthy
