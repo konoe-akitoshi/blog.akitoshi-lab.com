@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Image from 'next/image';
 
 const OGPCard = ({ url }) => {
   const [ogpData, setOgpData] = useState(null);
@@ -27,11 +28,14 @@ const OGPCard = ({ url }) => {
     <div className="border rounded shadow p-4 mb-4">
       <a href={url} target="_blank" rel="noopener noreferrer" className="flex items-center">
         {ogpData.image && (
-          <img
-            src={ogpData.image}
-            alt={ogpData.title || 'OGP Image'}
-            className="w-20 h-20 object-cover mr-4 rounded"
-          />
+          <div className="w-20 h-20 mr-4 rounded relative overflow-hidden">
+            <Image
+              src={ogpData.image}
+              alt={ogpData.title || 'OGP Image'}
+              className="object-cover"
+              fill
+            />
+          </div>
         )}
         <div>
           <h3 className="text-lg font-bold">{ogpData.title || 'No Title'}</h3>

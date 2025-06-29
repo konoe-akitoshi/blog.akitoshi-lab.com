@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { FiClock } from 'react-icons/fi';
 import TagList from './TagList';
 
@@ -18,10 +19,11 @@ const PostList = ({ posts }) => {
           <Link href={`/posts/${post.id}`} className="block w-full md:w-1/3 flex-shrink-0">
             {post.thumbnail && (
               <div className="relative w-full aspect-[16/10] overflow-hidden rounded-md shadow-sm">
-                <img
+                <Image
                   src={post.thumbnail}
                   alt="thumbnail"
-                  className="w-full h-full object-cover"
+                  className="object-cover"
+                  fill
                 />
               </div>
             )}

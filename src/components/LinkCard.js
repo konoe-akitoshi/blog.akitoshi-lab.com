@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Image from 'next/image';
 
 const LinkCard = ({ url }) => {
   const [meta, setMeta] = useState(null);
@@ -47,11 +48,12 @@ const LinkCard = ({ url }) => {
     >
       <div className="flex flex-col md:flex-row bg-white shadow-md rounded overflow-hidden mb-4">
         {meta?.image && (
-          <div className="w-full md:w-1/3 h-48 md:h-auto">
-            <img
+          <div className="w-full md:w-1/3 h-48 md:h-auto relative">
+            <Image
               src={meta.image}
               alt={meta.title || 'サムネイル'}
-              className="w-full h-full object-cover"
+              className="object-cover"
+              fill
             />
           </div>
         )}

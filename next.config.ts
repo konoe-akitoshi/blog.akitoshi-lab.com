@@ -6,7 +6,12 @@ const SUPABASE_HOST = SUPABASE_URL ? new URL(SUPABASE_URL).hostname : '';
 
 const nextConfig: NextConfig = {
   images: {
-    domains: [SUPABASE_HOST], // 動的に Supabase のホストを追加
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: SUPABASE_HOST,
+      },
+    ],
   },
 };
 

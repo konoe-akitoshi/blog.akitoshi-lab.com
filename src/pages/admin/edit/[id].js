@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { supabase } from '../../../lib/supabase';
 import { v4 as uuidv4 } from 'uuid';
 import Thumbnail from '../../../components/Thumbnail';
@@ -228,7 +229,15 @@ const EditPost = () => {
               />
               {thumbnail ? (
                 <div className="space-y-2">
-                  <img src={thumbnail} alt="Thumbnail" className="mx-auto max-h-48 rounded shadow" />
+                  <div className="relative mx-auto max-h-48 max-w-xs rounded shadow overflow-hidden">
+                    <Image
+                      src={thumbnail}
+                      alt="Thumbnail"
+                      width={300}
+                      height={192}
+                      className="object-cover rounded shadow"
+                    />
+                  </div>
                   <p className="text-sm text-gray-500">Click or drag to change image</p>
                 </div>
               ) : (
