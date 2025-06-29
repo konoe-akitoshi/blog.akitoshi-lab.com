@@ -64,7 +64,7 @@ li {
 
 /* メインコンテンツの幅と余白 */
 .container {
-  @apply mx-auto px-6;
+  @apply mx-auto px-3;
 
   /* スクリーンサイズによる最大幅調整 */
   max-width: 100%;
@@ -90,7 +90,7 @@ li {
 
 /* コンテンツラッパー */
 .content-wrapper {
-  @apply p-4 sm:p-6 md:p-8;
+  @apply p-2 sm:p-4 md:p-6 lg:p-8;
 }
 
 /* === ヘッダーとフッター === */

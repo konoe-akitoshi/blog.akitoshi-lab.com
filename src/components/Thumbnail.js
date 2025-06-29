@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 const Thumbnail = ({ title, thumbnail, created_at, tags }) => (
     <div
       className="relative w-full h-72 bg-cover bg-center rounded-lg shadow-lg"
@@ -10,12 +12,13 @@ const Thumbnail = ({ title, thumbnail, created_at, tags }) => (
           <div className="flex gap-2">
             {tags &&
               tags.map((tag, index) => (
-                <span
+                <Link
                   key={index}
-                  className="px-2 py-1 bg-blue-500 text-white text-xs rounded"
+                  href={`/tags/${tag}`}
+                  className="px-2 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors cursor-pointer"
                 >
                   #{tag}
-                </span>
+                </Link>
               ))}
           </div>
         </div>

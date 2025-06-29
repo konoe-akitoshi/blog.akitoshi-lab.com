@@ -17,18 +17,20 @@ const PostList = ({ posts }) => {
           {/* サムネイル */}
           <Link href={`/posts/${post.id}`} className="block w-full md:w-1/3 flex-shrink-0">
             {post.thumbnail && (
-              <img
-                src={post.thumbnail}
-                alt="thumbnail"
-                className="w-full h-48 md:h-40 object-cover rounded-md shadow-sm"
-              />
+              <div className="relative w-full aspect-[16/10] overflow-hidden rounded-md shadow-sm">
+                <img
+                  src={post.thumbnail}
+                  alt="thumbnail"
+                  className="w-full h-full object-cover"
+                />
+              </div>
             )}
           </Link>
 
           {/* 記事情報 */}
           <div className="flex-grow mt-4 md:mt-0">
             <Link href={`/posts/${post.id}`}>
-              <h2 className="text-xl md:text-2xl font-bold text-gray-800 hover:opacity-75 transition-opacity">
+              <h2 className="mt-4 md:mt-0 text-xl md:text-2xl font-bold text-gray-800 hover:opacity-75 transition-opacity">
                 {post.title}
               </h2>
             </Link>
