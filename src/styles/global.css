@@ -154,69 +154,72 @@ footer .container {
 
 /* styles/globals.css */
 
-/* === TOC スタイル === */
-.toc-desktop,
-.toc-mobile {
-  font-size: 14px;
-  line-height: 1.5;
+/* === TOC Grid Design === */
+.toc-container {
+  @apply bg-white rounded-lg border border-gray-200 p-4 shadow-sm;
 }
 
-.toc-desktop .toc-list,
-.toc-mobile .toc-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.toc-title {
+  @apply text-lg font-semibold text-gray-800 mb-4 border-b border-gray-100 pb-2;
 }
 
-.toc-desktop .toc-list-item,
-.toc-mobile .toc-list-item {
-  margin: 0;
-  padding: 0;
+.toc-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 1fr;
 }
 
-.toc-desktop .toc-link,
-.toc-mobile .toc-link {
-  display: block;
-  padding: 6px 0;
-  color: #374151;
-  text-decoration: none;
-  transition: color 0.2s ease;
+.toc-item {
+  @apply text-left text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md px-3 py-2 transition-all duration-200 border-none bg-transparent cursor-pointer;
 }
 
-.toc-desktop .toc-link:hover,
-.toc-mobile .toc-link:hover {
-  color: #1f2937;
+.toc-level-1 {
+  @apply font-semibold text-gray-800 bg-gray-50 border-l-4 border-blue-500;
 }
 
-/* ネストレベル2 (h2) */
-.toc-desktop .toc-list .toc-list,
-.toc-mobile .toc-list .toc-list {
-  padding-left: 16px;
-  margin-top: 2px;
+.toc-level-2 {
+  @apply ml-2 font-medium;
 }
 
-.toc-desktop .toc-list .toc-list .toc-link,
-.toc-mobile .toc-list .toc-list .toc-link {
-  color: #6b7280;
-  font-size: 13px;
-  padding: 4px 0;
+.toc-level-3 {
+  @apply ml-4 text-xs;
 }
 
-/* ネストレベル3 (h3) */
-.toc-desktop .toc-list .toc-list .toc-list,
-.toc-mobile .toc-list .toc-list .toc-list {
-  padding-left: 16px;
+.toc-level-4 {
+  @apply ml-6 text-xs text-gray-500;
 }
 
-.toc-desktop .toc-list .toc-list .toc-list .toc-link,
-.toc-mobile .toc-list .toc-list .toc-list .toc-link {
-  color: #9ca3af;
-  font-size: 12px;
+.toc-active {
+  @apply bg-blue-50 text-blue-700 border-l-4 border-blue-500;
 }
 
-/* アクティブリンク */
-.toc-desktop .is-active-link,
-.toc-mobile .is-active-link {
-  color: #2563eb !important;
-  font-weight: 500;
+/* Mobile TOC */
+.mobile-toc-button {
+  @apply fixed bottom-4 right-4 z-50 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors md:hidden;
 }
+
+.mobile-toc-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center p-4;
+}
+
+.mobile-toc-modal {
+  @apply bg-white rounded-lg w-full max-w-md max-h-80 overflow-hidden;
+}
+
+.mobile-toc-header {
+  @apply flex items-center justify-between p-4 border-b border-gray-200;
+}
+
+.mobile-toc-header h3 {
+  @apply text-lg font-semibold text-gray-800 m-0;
+}
+
+.mobile-toc-header button {
+  @apply text-gray-600 hover:text-gray-800 bg-transparent border-none cursor-pointer;
+}
+
+.mobile-toc-content {
+  @apply p-4 overflow-y-auto;
+  max-height: calc(80vh - 80px);
+}
+

@@ -6,9 +6,9 @@ import Thumbnail from '../../components/Thumbnail';
 import ContentBody from '../../components/PostContent';
 import dynamic from 'next/dynamic';
 
-// Dynamically import TableOfContents and MobileTOCButton to prevent SSR
+// Dynamically import TOC components
 const TableOfContents = dynamic(() => import('../../components/TOC'), { ssr: false });
-const MobileTOCButton = dynamic(() => import('../../components/MobileTOCButton'), { ssr: false });
+const MobileTOC = dynamic(() => import('../../components/MobileTOC'), { ssr: false });
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -71,12 +71,7 @@ const PostDetail = ({ post }) => {
           </div>
           <div className="hidden md:block md:w-1/4">
             <div className="sticky top-8">
-              <TableOfContents
-                tocSelector=".toc-desktop"
-                contentSelector=".content"
-                headingSelector="h1, h2, h3, h4"
-                collapseDepth={4}
-              />
+              <TableOfContents contentSelector=".content" />
             </div>
           </div>
         </div>
@@ -87,12 +82,7 @@ const PostDetail = ({ post }) => {
         strategy="afterInteractive"
       />
 
-      <MobileTOCButton
-        tocSelector=".toc-mobile"
-        contentSelector=".content"
-        headingSelector="h1, h2, h3, h4"
-        collapseDepth={4}
-      />
+      <MobileTOC contentSelector=".content" />
     </>
   );
 };
