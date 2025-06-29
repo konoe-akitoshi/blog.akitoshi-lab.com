@@ -3,20 +3,26 @@ import { supabase } from '../../lib/supabase';
 
 export async function getServerSideProps(context) {
   const { tag } = context.params;
-  const { data: posts, error } = await supabase
+  
+  // Fetch all non-draft posts first
+  const { data: allPosts, error } = await supabase
     .from('posts')
     .select('id, title, tags, thumbnail, created_at')
-    .eq('draft', false)
-    .contains('tags', [tag]);
+    .eq('draft', false);
 
   if (error) {
     console.error(error.message);
     return { props: { posts: [], tag } };
   }
 
+  // Filter posts client-side to find those containing the tag
+  const filteredPosts = (allPosts || []).filter(post => 
+    post.tags && Array.isArray(post.tags) && post.tags.includes(tag)
+  );
+
   return {
     props: {
-      posts: posts || [],
+      posts: filteredPosts,
       tag,
     },
   };
