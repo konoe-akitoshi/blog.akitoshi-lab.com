@@ -28,8 +28,8 @@ export async function getStaticProps() {
 
 const Home = ({ posts }) => {
   return (
-    <div className="min-h-screen py-8">
-      <main className="container mx-auto px-4">
+    <div className="min-h-screen">
+      <main className="max-w-2xl mx-auto pt-10 pb-12 p-4">
         <PostList posts={posts} />
       </main>
     </div>

@@ -17,11 +17,13 @@ const PostList = ({ posts }) => {
           {/* サムネイル */}
           <Link href={`/posts/${post.id}`} className="block w-full md:w-1/3 flex-shrink-0">
             {post.thumbnail && (
-              <img
-                src={post.thumbnail}
-                alt="thumbnail"
-                className="w-full h-48 md:h-40 object-cover rounded-md shadow-sm"
-              />
+              <div className="relative w-full aspect-[16/10] overflow-hidden rounded-md shadow-sm">
+                <img
+                  src={post.thumbnail}
+                  alt="thumbnail"
+                  className="w-full h-full object-cover"
+                />
+              </div>
             )}
           </Link>
 

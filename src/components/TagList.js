@@ -9,7 +9,7 @@ const TagList = ({ tags }) => {
   return (
     <div className="flex items-center mt-4 space-x-2">
       <FiTag className="text-gray-700" />
-      <div className="flex flex-wrap space-x-2">
+      <div className="flex flex-wrap gap-2">
         {tags.map((tag, index) => (
           <Link
             key={index}
