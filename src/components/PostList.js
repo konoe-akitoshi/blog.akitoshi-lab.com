@@ -30,7 +30,7 @@ const PostList = ({ posts }) => {
           {/* 記事情報 */}
           <div className="flex-grow mt-4 md:mt-0">
             <Link href={`/posts/${post.id}`}>
-              <h2 className="text-xl md:text-2xl font-bold text-gray-800 hover:opacity-75 transition-opacity">
+              <h2 className="mt-4 md:mt-0 text-xl md:text-2xl font-bold text-gray-800 hover:opacity-75 transition-opacity">
                 {post.title}
               </h2>
             </Link>
