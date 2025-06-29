@@ -202,8 +202,8 @@ const EditPost = () => {
         </Switch.Group>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6">
-        <div className="flex-1">
+      <div className="flex flex-col lg:flex-row gap-6 min-h-0">
+        <div className="w-full lg:w-1/2 flex-shrink-0">
           <div className="mb-4">
             <label className="block text-gray-700 mb-2">Thumbnail</label>
             <input
@@ -275,7 +275,7 @@ const EditPost = () => {
         </div>
 
         {showPreview && (
-          <div className="flex-1">
+          <div className="w-full lg:w-1/2 flex-shrink-0">
             <h2 className="text-xl font-semibold mb-4">Preview</h2>
             <div className="p-4 border rounded bg-gray-50">
               <Thumbnail
