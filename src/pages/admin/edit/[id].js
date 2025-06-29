@@ -236,14 +236,24 @@ const EditPost = () => {
           </div>
 
           <textarea
+            ref={(textarea) => {
+              if (textarea) {
+                textarea.style.height = 'auto';
+                textarea.style.height = Math.max(160, textarea.scrollHeight) + 'px';
+              }
+            }}
             placeholder="Write your content in Markdown..."
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => {
+              setContent(e.target.value);
+              e.target.style.height = 'auto';
+              e.target.style.height = Math.max(160, e.target.scrollHeight) + 'px';
+            }}
             onPaste={handlePaste}
             onDrop={handleDrop}
             onDragOver={(event) => event.preventDefault()}
             onSelect={handleCursorChange}
-            className="w-full h-40 p-2 border rounded mb-4"
+            className="w-full p-2 border rounded mb-4 resize-none overflow-hidden"
           />
 
           <div className="flex gap-4">
