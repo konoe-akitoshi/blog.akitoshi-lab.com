@@ -52,7 +52,6 @@ const TableOfContents = ({ contentSelector = '.content' }) => {
 
   return (
     <div className="toc-container">
-      <h3 className="toc-title">目次</h3>
       <div className="toc-grid">
         {headings.map((heading) => (
           <button

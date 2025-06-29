@@ -159,9 +159,6 @@ footer .container {
   @apply bg-white rounded-lg border border-gray-200 p-4 shadow-sm;
 }
 
-.toc-title {
-  @apply text-lg font-semibold text-gray-800 mb-4 border-b border-gray-100 pb-2;
-}
 
 .toc-grid {
   display: grid;
