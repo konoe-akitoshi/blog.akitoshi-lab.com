@@ -1,39 +1,76 @@
-// components/TableOfContents.js
-import { useEffect } from 'react';
-import tocbot from 'tocbot';
-import 'tocbot/dist/tocbot.css';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const TableOfContents = ({
-  tocSelector = '.toc-desktop', // デスクトップ用セレクターに変更
-  contentSelector = '.content',
-  headingSelector = 'h1, h2, h3, h4', // 必要に応じて調整
-  collapseDepth = 6,
-  ...rest
-}) => {
+const TableOfContents = ({ contentSelector = '.content' }) => {
+  const [headings, setHeadings] = useState([]);
+  const [activeId, setActiveId] = useState('');
+
   useEffect(() => {
-    tocbot.init({
-      tocSelector,
-      contentSelector,
-      headingSelector,
-      collapseDepth,
-      ...rest,
+    const contentElement = document.querySelector(contentSelector);
+    if (!contentElement) return;
+
+    const headingElements = contentElement.querySelectorAll('h1, h2, h3, h4');
+    const headingData = Array.from(headingElements).map((heading, index) => {
+      if (!heading.id) {
+        heading.id = `heading-${index}`;
+      }
+      return {
+        id: heading.id,
+        text: heading.textContent,
+        level: parseInt(heading.tagName[1])
+      };
     });
-    return () => {
-      tocbot.destroy();
+
+    setHeadings(headingData);
+
+    const observerOptions = {
+      rootMargin: '-20% 0% -35% 0%',
+      threshold: 0
     };
-  }, [tocSelector, contentSelector, headingSelector, collapseDepth, rest]);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveId(entry.target.id);
+        }
+      });
+    }, observerOptions);
+
+    headingElements.forEach((heading) => observer.observe(heading));
+
+    return () => observer.disconnect();
+  }, [contentSelector]);
+
+  const scrollToHeading = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  if (headings.length === 0) return null;
 
   return (
-    <div className={`${tocSelector.replace('.', '')} p-4 bg-gray-100 rounded-lg shadow-lg`} />
+    <div className="toc-container">
+      <div className="toc-grid">
+        {headings.map((heading) => (
+          <button
+            key={heading.id}
+            onClick={() => scrollToHeading(heading.id)}
+            className={`toc-item toc-level-${heading.level} ${
+              activeId === heading.id ? 'toc-active' : ''
+            }`}
+          >
+            {heading.text}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 };
 
 TableOfContents.propTypes = {
-  tocSelector: PropTypes.string,
-  contentSelector: PropTypes.string,
-  headingSelector: PropTypes.string,
-  collapseDepth: PropTypes.number,
+  contentSelector: PropTypes.string
 };
 
 export default TableOfContents;

@@ -1,13 +1,14 @@
 // src/pages/posts/[id].js
 import Head from 'next/head';
+import Script from 'next/script';
 import { supabase } from '../../lib/supabase';
 import Thumbnail from '../../components/Thumbnail';
 import ContentBody from '../../components/PostContent';
 import dynamic from 'next/dynamic';
 
-// Dynamically import TableOfContents and MobileTOCButton to prevent SSR
+// Dynamically import TOC components
 const TableOfContents = dynamic(() => import('../../components/TOC'), { ssr: false });
-const MobileTOCButton = dynamic(() => import('../../components/MobileTOCButton'), { ssr: false });
+const MobileTOC = dynamic(() => import('../../components/MobileTOC'), { ssr: false });
 
 export async function getServerSideProps(context) {
   const { id } = context.params;
@@ -38,7 +39,7 @@ const PostDetail = ({ post }) => {
   return (
     <>
       <Head>
-        <title>{post.title} | Akitoshi Lab.</title>
+        <title>{`${post.title} | Akitoshi Lab.`}</title>
         <meta name="description" content={post.content.slice(0, 160)} />
         <meta property="og:title" content={post.title} />
         <meta property="og:description" content={post.content.slice(0, 160)} />
@@ -50,11 +51,6 @@ const PostDetail = ({ post }) => {
         <meta name="twitter:description" content={post.content.slice(0, 160)} />
         <meta name="twitter:image" content={post.thumbnail} />
 
-        {/* Add async script for Zenn embedding */}
-        <script
-          async
-          src="https://embed.zenn.studio/js/listen-embed-event.js"
-        ></script>
       </Head>
 
       <div className="container mx-auto px-4 py-8">
@@ -75,23 +71,18 @@ const PostDetail = ({ post }) => {
           </div>
           <div className="hidden md:block md:w-1/4">
             <div className="sticky top-8">
-              <TableOfContents
-                tocSelector=".toc-desktop"
-                contentSelector=".content"
-                headingSelector="h1, h2, h3, h4"
-                collapseDepth={4}
-              />
+              <TableOfContents contentSelector=".content" />
             </div>
           </div>
         </div>
       </div>
 
-      <MobileTOCButton
-        tocSelector=".toc-mobile"
-        contentSelector=".content"
-        headingSelector="h1, h2, h3, h4"
-        collapseDepth={4}
+      <Script
+        src="https://embed.zenn.studio/js/listen-embed-event.js"
+        strategy="afterInteractive"
       />
+
+      <MobileTOC contentSelector=".content" />
     </>
   );
 };
