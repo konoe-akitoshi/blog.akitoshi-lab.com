@@ -154,30 +154,69 @@ footer .container {
 
 /* styles/globals.css */
 
-/* TOCリストのスタイル */
+/* === TOC スタイル === */
+.toc-desktop,
+.toc-mobile {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
 .toc-desktop .toc-list,
 .toc-mobile .toc-list {
-  @apply list-none pl-0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .toc-desktop .toc-list-item,
 .toc-mobile .toc-list-item {
-  @apply mb-2;
+  margin: 0;
+  padding: 0;
 }
 
 .toc-desktop .toc-link,
 .toc-mobile .toc-link {
-  @apply text-blue-600 hover:text-blue-800 transition-colors;
+  display: block;
+  padding: 6px 0;
+  color: #374151;
+  text-decoration: none;
+  transition: color 0.2s ease;
 }
 
-/* ネストされたリストのスタイル */
+.toc-desktop .toc-link:hover,
+.toc-mobile .toc-link:hover {
+  color: #1f2937;
+}
+
+/* ネストレベル2 (h2) */
 .toc-desktop .toc-list .toc-list,
 .toc-mobile .toc-list .toc-list {
-  @apply pl-4;
+  padding-left: 16px;
+  margin-top: 2px;
 }
 
-/* アクティブなリンクのスタイル */
+.toc-desktop .toc-list .toc-list .toc-link,
+.toc-mobile .toc-list .toc-list .toc-link {
+  color: #6b7280;
+  font-size: 13px;
+  padding: 4px 0;
+}
+
+/* ネストレベル3 (h3) */
+.toc-desktop .toc-list .toc-list .toc-list,
+.toc-mobile .toc-list .toc-list .toc-list {
+  padding-left: 16px;
+}
+
+.toc-desktop .toc-list .toc-list .toc-list .toc-link,
+.toc-mobile .toc-list .toc-list .toc-list .toc-link {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* アクティブリンク */
 .toc-desktop .is-active-link,
 .toc-mobile .is-active-link {
-  @apply font-bold text-blue-800;
+  color: #2563eb !important;
+  font-weight: 500;
 }

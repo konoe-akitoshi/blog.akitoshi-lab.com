@@ -25,7 +25,7 @@ const TableOfContents = ({
   }, [tocSelector, contentSelector, headingSelector, collapseDepth, rest]);
 
   return (
-    <div className={`${tocSelector.replace('.', '')} p-4 bg-gray-100 rounded-lg shadow-lg`} />
+    <div className={`${tocSelector.replace('.', '')} p-4 bg-gray-100 rounded-lg shadow-lg`}></div>
   );
 };
 
