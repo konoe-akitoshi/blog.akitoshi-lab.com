@@ -106,7 +106,7 @@ const Admin = ({ posts }) => {
                 {/* Mobile-First: 縦並び、タブレット以上で横並び */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-5">
                   {/* サムネイル - Mobile: 100%, Tablet+: 固定幅 */}
-                  <div className="w-full sm:w-32 sm:flex-shrink-0">
+                  <div className="w-full sm:w-48 sm:flex-shrink-0">
                     {post.thumbnail ? (
                       <div className="w-full aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden">
                         <Image
