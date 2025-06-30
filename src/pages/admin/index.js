@@ -102,89 +102,92 @@ const Admin = ({ posts }) => {
                 post.draft ? 'opacity-80 border-l-4 border-yellow-400' : ''
               }`}
             >
-              <Card.Content className="grid grid-cols-12 gap-6 items-center p-6">
-                {/* サムネイル - 固定幅 */}
-                <div className="col-span-3">
-                  {post.thumbnail ? (
-                    <div className="w-full aspect-[16/9] bg-gray-200 rounded-xl overflow-hidden">
-                      <Image
-                        src={post.thumbnail}
-                        alt="thumbnail"
-                        className="object-cover w-full h-full"
-                        width={160}
-                        height={90}
-                      />
-                    </div>
-                  ) : (
-                    <div className="w-full aspect-[16/9] bg-gray-100 rounded-xl flex items-center justify-center">
-                      <span className="text-gray-400 text-sm">画像なし</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* コンテンツ - フレキシブル */}
-                <div className="col-span-6">
-                  <div className="space-y-3">
-                    <div className="flex items-start gap-3">
-                      <h2 className="text-lg font-semibold text-gray-800 flex-grow leading-tight">
-                        {post.title}
-                      </h2>
-                      {post.draft && (
-                        <span className="text-xs text-yellow-700 bg-yellow-100 px-2 py-1 rounded-full font-medium flex-shrink-0">
-                          下書き
-                        </span>
-                      )}
-                    </div>
-                    
-                    <div className="text-sm text-gray-500">
-                      {new Date(post.created_at).toLocaleDateString('ja-JP')} • 
-                      更新: {new Date(post.updated_at).toLocaleDateString('ja-JP')}
-                    </div>
-                    
-                    {/* タグ */}
-                    {Array.isArray(post.tags) && post.tags.length > 0 && (
-                      <div className="flex flex-wrap gap-1">
-                        {post.tags.slice(0, 4).map((tag, index) => (
-                          <span
-                            key={index}
-                            className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-md"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                        {post.tags.length > 4 && (
-                          <span className="text-xs text-gray-400">
-                            +{post.tags.length - 4}
-                          </span>
-                        )}
+              <Card.Content className="p-6">
+                {/* Mobile-First: 縦並び、タブレット以上で横並び */}
+                <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                  {/* サムネイル - Mobile: 100%, Tablet+: 固定幅 */}
+                  <div className="w-full sm:w-32 sm:flex-shrink-0">
+                    {post.thumbnail ? (
+                      <div className="w-full aspect-[16/9] bg-gray-200 rounded-xl overflow-hidden">
+                        <Image
+                          src={post.thumbnail}
+                          alt="thumbnail"
+                          className="object-cover w-full h-full"
+                          width={160}
+                          height={90}
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-full aspect-[16/9] bg-gray-100 rounded-xl flex items-center justify-center">
+                        <span className="text-gray-400 text-sm">画像なし</span>
                       </div>
                     )}
                   </div>
-                </div>
 
-                {/* アクション - 固定幅 */}
-                <div className="col-span-3 flex justify-end gap-2">
-                  <Button
-                    onClick={() => router.push(`/admin/edit/${post.id}`)}
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center"
-                  >
-                    <HiPencilAlt className="w-4 h-4 mr-1" />
-                    編集
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      setSelectedPost(post);
-                      setIsDialogOpen(true);
-                    }}
-                    variant="ghost"
-                    size="sm"
-                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                  >
-                    <HiTrash className="w-4 h-4 mr-1" />
-                    削除
-                  </Button>
+                  {/* コンテンツ - Fluid: 残り領域を使用 */}
+                  <div className="flex-grow">
+                    <div className="space-y-3">
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                        <h2 className="text-lg font-semibold text-gray-800 flex-grow leading-tight">
+                          {post.title}
+                        </h2>
+                        {post.draft && (
+                          <span className="text-xs text-yellow-700 bg-yellow-100 px-2 py-1 rounded-full font-medium flex-shrink-0 self-start">
+                            下書き
+                          </span>
+                        )}
+                      </div>
+                      
+                      <div className="text-sm text-gray-500">
+                        {new Date(post.created_at).toLocaleDateString('ja-JP')} • 
+                        更新: {new Date(post.updated_at).toLocaleDateString('ja-JP')}
+                      </div>
+                      
+                      {/* タグ */}
+                      {Array.isArray(post.tags) && post.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-1">
+                          {post.tags.slice(0, 4).map((tag, index) => (
+                            <span
+                              key={index}
+                              className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-md"
+                            >
+                              #{tag}
+                            </span>
+                          ))}
+                          {post.tags.length > 4 && (
+                            <span className="text-xs text-gray-400">
+                              +{post.tags.length - 4}
+                            </span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* アクション - Mobile: 左寄せ、Desktop: 右寄せ */}
+                  <div className="flex sm:flex-col gap-2 sm:flex-shrink-0">
+                    <Button
+                      onClick={() => router.push(`/admin/edit/${post.id}`)}
+                      variant="outline"
+                      size="sm"
+                      className="flex items-center"
+                    >
+                      <HiPencilAlt className="w-4 h-4 mr-1" />
+                      編集
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setSelectedPost(post);
+                        setIsDialogOpen(true);
+                      }}
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      <HiTrash className="w-4 h-4 mr-1" />
+                      削除
+                    </Button>
+                  </div>
                 </div>
               </Card.Content>
             </Card>
