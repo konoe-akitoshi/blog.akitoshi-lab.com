@@ -68,7 +68,7 @@ body {
 
 /* リンク */
 a {
-  @apply text-blue-500 no-underline hover:text-blue-600 transition-colors;
+  @apply text-blue-600 no-underline hover:text-blue-700 transition-colors;
 }
 
 a:hover {
