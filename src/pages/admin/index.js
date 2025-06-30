@@ -75,7 +75,7 @@ const Admin = ({ posts }) => {
 
   return (
     <PageContainer maxWidth="lg" className="py-8">
-      <div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold text-gray-800">Content Management</h1>
         <Button
           onClick={() => router.push('/admin/create')}
@@ -89,9 +89,11 @@ const Admin = ({ posts }) => {
       </div>
 
       {posts.length === 0 ? (
-        <p className="text-gray-600 text-center">No posts available.</p>
+        <div className="text-center py-12">
+          <p className="text-gray-600">No posts available.</p>
+        </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-6">
           {posts.map((post) => (
             <Card
               key={post.id}
@@ -100,103 +102,90 @@ const Admin = ({ posts }) => {
                 post.draft ? 'opacity-80 border-l-4 border-yellow-400' : ''
               }`}
             >
-              <Card.Content className="flex items-center space-x-4 w-full p-6">
-              {/* サムネイル */}
-              {post.thumbnail && (
-                <div className="w-24 aspect-[16/9] bg-gray-200 flex-shrink-0 rounded-lg overflow-hidden">
-                  <Image
-                    src={post.thumbnail}
-                    alt="thumbnail"
-                    className="object-cover w-full h-full"
-                    width={96}
-                    height={54}
-                  />
-                </div>
-              )}
-
-              {/* コンテンツ */}
-              <div className="flex-grow">
-                <div className="flex items-center gap-3 mb-2">
-                  <h2 className="text-lg font-semibold text-gray-800 flex-grow">
-                    {post.title}
-                  </h2>
-                  {post.draft && (
-                    <span className="text-xs text-yellow-700 bg-yellow-100 px-2 py-1 rounded-full font-medium">
-                      下書き
-                    </span>
+              <Card.Content className="grid grid-cols-12 gap-6 items-center p-6">
+                {/* サムネイル - 固定幅 */}
+                <div className="col-span-3">
+                  {post.thumbnail ? (
+                    <div className="w-full aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden">
+                      <Image
+                        src={post.thumbnail}
+                        alt="thumbnail"
+                        className="object-cover w-full h-full"
+                        width={160}
+                        height={90}
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-full aspect-[16/9] bg-gray-100 rounded-lg flex items-center justify-center">
+                      <span className="text-gray-400 text-sm">画像なし</span>
+                    </div>
                   )}
                 </div>
-                <div className="text-sm text-gray-500 mt-2 mb-3">
-                  {new Date(post.created_at).toLocaleDateString('ja-JP')} • 
-                  更新: {new Date(post.updated_at).toLocaleDateString('ja-JP')}
-                </div>
-                {/* タグ */}
-                {Array.isArray(post.tags) && post.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1">
-                    {post.tags.slice(0, 4).map((tag, index) => (
-                      <span
-                        key={index}
-                        className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded"
-                      >
-                        #{tag}
-                      </span>
-                    ))}
-                    {post.tags.length > 4 && (
-                      <span className="text-xs text-gray-400">
-                        +{post.tags.length - 4}
-                      </span>
+
+                {/* コンテンツ - フレキシブル */}
+                <div className="col-span-6">
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <h2 className="text-lg font-semibold text-gray-800 flex-grow leading-tight">
+                        {post.title}
+                      </h2>
+                      {post.draft && (
+                        <span className="text-xs text-yellow-700 bg-yellow-100 px-2 py-1 rounded-full font-medium flex-shrink-0">
+                          下書き
+                        </span>
+                      )}
+                    </div>
+                    
+                    <div className="text-sm text-gray-500">
+                      {new Date(post.created_at).toLocaleDateString('ja-JP')} • 
+                      更新: {new Date(post.updated_at).toLocaleDateString('ja-JP')}
+                    </div>
+                    
+                    {/* タグ */}
+                    {Array.isArray(post.tags) && post.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1">
+                        {post.tags.slice(0, 4).map((tag, index) => (
+                          <span
+                            key={index}
+                            className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded"
+                          >
+                            #{tag}
+                          </span>
+                        ))}
+                        {post.tags.length > 4 && (
+                          <span className="text-xs text-gray-400">
+                            +{post.tags.length - 4}
+                          </span>
+                        )}
+                      </div>
                     )}
                   </div>
-                )}
-              </div>
+                </div>
 
-              {/* メニュー */}
-              <Menu as="div" className="relative">
-                <Menu.Button className="text-gray-500 hover:text-gray-700">
-                  <HiDotsVertical className="w-6 h-6" />
-                </Menu.Button>
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-200"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="opacity-100 scale-100"
-                  leave="transition ease-in duration-150"
-                  leaveFrom="opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items className="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          onClick={() => router.push(`/admin/edit/${post.id}`)}
-                          className={`${
-                            active ? 'bg-gray-100' : ''
-                          } flex items-center w-full px-4 py-2 text-sm text-gray-700`}
-                        >
-                          <HiPencilAlt className="mr-2 w-5 h-5" />
-                          Edit
-                        </button>
-                      )}
-                    </Menu.Item>
-                    <Menu.Item>
-                      {({ active }) => (
-                        <button
-                          onClick={() => {
-                            setSelectedPost(post);
-                            setIsDialogOpen(true);
-                          }}
-                          className={`${
-                            active ? 'bg-gray-100' : ''
-                          } flex items-center w-full px-4 py-2 text-sm text-red-600`}
-                        >
-                          <HiTrash className="mr-2 w-5 h-5" />
-                          Delete
-                        </button>
-                      )}
-                    </Menu.Item>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
+                {/* アクション - 固定幅 */}
+                <div className="col-span-3 flex justify-end gap-2">
+                  <Button
+                    onClick={() => router.push(`/admin/edit/${post.id}`)}
+                    variant="outline"
+                    size="sm"
+                    className="flex items-center"
+                  >
+                    <HiPencilAlt className="w-4 h-4 mr-1" />
+                    編集
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setSelectedPost(post);
+                      setIsDialogOpen(true);
+                    }}
+                    variant="ghost"
+                    size="sm"
+                    className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                  >
+                    <HiTrash className="w-4 h-4 mr-1" />
+                    削除
+                  </Button>
+                </div>
               </Card.Content>
             </Card>
           ))}
