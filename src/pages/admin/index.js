@@ -91,55 +91,61 @@ const Admin = ({ posts }) => {
       {posts.length === 0 ? (
         <p className="text-gray-600 text-center">No posts available.</p>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-4">
           {posts.map((post) => (
             <Card
               key={post.id}
               variant={post.draft ? "outlined" : "default"}
-              className={`flex items-start space-x-4 ${
-                post.draft ? 'opacity-75 border-l-4 border-yellow-400' : ''
+              className={`${
+                post.draft ? 'opacity-80 border-l-4 border-yellow-400' : ''
               }`}
             >
-              <Card.Content className="flex items-start space-x-4 w-full p-4">
+              <Card.Content className="flex items-center space-x-4 w-full p-6">
               {/* サムネイル */}
               {post.thumbnail && (
-                <div className="w-32 h-20 bg-gray-200 flex-shrink-0 rounded overflow-hidden">
+                <div className="w-24 aspect-[16/9] bg-gray-200 flex-shrink-0 rounded-lg overflow-hidden">
                   <Image
                     src={post.thumbnail}
                     alt="thumbnail"
-                    width={128}
-                    height={80}
-                    className="rounded-md"
+                    className="object-cover w-full h-full"
+                    width={96}
+                    height={54}
                   />
                 </div>
               )}
 
               {/* コンテンツ */}
               <div className="flex-grow">
-                <h2 className="text-lg font-semibold text-gray-800">
-                  {post.title}
+                <div className="flex items-center gap-3 mb-2">
+                  <h2 className="text-lg font-semibold text-gray-800 flex-grow">
+                    {post.title}
+                  </h2>
                   {post.draft && (
-                    <span className="ml-2 text-sm text-yellow-600 bg-yellow-100 px-2 py-1 rounded">
-                      Draft
+                    <span className="text-xs text-yellow-700 bg-yellow-100 px-2 py-1 rounded-full font-medium">
+                      下書き
                     </span>
                   )}
-                </h2>
-                <div className="text-sm text-gray-500 mt-1">
-                  Created: {new Date(post.created_at).toLocaleDateString()}
-                  <br />
-                  Updated: {new Date(post.updated_at).toLocaleDateString()}
+                </div>
+                <div className="text-sm text-gray-500 mt-2 mb-3">
+                  {new Date(post.created_at).toLocaleDateString('ja-JP')} • 
+                  更新: {new Date(post.updated_at).toLocaleDateString('ja-JP')}
                 </div>
                 {/* タグ */}
                 {Array.isArray(post.tags) && post.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {post.tags.map((tag, index) => (
+                  <div className="flex flex-wrap gap-1">
+                    {post.tags.slice(0, 4).map((tag, index) => (
                       <span
                         key={index}
-                        className="text-xs text-blue-500 bg-blue-100 px-2 py-1 rounded"
+                        className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded"
                       >
                         #{tag}
                       </span>
                     ))}
+                    {post.tags.length > 4 && (
+                      <span className="text-xs text-gray-400">
+                        +{post.tags.length - 4}
+                      </span>
+                    )}
                   </div>
                 )}
               </div>
