@@ -104,17 +104,17 @@ const Admin = ({ posts }) => {
             >
               <Card.Content className="p-5">
                 {/* Mobile-First: 縦並び、タブレット以上で横並び */}
-                <div className="flex flex-col sm:flex-row sm:items-center gap-5">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                   {/* サムネイル - Mobile: 100%, Tablet+: 固定幅 */}
-                  <div className="w-full sm:w-48 sm:flex-shrink-0">
+                  <div className="w-full sm:w-36 sm:flex-shrink-0">
                     {post.thumbnail ? (
                       <div className="w-full aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden">
                         <Image
                           src={post.thumbnail}
                           alt="thumbnail"
                           className="object-cover w-full h-full"
-                          width={160}
-                          height={90}
+                          width={144}
+                          height={81}
                         />
                       </div>
                     ) : (
@@ -125,7 +125,7 @@ const Admin = ({ posts }) => {
                   </div>
 
                   {/* コンテンツ - Fluid: 残り領域を使用 */}
-                  <div className="flex-grow">
+                  <div className="flex-grow min-w-0 px-4">
                     <div className="space-y-3">
                       <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                         <h2 className="text-lg font-semibold text-gray-800 flex-grow leading-tight">
@@ -165,7 +165,7 @@ const Admin = ({ posts }) => {
                   </div>
 
                   {/* アクション - Mobile: 左寄せ、Desktop: 右寄せ */}
-                  <div className="flex sm:flex-col gap-2 sm:flex-shrink-0">
+                  <div className="flex sm:flex-col gap-2 sm:flex-shrink-0 sm:w-24">
                     <Button
                       onClick={() => router.push(`/admin/edit/${post.id}`)}
                       variant="outline"
