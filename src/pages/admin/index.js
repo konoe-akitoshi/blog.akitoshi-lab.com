@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router';
 import { supabase } from '../../lib/supabase';
-import { Menu, Transition, Dialog } from '@headlessui/react';
+import { Transition, Dialog } from '@headlessui/react';
 import { Fragment, useState } from 'react';
-import { HiDotsVertical, HiTrash, HiPencilAlt, HiPlus } from 'react-icons/hi';
+import { HiTrash, HiPencilAlt, HiPlus } from 'react-icons/hi';
 import Image from 'next/image';
 import { requireAuth } from '../../lib/auth';
 import PageContainer from '../../components/PageContainer';
