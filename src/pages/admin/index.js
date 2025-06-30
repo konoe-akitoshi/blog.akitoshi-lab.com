@@ -106,7 +106,7 @@ const Admin = ({ posts }) => {
                 {/* サムネイル - 固定幅 */}
                 <div className="col-span-3">
                   {post.thumbnail ? (
-                    <div className="w-full aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden">
+                    <div className="w-full aspect-[16/9] bg-gray-200 rounded-xl overflow-hidden">
                       <Image
                         src={post.thumbnail}
                         alt="thumbnail"
@@ -116,7 +116,7 @@ const Admin = ({ posts }) => {
                       />
                     </div>
                   ) : (
-                    <div className="w-full aspect-[16/9] bg-gray-100 rounded-lg flex items-center justify-center">
+                    <div className="w-full aspect-[16/9] bg-gray-100 rounded-xl flex items-center justify-center">
                       <span className="text-gray-400 text-sm">画像なし</span>
                     </div>
                   )}
@@ -147,7 +147,7 @@ const Admin = ({ posts }) => {
                         {post.tags.slice(0, 4).map((tag, index) => (
                           <span
                             key={index}
-                            className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded"
+                            className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-md"
                           >
                             #{tag}
                           </span>

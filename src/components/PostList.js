@@ -14,7 +14,7 @@ const PostList = ({ posts }) => {
           {/* サムネイル */}
           {post.thumbnail && (
             <Link href={`/posts/${post.id}`} className="block mb-6 md:mb-0 md:w-2/5 md:flex-shrink-0">
-              <div className="relative w-full aspect-[16/9] overflow-hidden rounded-lg">
+              <div className="relative w-full aspect-[16/9] overflow-hidden rounded-xl">
                 <Image
                   src={post.thumbnail}
                   alt="thumbnail"
@@ -44,7 +44,7 @@ const PostList = ({ posts }) => {
                   <Link
                     key={index}
                     href={`/tags/${tag}`}
-                    className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors"
+                    className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-md hover:bg-gray-200 transition-colors"
                   >
                     #{tag}
                   </Link>
