@@ -99,7 +99,7 @@ const Admin = ({ posts }) => {
               key={post.id}
               variant={post.draft ? "outlined" : "default"}
               className={`${
-                post.draft ? 'opacity-80 border-l-8 border-yellow-400' : ''
+                post.draft ? 'opacity-80 border-2 border-yellow-400' : ''
               }`}
             >
               <Card.Content className="p-5">
