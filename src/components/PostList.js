@@ -14,7 +14,7 @@ const PostList = ({ posts }) => {
           {/* サムネイル */}
           {post.thumbnail && (
             <Link href={`/posts/${post.id}`} className="block mb-4 md:mb-0 md:w-1/2 md:flex-shrink-0">
-              <div className="relative w-full aspect-[16/9] overflow-hidden">
+              <div className="relative w-full aspect-[16/9] overflow-hidden rounded-lg">
                 <Image
                   src={post.thumbnail}
                   alt="thumbnail"
