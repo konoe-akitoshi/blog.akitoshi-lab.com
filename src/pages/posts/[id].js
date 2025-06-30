@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { supabase } from '../../lib/supabase';
 import Thumbnail from '../../components/Thumbnail';
 import ContentBody from '../../components/PostContent';
+import PageContainer from '../../components/PageContainer';
 import dynamic from 'next/dynamic';
 
 // Dynamically import TOC components
@@ -53,7 +54,7 @@ const PostDetail = ({ post }) => {
 
       </Head>
 
-      <div className="container mx-auto px-4 py-8">
+      <PageContainer maxWidth="default" className="py-8">
         {/* Thumbnail */}
         <div className="mb-8">
           <Thumbnail
@@ -75,7 +76,7 @@ const PostDetail = ({ post }) => {
             </div>
           </div>
         </div>
-      </div>
+      </PageContainer>
 
       <Script
         src="https://embed.zenn.studio/js/listen-embed-event.js"

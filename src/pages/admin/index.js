@@ -5,6 +5,9 @@ import { Fragment, useState } from 'react';
 import { HiDotsVertical, HiTrash, HiPencilAlt, HiPlus } from 'react-icons/hi';
 import Image from 'next/image';
 import { requireAuth } from '../../lib/auth';
+import PageContainer from '../../components/PageContainer';
+import Button from '../../components/Button';
+import Card from '../../components/Card';
 
 export async function getServerSideProps(context) {
   const authResult = await requireAuth(context);
@@ -71,16 +74,18 @@ const Admin = ({ posts }) => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <PageContainer maxWidth="lg" className="py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-gray-800">Content Management</h1>
-        <button
+        <Button
           onClick={() => router.push('/admin/create')}
-          className="flex items-center bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 transition"
+          variant="primary"
+          size="md"
+          className="flex items-center"
         >
           <HiPlus className="mr-2" />
           New Post
-        </button>
+        </Button>
       </div>
 
       {posts.length === 0 ? (
@@ -88,12 +93,14 @@ const Admin = ({ posts }) => {
       ) : (
         <div className="space-y-6">
           {posts.map((post) => (
-            <div
+            <Card
               key={post.id}
-              className={`p-4 bg-white rounded-lg shadow-md flex items-start space-x-4 ${
+              variant={post.draft ? "outlined" : "default"}
+              className={`flex items-start space-x-4 ${
                 post.draft ? 'opacity-75 border-l-4 border-yellow-400' : ''
               }`}
             >
+              <Card.Content className="flex items-start space-x-4 w-full p-4">
               {/* サムネイル */}
               {post.thumbnail && (
                 <div className="w-32 h-20 bg-gray-200 flex-shrink-0 rounded overflow-hidden">
@@ -184,7 +191,8 @@ const Admin = ({ posts }) => {
                   </Menu.Items>
                 </Transition>
               </Menu>
-            </div>
+              </Card.Content>
+            </Card>
           ))}
         </div>
       )}
@@ -227,24 +235,24 @@ const Admin = ({ posts }) => {
                 cannot be undone.
               </Dialog.Description>
               <div className="mt-4 flex justify-end space-x-4">
-                <button
+                <Button
                   onClick={() => setIsDialogOpen(false)}
-                  className="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400"
+                  variant="outline"
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={handleDelete}
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                  variant="danger"
                 >
                   Delete
-                </button>
+                </Button>
               </div>
             </Dialog.Panel>
           </Transition>
         </div>
       </Dialog>
-    </div>
+    </PageContainer>
   );
 };
 

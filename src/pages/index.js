@@ -1,4 +1,5 @@
 import PostList from '../components/PostList';
+import PageContainer from '../components/PageContainer';
 import { supabase } from '../lib/supabase';
 
 export async function getStaticProps() {
@@ -29,9 +30,9 @@ export async function getStaticProps() {
 const Home = ({ posts }) => {
   return (
     <div className="min-h-screen">
-      <main className="max-w-2xl mx-auto pt-10 pb-12 p-4">
+      <PageContainer maxWidth="sm" className="pt-10 pb-12">
         <PostList posts={posts} />
-      </main>
+      </PageContainer>
     </div>
   );
 };
