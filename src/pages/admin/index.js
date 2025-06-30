@@ -102,9 +102,9 @@ const Admin = ({ posts }) => {
                 post.draft ? 'opacity-80 border-l-4 border-yellow-400' : ''
               }`}
             >
-              <Card.Content className="p-6">
+              <Card.Content className="p-5">
                 {/* Mobile-First: 縦並び、タブレット以上で横並び */}
-                <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-5">
                   {/* サムネイル - Mobile: 100%, Tablet+: 固定幅 */}
                   <div className="w-full sm:w-32 sm:flex-shrink-0">
                     {post.thumbnail ? (
@@ -127,7 +127,7 @@ const Admin = ({ posts }) => {
                   {/* コンテンツ - Fluid: 残り領域を使用 */}
                   <div className="flex-grow">
                     <div className="space-y-3">
-                      <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                      <div className="flex flex-col sm:flex-row sm:items-start gap-4">
                         <h2 className="text-lg font-semibold text-gray-800 flex-grow leading-tight">
                           {post.title}
                         </h2>
