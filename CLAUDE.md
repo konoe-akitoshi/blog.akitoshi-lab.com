@@ -75,14 +75,14 @@ Requires these environment variables:
 
 When implementing UI/UX and visual design, follow these theoretical principles.
 
-**📋 Design Documentation Structure:**
-- **Visual Layout**: `/docs/design/visual-layout.md` - ゲシュタルトの法則、黄金比、三分割法
-- **Color Theory**: `/docs/design/color-theory.md` - 色相環、配色システム、色彩心理
-- **UI/UX Laws**: `/docs/design/ui-ux-laws.md` - ヤコブの法則、ヒックの法則、認知効果
-- **Dieter Rams**: `/docs/design/dieter-rams.md` - 良いデザイン10ヶ条
-- **Spacing System**: `/docs/design/spacing-system.md` - 4pt/8ptグリッド、階層的余白
-- **Border Radius**: `/docs/design/border-radius.md` - 入れ子角丸、控えめシステム
-- **Responsive Design**: `/docs/design/responsive-design.md` - 流動的グリッド、柔軟な画像、メディアクエリ
+**📋 Design Rules Structure:**
+- **Visual Layout**: `/rules/design/visual-layout.md` - ゲシュタルトの法則、黄金比、三分割法
+- **Color Theory**: `/rules/design/color-theory.md` - 色相環、配色システム、色彩心理
+- **UI/UX Laws**: `/rules/design/ui-ux-laws.md` - ヤコブの法則、ヒックの法則、認知効果
+- **Dieter Rams**: `/rules/design/dieter-rams.md` - 良いデザイン10ヶ条
+- **Spacing System**: `/rules/design/spacing-system.md` - 4pt/8ptグリッド、階層的余白
+- **Border Radius**: `/rules/design/border-radius.md` - 入れ子角丸、控えめシステム
+- **Responsive Design**: `/rules/design/responsive-design.md` - 流動的グリッド、柔軟な画像、メディアクエリ
 
 ### Essential Design Principles
 
@@ -94,4 +94,4 @@ When implementing UI/UX and visual design, follow these theoretical principles.
 - **Visual Hierarchy**: Size, color, spacing differentiate importance
 - **Minimal Aesthetic**: Essential elements only, reduce cognitive load
 
-**Design Documentation**: See `/docs/design/` for complete theoretical foundations and implementation details.
+**Design Rules**: See `/rules/design/` for complete theoretical foundations and implementation details.
