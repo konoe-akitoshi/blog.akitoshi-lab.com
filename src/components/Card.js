@@ -32,7 +32,7 @@ const Card = ({
   };
 
   const baseClasses = `
-    rounded-2xl overflow-hidden
+    rounded-xl overflow-hidden
     ${getVariantClass()}
     ${getInteractionClass()}
     ${className}

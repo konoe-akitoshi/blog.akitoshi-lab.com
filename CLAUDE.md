@@ -149,10 +149,14 @@ innerRadius = outerRadius − padding
 または
 
 ```
-innerRadius = outerRadius × 0.618
+innerRadius = outerRadius × 0.75 (控えめな角丸)
+innerRadius = outerRadius × 0.618 (黄金比ベース)
 ```
 
-どちらも**黄金比の調和と近接の法則**に基づく。
+**角丸の度合い調整:**
+- **控えめ（推奨）**: 0.75倍で自然な印象
+- **黄金比**: 0.618倍で理論的調和
+- **最小差分**: 2-4px差で微細な階層表現
 
 #### ✅ チェックリスト
 
