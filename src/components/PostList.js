@@ -35,7 +35,7 @@ const PostList = ({ posts }) => {
             
             <div className="flex items-center text-gray-500 text-sm mb-4">
               <FiClock className="mr-2" />
-              {new Date(post.created_at).toLocaleDateString('ja-JP')}
+              {new Date(post.created_at).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
             
             {post.tags && post.tags.length > 0 && (

@@ -139,8 +139,8 @@ const Admin = ({ posts }) => {
                       </div>
                       
                       <div className="text-sm text-gray-500">
-                        {new Date(post.created_at).toLocaleDateString('ja-JP')} • 
-                        更新: {new Date(post.updated_at).toLocaleDateString('ja-JP')}
+                        {new Date(post.created_at).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })} • 
+                        更新: {new Date(post.updated_at).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
                       </div>
                       
                       {/* タグ */}

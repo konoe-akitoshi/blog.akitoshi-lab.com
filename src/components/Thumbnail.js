@@ -8,7 +8,7 @@ const Thumbnail = ({ title, thumbnail, created_at, tags }) => (
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
         <h1 className="text-2xl font-bold text-white mb-2">{title}</h1>
         <div className="flex items-center justify-between text-gray-300 text-sm">
-          <span>{new Date(created_at).toLocaleDateString()}</span>
+          <span>{new Date(created_at).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
           <div className="flex gap-2">
             {tags &&
               tags.map((tag, index) => (
