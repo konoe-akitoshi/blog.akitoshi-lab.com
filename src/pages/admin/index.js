@@ -104,17 +104,17 @@ const Admin = ({ posts }) => {
             >
               <Card.Content className="p-5">
                 {/* Mobile-First: 縦並び、タブレット以上で横並び */}
-                <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+                <div className="flex flex-col sm:flex-row sm:items-start gap-8">
                   {/* サムネイル - Mobile: 100%, Tablet+: 固定幅 */}
-                  <div className="w-full sm:w-36 sm:flex-shrink-0">
+                  <div className="w-full sm:w-64 sm:flex-shrink-0">
                     {post.thumbnail ? (
                       <div className="w-full aspect-[16/9] bg-gray-200 rounded-lg overflow-hidden">
                         <Image
                           src={post.thumbnail}
                           alt="thumbnail"
                           className="object-cover w-full h-full"
-                          width={144}
-                          height={81}
+                          width={256}
+                          height={144}
                         />
                       </div>
                     ) : (
@@ -125,10 +125,10 @@ const Admin = ({ posts }) => {
                   </div>
 
                   {/* コンテンツ - Fluid: 残り領域を使用 */}
-                  <div className="flex-grow min-w-0 px-4">
-                    <div className="space-y-3">
+                  <div className="flex-grow min-w-0 flex flex-col justify-between">
+                    <div>
                       <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-                        <h2 className="text-lg font-semibold text-gray-800 flex-grow leading-tight">
+                        <h2 className="text-lg font-semibold text-gray-800 flex-grow leading-tight mt-2">
                           {post.title}
                         </h2>
                         {post.draft && (
@@ -137,7 +137,9 @@ const Admin = ({ posts }) => {
                           </span>
                         )}
                       </div>
-                      
+                    </div>
+                    
+                    <div className="space-y-3">
                       <div className="text-sm text-gray-500">
                         {new Date(post.created_at).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })} • 
                         更新: {new Date(post.updated_at).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
