@@ -68,7 +68,6 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <>
         <Header />
-        <div className="h-20"></div>
         <main className="content-wrapper">
           <Component {...pageProps} />
         </main>
