@@ -1,8 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { FiClock } from 'react-icons/fi';
+import { Post } from '@/types';
 
-const PostList = ({ posts }) => {
+interface PostListProps {
+  posts: Omit<Post, 'content'>[];
+}
+
+const PostList = ({ posts }: PostListProps) => {
   if (!posts || posts.length === 0) {
     return <p className="text-center text-gray-600">No posts available.</p>;
   }

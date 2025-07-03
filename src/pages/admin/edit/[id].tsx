@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ChangeEvent, ClipboardEvent, DragEvent } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { supabase } from '../../../lib/supabase';
@@ -7,8 +7,12 @@ import Thumbnail from '../../../components/Thumbnail';
 import PostContent from '../../../components/PostContent';
 import { Switch } from '@headlessui/react';
 import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from '@/types';
+import { GetServerSidePropsResult } from 'next';
 
-export async function getServerSideProps(context) {
+type EditPostPageProps = Record<string, never>;
+
+export async function getServerSideProps(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<EditPostPageProps>> {
   const session = await getSession(context);
 
   if (!session) {
@@ -60,7 +64,8 @@ const EditPost = () => {
     setShowPreview(!isMobile);
   }, [id]);
 
-  const handleThumbnailUpload = async (file) => {
+  const handleThumbnailUpload = async (file: File | null) => {
+    if (!file) return;
     const uniqueId = uuidv4().split('-')[0];
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const fileExtension = file.name.split('.').pop();
@@ -83,7 +88,8 @@ const EditPost = () => {
     setUploading(false);
   };
 
-  const handleImageUpload = async (file) => {
+  const handleImageUpload = async (file: File | null) => {
+    if (!file) return;
     const uniqueId = uuidv4().split('-')[0];
     const date = new Date().toISOString().slice(0, 10).replace(/-/g, '');
     const fileExtension = file.name.split('.').pop();
@@ -120,7 +126,7 @@ const EditPost = () => {
     setUploading(false);
   };
 
-  const handlePaste = async (event) => {
+  const handlePaste = async (event: ClipboardEvent<HTMLTextAreaElement>) => {
     const items = event.clipboardData.items;
 
     for (const item of items) {
@@ -134,7 +140,7 @@ const EditPost = () => {
     }
   };
 
-  const handleDrop = async (event) => {
+  const handleDrop = async (event: DragEvent<HTMLTextAreaElement>) => {
     event.preventDefault();
     event.stopPropagation();
 
@@ -145,11 +151,11 @@ const EditPost = () => {
     }
   };
 
-  const handleCursorChange = (event) => {
+  const handleCursorChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setCursorPosition(event.target.selectionStart);
   };
 
-  const handleSave = async (draft = true) => {
+  const handleSave = async (draft: boolean = true) => {
     const postData = {
       title,
       content,
@@ -219,13 +225,16 @@ const EditPost = () => {
               }}
               onDragOver={(e) => e.preventDefault()}
               onDragEnter={(e) => e.preventDefault()}
-              onClick={() => document.getElementById('thumbnail-input').click()}
+              onClick={() => {
+                const element = document.getElementById('thumbnail-input') as HTMLInputElement;
+                element?.click();
+              }}
             >
               <input
                 id="thumbnail-input"
                 type="file"
                 accept="image/*"
-                onChange={(e) => handleThumbnailUpload(e.target.files[0])}
+                onChange={(e) => handleThumbnailUpload(e.target.files?.[0] || null)}
                 className="hidden"
               />
               {thumbnail ? (
@@ -320,7 +329,7 @@ const EditPost = () => {
               <Thumbnail
                 title={title}
                 thumbnail={thumbnail}
-                created_at={new Date()}
+                created_at={new Date().toISOString()}
                 tags={tags.split(',').map((tag) => tag.trim())}
               />
               <PostContent content={content} />

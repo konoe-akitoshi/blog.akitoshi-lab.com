@@ -2,11 +2,15 @@ import React, { useEffect } from 'react';
 import markdownToHtml from 'zenn-markdown-html';
 import 'zenn-content-css';
 
-const PostContent = ({ content }) => {
+interface PostContentProps {
+  content: string;
+}
+
+const PostContent = ({ content }: PostContentProps) => {
   useEffect(() => {
     // 数式や埋め込みコンテンツをブラウザ側でレンダリング
     import('zenn-embed-elements').then((module) => {
-      if (module.activateElements) {
+      if (typeof module.activateElements === 'function') {
         module.activateElements();
       } else {
         console.error('Failed to activate Zenn embed elements');

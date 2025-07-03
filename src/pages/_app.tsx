@@ -5,16 +5,23 @@ import Footer from '../components/Footer';
 import { SessionProvider } from 'next-auth/react';
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { AppProps } from '@/types';
+
+declare global {
+  interface Window {
+    gtag: (...args: unknown[]) => void;
+  }
+}
 
 const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
 
-const trackPageView = (url) => {
+const trackPageView = (url: string) => {
   if (window.gtag) {
     window.gtag('config', GA_TRACKING_ID, { page_path: url });
   }
 };
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   const router = useRouter();
 
   useEffect(() => {
@@ -23,7 +30,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       return;
     }
 
-    const handleRouteChange = (url) => {
+    const handleRouteChange = (url: string) => {
       trackPageView(url);
     };
 
@@ -56,7 +63,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   useEffect(() => {
     // Zenn埋め込み要素を初期化
     import('zenn-embed-elements').then((module) => {
-      if (module.activateElements) {
+      if (typeof module.activateElements === 'function') {
         module.activateElements();
       } else {
         console.warn('Failed to activate Zenn embed elements.');

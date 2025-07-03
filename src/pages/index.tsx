@@ -2,8 +2,10 @@ import Head from 'next/head';
 import PostList from '../components/PostList';
 import PageContainer from '../components/PageContainer';
 import { supabase } from '../lib/supabase';
+import { Post } from '@/types';
+import { GetStaticProps } from 'next';
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
   const { data: posts, error } = await supabase
     .from('posts')
     .select('id, title, tags, thumbnail, created_at')
@@ -28,7 +30,11 @@ export async function getStaticProps() {
   };
 }
 
-const Home = ({ posts }) => {
+interface HomeProps {
+  posts: Post[];
+}
+
+const Home = ({ posts }: HomeProps) => {
   return (
     <>
       <Head>

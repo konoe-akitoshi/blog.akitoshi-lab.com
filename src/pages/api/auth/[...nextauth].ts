@@ -1,7 +1,7 @@
-import NextAuth from 'next-auth';
+import NextAuth from 'next-auth/next';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-export default NextAuth({
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -10,11 +10,15 @@ export default NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials) => {
-        const { username, password } = credentials;
+        const { username, password } = credentials || {};
+
+        if (!username || !password) {
+          return null;
+        }
 
         // 簡易的なユーザー認証 (実際のアプリではDBや外部サービスで検証)
         if (username === 'admin' && password === 'pass') {
-          return { id: 1, name: 'Admin User' };
+          return { id: '1', name: 'Admin User' };
         }
 
         // 認証失敗
@@ -23,14 +27,18 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async jwt({ token, user }: { token: any; user?: any }) {
       if (user) {
         token.id = user.id;
       }
       return token;
     },
-    async session({ session, token }) {
-      session.user.id = token.id;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async session({ session, token }: { session: any; token: any }) {
+      if (session.user && token.id) {
+        session.user.id = token.id;
+      }
       return session;
     },
   },
@@ -38,4 +46,6 @@ export default NextAuth({
     signIn: '/login',
   },
   secret: process.env.NEXTAUTH_SECRET || 'your-secret',
-});
+};
+
+export default NextAuth(authOptions);

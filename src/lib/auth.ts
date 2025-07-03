@@ -1,12 +1,10 @@
-// src/lib/auth.js
 import { getSession } from 'next-auth/react';
+import { GetServerSidePropsContext } from '@/types';
 
 /**
  * 認証済みかを確認し、未認証の場合リダイレクトを返す関数
- * @param {Object} context - Next.jsの`context`オブジェクト
- * @returns {Object} 認証状態に応じたレスポンスオブジェクト
  */
-export async function requireAuth(context) {
+export async function requireAuth(context: GetServerSidePropsContext) {
   const session = await getSession(context);
 
   if (!session) {
@@ -15,8 +13,8 @@ export async function requireAuth(context) {
         destination: '/login', // ログインページへリダイレクト
         permanent: false,
       },
-    };
+    } as const;
   }
 
-  return { session };
+  return { session } as const;
 }

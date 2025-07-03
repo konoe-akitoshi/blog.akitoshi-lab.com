@@ -1,4 +1,4 @@
-// src/pages/posts/[id].js
+// src/pages/posts/[id].tsx
 import Head from 'next/head';
 import Script from 'next/script';
 import { supabase } from '../../lib/supabase';
@@ -6,18 +6,25 @@ import Thumbnail from '../../components/Thumbnail';
 import ContentBody from '../../components/PostContent';
 import PageContainer from '../../components/PageContainer';
 import dynamic from 'next/dynamic';
+import { GetServerSidePropsContext, Post } from '@/types';
+import { GetServerSidePropsResult } from 'next';
 
 // Dynamically import TOC components
 const TableOfContents = dynamic(() => import('../../components/TOC'), { ssr: false });
 const MobileTOC = dynamic(() => import('../../components/MobileTOC'), { ssr: false });
 
-export async function getServerSideProps(context) {
-  const { id } = context.params;
+interface PostDetailPageProps {
+  post: Post;
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<PostDetailPageProps>> {
+  const { id } = context.params || {};
+  const idString = Array.isArray(id) ? id[0] : id || '';
 
   const { data: post, error } = await supabase
     .from('posts')
     .select('*')
-    .eq('id', id)
+    .eq('id', idString)
     .single();
 
   if (error || !post) {
@@ -32,7 +39,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-const PostDetail = ({ post }) => {
+const PostDetail = ({ post }: PostDetailPageProps) => {
   if (!post) {
     return <p>Loading...</p>;
   }

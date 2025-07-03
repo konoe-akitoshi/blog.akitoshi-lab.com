@@ -1,11 +1,11 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 
 const LoginPage = () => {
   const { data: session } = useSession();
   const router = useRouter();
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (session) {
@@ -13,12 +13,13 @@ const LoginPage = () => {
     }
   }, [session, router]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
 
-    const username = e.target.username.value;
-    const password = e.target.password.value;
+    const formData = new FormData(e.currentTarget);
+    const username = formData.get('username') as string;
+    const password = formData.get('password') as string;
 
     const result = await signIn("credentials", {
       redirect: false,
@@ -26,7 +27,7 @@ const LoginPage = () => {
       password,
     });
 
-    if (result.error) {
+    if (result?.error) {
       setError("Invalid username or password.");
     } else {
       router.push("/admin");

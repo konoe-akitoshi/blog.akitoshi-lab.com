@@ -1,3 +1,14 @@
+import { ReactNode, HTMLAttributes } from 'react';
+
+type CardVariant = "default" | "elevated" | "outlined" | "subtle" | "transparent";
+
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  variant?: CardVariant;
+  hover?: boolean;
+  clickable?: boolean;
+}
+
 const Card = ({ 
   children, 
   variant = "default",
@@ -5,7 +16,7 @@ const Card = ({
   clickable = false,
   className = "",
   ...props 
-}) => {
+}: CardProps) => {
   const getVariantClass = () => {
     switch (variant) {
       case "elevated": 
@@ -45,20 +56,24 @@ const Card = ({
   );
 };
 
-const CardHeader = ({ children, className = "" }) => (
-  <div className={`px-4 py-3 border-b border-gray-200 ${className}`}>
+interface CardSubComponentProps extends HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+}
+
+const CardHeader = ({ children, className = "", ...props }: CardSubComponentProps) => (
+  <div className={`px-4 py-3 border-b border-gray-200 ${className}`} {...props}>
     {children}
   </div>
 );
 
-const CardContent = ({ children, className = "" }) => (
-  <div className={`px-4 py-4 ${className}`}>
+const CardContent = ({ children, className = "", ...props }: CardSubComponentProps) => (
+  <div className={`px-4 py-4 ${className}`} {...props}>
     {children}
   </div>
 );
 
-const CardFooter = ({ children, className = "" }) => (
-  <div className={`px-4 py-3 border-t border-gray-200 bg-gray-50 ${className}`}>
+const CardFooter = ({ children, className = "", ...props }: CardSubComponentProps) => (
+  <div className={`px-4 py-3 border-t border-gray-200 bg-gray-50 ${className}`} {...props}>
     {children}
   </div>
 );

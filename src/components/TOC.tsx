@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import { TOCItem } from '@/types';
 
-const TableOfContents = ({ contentSelector = '.content' }) => {
-  const [headings, setHeadings] = useState([]);
+interface TableOfContentsProps {
+  contentSelector?: string;
+}
+
+const TableOfContents = ({ contentSelector = '.content' }: TableOfContentsProps) => {
+  const [headings, setHeadings] = useState<TOCItem[]>([]);
   const [activeId, setActiveId] = useState('');
 
   useEffect(() => {
@@ -41,7 +45,7 @@ const TableOfContents = ({ contentSelector = '.content' }) => {
     return () => observer.disconnect();
   }, [contentSelector]);
 
-  const scrollToHeading = (id) => {
+  const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -69,8 +73,5 @@ const TableOfContents = ({ contentSelector = '.content' }) => {
   );
 };
 
-TableOfContents.propTypes = {
-  contentSelector: PropTypes.string
-};
 
 export default TableOfContents;

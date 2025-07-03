@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { JSDOM } from 'jsdom';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req, res) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { url } = req.query;
 
-  if (!url) {
+  if (!url || typeof url !== 'string') {
     return res.status(400).json({ error: 'URL is required' });
   }
 
@@ -18,11 +19,11 @@ export default async function handler(req, res) {
     const dom = new JSDOM(response.data);
     const meta = {
       title: dom.window.document.querySelector('title')?.textContent || '',
-      image: dom.window.document.querySelector('meta[property="og:image"]')?.content || '',
+      image: (dom.window.document.querySelector('meta[property="og:image"]') as HTMLMetaElement)?.content || '',
     };
     res.status(200).json(meta);
   } catch (error) {
-    console.error('Failed to fetch metadata:', error.message);
+    console.error('Failed to fetch metadata:', error instanceof Error ? error.message : 'Unknown error');
     res.status(500).json({ error: 'Failed to fetch metadata' });
   }
 }

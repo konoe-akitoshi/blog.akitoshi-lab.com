@@ -1,4 +1,14 @@
-const PageContainer = ({ children, maxWidth = "default", className = "" }) => {
+import { ReactNode } from 'react';
+
+type MaxWidth = "sm" | "md" | "lg" | "xl" | "full" | "default";
+
+interface PageContainerProps {
+  children: ReactNode;
+  maxWidth?: MaxWidth;
+  className?: string;
+}
+
+const PageContainer = ({ children, maxWidth = "default", className = "" }: PageContainerProps) => {
   const getMaxWidthClass = () => {
     switch (maxWidth) {
       case "sm": return "max-w-2xl";

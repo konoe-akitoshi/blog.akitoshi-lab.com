@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { IoMenu, IoClose } from 'react-icons/io5';
 import TableOfContents from './TOC';
-import PropTypes from 'prop-types';
 
-const MobileTOC = ({ contentSelector = '.content' }) => {
+interface MobileTOCProps {
+  contentSelector?: string;
+}
+
+const MobileTOC = ({ contentSelector = '.content' }: MobileTOCProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -41,8 +44,5 @@ const MobileTOC = ({ contentSelector = '.content' }) => {
   );
 };
 
-MobileTOC.propTypes = {
-  contentSelector: PropTypes.string
-};
 
 export default MobileTOC;

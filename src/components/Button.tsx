@@ -1,6 +1,17 @@
-import { forwardRef } from 'react';
+import { forwardRef, ReactNode, ButtonHTMLAttributes } from 'react';
 
-const Button = forwardRef(({ 
+type ButtonVariant = "primary" | "secondary" | "outline" | "danger" | "ghost";
+type ButtonSize = "sm" | "md" | "lg" | "xl";
+
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  children: ReactNode;
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  fullWidth?: boolean;
+  loading?: boolean;
+}
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ 
   children, 
   variant = "primary", 
   size = "md",

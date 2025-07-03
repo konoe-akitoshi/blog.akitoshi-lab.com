@@ -8,12 +8,22 @@ import { requireAuth } from '../../lib/auth';
 import PageContainer from '../../components/PageContainer';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
+import { GetServerSidePropsContext, Post } from '@/types';
+import { GetServerSidePropsResult } from 'next';
 
-export async function getServerSideProps(context) {
+interface AdminPost extends Omit<Post, 'content'> {
+  draft?: boolean;
+}
+
+interface AdminPageProps {
+  posts: AdminPost[];
+}
+
+export async function getServerSideProps(context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<AdminPageProps>> {
   const authResult = await requireAuth(context);
 
   if ('redirect' in authResult) {
-    return authResult; // 認証されていない場合のリダイレクト処理
+    return authResult as GetServerSidePropsResult<AdminPageProps>; // 認証されていない場合のリダイレクト処理
   }
 
   const { data: posts, error } = await supabase
@@ -33,10 +43,10 @@ export async function getServerSideProps(context) {
   };
 }
 
-const Admin = ({ posts }) => {
+const Admin = ({ posts }: AdminPageProps) => {
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const [selectedPost, setSelectedPost] = useState<AdminPost | null>(null);
 
   const handleDelete = async () => {
     if (!selectedPost?.id) return;

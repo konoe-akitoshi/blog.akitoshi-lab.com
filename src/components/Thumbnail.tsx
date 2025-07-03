@@ -1,9 +1,16 @@
 import Link from 'next/link';
 
-const Thumbnail = ({ title, thumbnail, created_at, tags }) => (
+interface ThumbnailProps {
+  title: string;
+  thumbnail?: string;
+  created_at: string;
+  tags?: string[];
+}
+
+const Thumbnail = ({ title, thumbnail, created_at, tags }: ThumbnailProps) => (
     <div
       className="relative w-full h-72 bg-cover bg-center rounded-lg shadow-lg"
-      style={{ backgroundImage: `url(${thumbnail})` }}
+      style={{ backgroundImage: thumbnail ? `url(${thumbnail})` : 'none' }}
     >
       <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col justify-end p-4 rounded-lg">
         <h1 className="text-2xl font-bold text-white mb-2">{title}</h1>

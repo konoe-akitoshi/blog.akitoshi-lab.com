@@ -8,7 +8,7 @@ const Footer = () => {
           <Link
             href="/copyright/"
             className="no-underline px-2.5 py-1 rounded text-[#CFCFCF] text-[0.97em] transition-colors duration-150 outline-none inline-block hover:bg-[#232425] hover:text-white focus:bg-[#232425] focus:text-white"
-            tabIndex="0"
+            tabIndex={0}
           >
             掲載情報について
           </Link>
@@ -18,7 +18,7 @@ const Footer = () => {
           <Link
             href="/disclaimer/"
             className="no-underline px-2.5 py-1 rounded text-[#CFCFCF] text-[0.97em] transition-colors duration-150 outline-none inline-block hover:bg-[#232425] hover:text-white focus:bg-[#232425] focus:text-white"
-            tabIndex="0"
+            tabIndex={0}
           >
             免責事項
           </Link>
@@ -28,7 +28,7 @@ const Footer = () => {
           <Link
             href="/privacy/"
             className="no-underline px-2.5 py-1 rounded text-[#CFCFCF] text-[0.97em] transition-colors duration-150 outline-none inline-block hover:bg-[#232425] hover:text-white focus:bg-[#232425] focus:text-white"
-            tabIndex="0"
+            tabIndex={0}
           >
             プライバシーポリシー
           </Link>
@@ -38,7 +38,7 @@ const Footer = () => {
           <Link
             href="/inquiry/"
             className="no-underline px-2.5 py-1 rounded text-[#CFCFCF] text-[0.97em] transition-colors duration-150 outline-none inline-block hover:bg-[#232425] hover:text-white focus:bg-[#232425] focus:text-white"
-            tabIndex="0"
+            tabIndex={0}
           >
             お問い合わせ
           </Link>
