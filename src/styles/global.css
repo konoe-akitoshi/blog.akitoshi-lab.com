@@ -2,27 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-/* === デザインシステム カラーパレット === */
+/* === モノクロベース シックカラーパレット === */
 :root {
-  /* Primary Colors */
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-900: #1e3a8a;
+  /* Monochrome Base Colors */
+  --color-mono-50: #fafafa;
+  --color-mono-100: #f5f5f5;
+  --color-mono-200: #e5e5e5;
+  --color-mono-300: #d4d4d4;
+  --color-mono-400: #a3a3a3;
+  --color-mono-500: #737373;
+  --color-mono-600: #525252;
+  --color-mono-700: #404040;
+  --color-mono-800: #262626;
+  --color-mono-900: #171717;
+  --color-mono-950: #0a0a0a;
 
-  /* Gray Scale */
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e5e7eb;
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
+  /* Accent Colors - 控えめなアクセント */
+  --color-accent-50: #f8f8f8;
+  --color-accent-100: #f0f0f0;
+  --color-accent-200: #e0e0e0;
+  --color-accent-300: #c0c0c0;
+  --color-accent-400: #999999;
+  --color-accent-500: #666666;
+  --color-accent-600: #4a4a4a;
+  --color-accent-700: #333333;
+  --color-accent-800: #1a1a1a;
+  --color-accent-900: #0d0d0d;
+
+  /* 互換性のためのGrayエイリアス */
+  --color-gray-50: var(--color-mono-50);
+  --color-gray-100: var(--color-mono-100);
+  --color-gray-200: var(--color-mono-200);
+  --color-gray-300: var(--color-mono-300);
+  --color-gray-400: var(--color-mono-400);
+  --color-gray-500: var(--color-mono-500);
+  --color-gray-600: var(--color-mono-600);
+  --color-gray-700: var(--color-mono-700);
+  --color-gray-800: var(--color-mono-800);
+  --color-gray-900: var(--color-mono-900);
+
+  /* Primary Colors - モノクロベース */
+  --color-primary-50: var(--color-mono-50);
+  --color-primary-100: var(--color-mono-100);
+  --color-primary-500: var(--color-mono-600);
+  --color-primary-600: var(--color-mono-700);
+  --color-primary-700: var(--color-mono-800);
+  --color-primary-900: var(--color-mono-900);
 
   /* Spacing System - 4pt/8ptグリッド準拠 */
   --spacing-1: 0.25rem;    /* 4px - 基本単位 */
@@ -80,7 +105,7 @@
 /* === グローバルリセット === */
 html,
 body {
-  @apply bg-gray-50 text-gray-900 font-sans;
+  @apply bg-mono-50 text-mono-900 font-sans;
   margin: 0;
   padding: 0;
   line-height: 1.75;
@@ -88,7 +113,7 @@ body {
 
 /* リンク */
 a {
-  @apply text-blue-600 no-underline hover:text-blue-700 transition-colors;
+  @apply text-mono-700 no-underline hover:text-mono-900 transition-colors;
 }
 
 a:hover {
@@ -102,7 +127,7 @@ h3,
 h4,
 h5,
 h6 {
-  @apply font-bold text-gray-800 leading-tight;
+  @apply font-bold text-mono-800 leading-tight;
 }
 
 h1 {
@@ -171,7 +196,7 @@ li {
 /* === ヘッダーとフッター === */
 header,
 footer {
-  @apply w-full text-gray-600;
+  @apply w-full text-mono-600;
 }
 
 header {
@@ -231,7 +256,7 @@ footer .container {
 
 /* === TOC Grid Design === */
 .toc-container {
-  @apply bg-white rounded-lg border border-gray-200 p-4 shadow-sm;
+  @apply bg-white rounded-lg border border-mono-200 p-4 shadow-sm;
 }
 
 
@@ -242,11 +267,11 @@ footer .container {
 }
 
 .toc-item {
-  @apply text-left text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-md px-3 py-2 transition-all duration-200 border-none bg-transparent cursor-pointer;
+  @apply text-left text-sm text-mono-600 hover:text-mono-900 hover:bg-mono-50 rounded-md px-3 py-2 transition-all duration-200 border-none bg-transparent cursor-pointer;
 }
 
 .toc-level-1 {
-  @apply font-semibold text-gray-800 bg-gray-50 border-l-4 border-blue-500;
+  @apply font-semibold text-mono-800 bg-mono-50 border-l-4 border-mono-700;
 }
 
 .toc-level-2 {
@@ -258,16 +283,16 @@ footer .container {
 }
 
 .toc-level-4 {
-  @apply ml-6 text-xs text-gray-500;
+  @apply ml-6 text-xs text-mono-500;
 }
 
 .toc-active {
-  @apply bg-blue-50 text-blue-700 border-l-4 border-blue-500;
+  @apply bg-mono-100 text-mono-800 border-l-4 border-mono-700;
 }
 
 /* Mobile TOC */
 .mobile-toc-button {
-  @apply fixed bottom-4 right-4 z-50 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-colors md:hidden;
+  @apply fixed bottom-4 right-4 z-50 bg-mono-700 text-white p-3 rounded-full shadow-lg hover:bg-mono-800 transition-colors md:hidden;
 }
 
 .mobile-toc-overlay {
@@ -279,15 +304,15 @@ footer .container {
 }
 
 .mobile-toc-header {
-  @apply flex items-center justify-between p-4 border-b border-gray-200;
+  @apply flex items-center justify-between p-4 border-b border-mono-200;
 }
 
 .mobile-toc-header h3 {
-  @apply text-lg font-semibold text-gray-800 m-0;
+  @apply text-lg font-semibold text-mono-800 m-0;
 }
 
 .mobile-toc-header button {
-  @apply text-gray-600 hover:text-gray-800 bg-transparent border-none cursor-pointer;
+  @apply text-mono-600 hover:text-mono-800 bg-transparent border-none cursor-pointer;
 }
 
 .mobile-toc-content {

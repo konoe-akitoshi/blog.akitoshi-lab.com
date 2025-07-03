@@ -20,21 +20,21 @@ const Card = ({
   const getVariantClass = () => {
     switch (variant) {
       case "elevated": 
-        return "bg-white shadow-lg border border-gray-100";
+        return "bg-white shadow-lg border border-mono-100";
       case "outlined": 
-        return "bg-white border-2 border-gray-200";
+        return "bg-white border-2 border-mono-200";
       case "subtle": 
-        return "bg-gray-50 border border-gray-200";
+        return "bg-mono-50 border border-mono-200";
       case "transparent": 
-        return "bg-transparent border border-gray-300";
+        return "bg-transparent border border-mono-300";
       default: 
-        return "bg-white shadow-sm border border-gray-200";
+        return "bg-white shadow-sm border border-mono-200";
     }
   };
 
   const getInteractionClass = () => {
     if (clickable) {
-      return "cursor-pointer transition-all duration-200 hover:shadow-md hover:border-gray-300";
+      return "cursor-pointer transition-all duration-200 hover:shadow-md hover:border-mono-300";
     }
     if (hover) {
       return "transition-all duration-200 hover:shadow-md";
@@ -61,7 +61,7 @@ interface CardSubComponentProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 const CardHeader = ({ children, className = "", ...props }: CardSubComponentProps) => (
-  <div className={`px-4 py-3 border-b border-gray-200 ${className}`} {...props}>
+  <div className={`px-4 py-3 border-b border-mono-200 ${className}`} {...props}>
     {children}
   </div>
 );
@@ -73,7 +73,7 @@ const CardContent = ({ children, className = "", ...props }: CardSubComponentPro
 );
 
 const CardFooter = ({ children, className = "", ...props }: CardSubComponentProps) => (
-  <div className={`px-4 py-3 border-t border-gray-200 bg-gray-50 ${className}`} {...props}>
+  <div className={`px-4 py-3 border-t border-mono-200 bg-mono-50 ${className}`} {...props}>
     {children}
   </div>
 );

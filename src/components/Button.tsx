@@ -24,17 +24,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   const getVariantClass = () => {
     switch (variant) {
       case "primary": 
-        return "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm";
+        return "bg-mono-800 text-white hover:bg-mono-900 focus:ring-mono-600 shadow-sm";
       case "secondary": 
-        return "bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-500";
+        return "bg-mono-200 text-mono-900 hover:bg-mono-300 focus:ring-mono-500";
       case "outline": 
-        return "border border-gray-300 text-gray-700 bg-white hover:bg-gray-50 focus:ring-blue-500";
+        return "border border-mono-300 text-mono-700 bg-white hover:bg-mono-50 focus:ring-mono-500";
       case "danger": 
         return "bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 shadow-sm";
       case "ghost": 
-        return "text-gray-600 hover:bg-gray-100 hover:text-gray-900";
+        return "text-mono-600 hover:bg-mono-100 hover:text-mono-900";
       default: 
-        return "bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 shadow-sm";
+        return "bg-mono-800 text-white hover:bg-mono-900 focus:ring-mono-600 shadow-sm";
     }
   };
 

@@ -30,15 +30,15 @@ const Header = () => {
   return (
     <>
       <header
-        className={`fixed top-0 w-full z-10 shadow-sm transition-transform ease-in-out duration-300 bg-[#181A1B] pt-2 sm:pt-3 pb-3 lg:pt-4 lg:pb-5 transform ${
+        className={`fixed top-0 w-full z-10 shadow-sm transition-transform ease-in-out duration-300 bg-mono-900 pt-2 sm:pt-3 pb-3 lg:pt-4 lg:pb-5 transform ${
           isVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
         <div className="mx-auto max-w-4xl flex flex-col lg:flex-row justify-between items-center px-4 lg:px-12 gap-2">
           <Link
             href="/"
-            className="text-xl lg:text-2xl mb-0"
-            style={{ color: '#E0E0E0', textDecoration: 'none', lineHeight: '1.1', letterSpacing: '0.03em', outline: 'none' }}
+            className="text-xl lg:text-2xl mb-0 text-mono-200"
+            style={{ textDecoration: 'none', lineHeight: '1.1', letterSpacing: '0.03em', outline: 'none' }}
           >
             Akitoshi Lab.
           </Link>
@@ -47,7 +47,7 @@ const Header = () => {
               <li className="m-0 p-0">
                 <Link
                   href="/about/"
-                  className="text-gray-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-[#232425] hover:text-white focus:bg-[#232425] focus:text-white"
+                  className="text-mono-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-mono-800 hover:text-white focus:bg-mono-800 focus:text-white"
                 >
                   ABOUT
                 </Link>
@@ -55,7 +55,7 @@ const Header = () => {
               <li className="m-0 p-0">
                 <Link
                   href="https://blog.akitoshi-lab.com/"
-                  className="text-gray-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-[#232425] hover:text-white focus:bg-[#232425] focus:text-white"
+                  className="text-mono-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-mono-800 hover:text-white focus:bg-mono-800 focus:text-white"
                 >
                   Blog
                 </Link>
@@ -63,7 +63,7 @@ const Header = () => {
               <li className="m-0 p-0">
                 <Link
                   href="/works/"
-                  className="text-gray-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-[#232425] hover:text-white focus:bg-[#232425] focus:text-white"
+                  className="text-mono-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-mono-800 hover:text-white focus:bg-mono-800 focus:text-white"
                 >
                   Works
                 </Link>
@@ -71,7 +71,7 @@ const Header = () => {
               <li className="m-0 p-0">
                 <Link
                   href="/gallery/"
-                  className="text-gray-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-[#232425] hover:text-white focus:bg-[#232425] focus:text-white"
+                  className="text-mono-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-mono-800 hover:text-white focus:bg-mono-800 focus:text-white"
                 >
                   Gallery
                 </Link>

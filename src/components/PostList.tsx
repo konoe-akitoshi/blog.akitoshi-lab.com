@@ -9,7 +9,7 @@ interface PostListProps {
 
 const PostList = ({ posts }: PostListProps) => {
   if (!posts || posts.length === 0) {
-    return <p className="text-center text-gray-600">No posts available.</p>;
+    return <p className="text-center text-mono-600">No posts available.</p>;
   }
 
   return (
@@ -33,12 +33,12 @@ const PostList = ({ posts }: PostListProps) => {
           {/* 記事情報 */}
           <div className="md:w-3/5 md:mt-2">
             <Link href={`/posts/${post.id}`}>
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 group-hover:text-gray-600 transition-colors leading-tight mt-0">
+              <h2 className="text-2xl font-bold text-mono-900 mb-6 group-hover:text-mono-600 transition-colors leading-tight mt-0">
                 {post.title}
               </h2>
             </Link>
             
-            <div className="flex items-center text-gray-500 text-sm mb-4">
+            <div className="flex items-center text-mono-500 text-sm mb-4">
               <FiClock className="mr-2" />
               {new Date(post.created_at).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
             </div>
@@ -49,13 +49,13 @@ const PostList = ({ posts }: PostListProps) => {
                   <Link
                     key={index}
                     href={`/tags/${tag}`}
-                    className="text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 transition-colors"
+                    className="text-xs text-mono-600 bg-mono-100 px-2 py-1 rounded hover:bg-mono-200 transition-colors"
                   >
                     #{tag}
                   </Link>
                 ))}
                 {post.tags.length > 3 && (
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-mono-400">
                     +{post.tags.length - 3}
                   </span>
                 )}
