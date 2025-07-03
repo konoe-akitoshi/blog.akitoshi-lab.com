@@ -156,6 +156,7 @@ const EditPost = () => {
       draft,
       thumbnail,
       tags: tags.split(',').map((tag) => tag.trim()),
+      updated_at: new Date().toISOString(),
     };
 
     if (id) {
