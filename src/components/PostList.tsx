@@ -49,7 +49,7 @@ const PostList = ({ posts }: PostListProps) => {
                   <Link
                     key={index}
                     href={`/tags/${tag}`}
-                    className="text-xs text-mono-600 bg-mono-100 px-2 py-1 rounded hover:bg-mono-200 transition-colors"
+                    className="text-xs text-mono-700 bg-mono-200 px-2 py-1 rounded hover:bg-mono-300 hover:text-mono-800 transition-colors font-medium"
                   >
                     #{tag}
                   </Link>
