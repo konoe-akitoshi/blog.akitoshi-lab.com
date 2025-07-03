@@ -63,7 +63,7 @@ const PostDetail = ({ post }: PostDetailPageProps) => {
 
       <PageContainer maxWidth="default" className="py-8">
         {/* Thumbnail */}
-        <div className="mb-8">
+        <div className="mb-2 sm:mb-3">
           <Thumbnail
             title={post.title}
             thumbnail={post.thumbnail}
@@ -73,7 +73,7 @@ const PostDetail = ({ post }: PostDetailPageProps) => {
         </div>
 
         {/* Main content and desktop TOC */}
-        <div className="flex gap-8">
+        <div className="flex gap-4">
           <div className="w-full md:w-3/4 content">
             <ContentBody content={post.content} />
           </div>

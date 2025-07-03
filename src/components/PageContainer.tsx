@@ -21,7 +21,7 @@ const PageContainer = ({ children, maxWidth = "default", className = "" }: PageC
   };
 
   return (
-    <div className={`${getMaxWidthClass()} mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>
+    <div className={`${getMaxWidthClass()} mx-auto px-2 sm:px-6 lg:px-8 ${className}`}>
       {children}
     </div>
   );
