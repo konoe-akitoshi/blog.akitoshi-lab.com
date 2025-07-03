@@ -31,16 +31,18 @@ Blog Design System based on theoretical foundations and practical implementation
 --radius-golden-2: 0.375rem;  /* 6px - Level 2 */
 --radius-golden-3: 0.25rem;   /* 4px - Level 3 */
 
-/* Golden Ratio Hierarchy Rule */
-childRadius = parentRadius × 0.618 (1/φ)
+/* Golden Ratio + Visual Correction Rule */
+childRadius = parentRadius × 0.618 × 0.75 (錯視補正)
+theoreticalValue ≠ visuallyCorrectValue
 ```
 
 ### Component Patterns
-- **Cards**: `rounded-golden-0` (16px) → content `rounded-golden-1` (10px)
-- **Images**: Golden ratio reduction for natural hierarchy
-- **Buttons**: `rounded-golden-2` (6px) for mathematical harmony
+- **Cards**: `rounded-golden-0` (16px) → content `rounded-corrected` (8px)
+- **Images**: Golden ratio + visual correction for natural appearance
+- **Buttons**: `rounded-corrected` (4px) for optimal visual balance
 - **Spacing**: Internal padding ≤ External margin
-- **Hierarchy**: Each level = parent × 0.618 for visual balance
+- **Hierarchy**: Each level = parent × 0.618 × 0.75 (錯視補正適用)
+- **Visual Testing**: 数値的正確性より視覚的調和を優先
 
 ## 📖 Usage in Development
 
