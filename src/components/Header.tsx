@@ -36,8 +36,8 @@ const Header = () => {
       >
         <div className="mx-auto max-w-4xl flex flex-col lg:flex-row justify-between items-center px-4 lg:px-12 gap-2">
           <Link
-            href="/"
-            className="text-xl lg:text-2xl mb-0 text-mono-200"
+            href="https://akitoshi-lab.com/"
+            className="text-xl lg:text-2xl mb-0 text-mono-200 hover:text-white transition-colors duration-150"
             style={{ textDecoration: 'none', lineHeight: '1.1', letterSpacing: '0.03em', outline: 'none' }}
           >
             Akitoshi Lab.
@@ -46,7 +46,7 @@ const Header = () => {
             <ul className="flex flex-wrap justify-center lg:justify-end gap-x-2 gap-y-0.5 m-0 p-0 list-none items-center w-full lg:w-auto mb-0">
               <li className="m-0 p-0">
                 <Link
-                  href="/about/"
+                  href="https://akitoshi-lab.com/about/"
                   className="text-mono-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-mono-800 hover:text-white focus:bg-mono-800 focus:text-white"
                 >
                   ABOUT
@@ -54,7 +54,7 @@ const Header = () => {
               </li>
               <li className="m-0 p-0">
                 <Link
-                  href="https://blog.akitoshi-lab.com/"
+                  href="/"
                   className="text-mono-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-mono-800 hover:text-white focus:bg-mono-800 focus:text-white"
                 >
                   Blog
@@ -62,7 +62,7 @@ const Header = () => {
               </li>
               <li className="m-0 p-0">
                 <Link
-                  href="/works/"
+                  href="https://akitoshi-lab.com/works/"
                   className="text-mono-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-mono-800 hover:text-white focus:bg-mono-800 focus:text-white"
                 >
                   Works
@@ -70,7 +70,7 @@ const Header = () => {
               </li>
               <li className="m-0 p-0">
                 <Link
-                  href="/gallery/"
+                  href="https://akitoshi-lab.com/gallery/"
                   className="text-mono-200 bg-none no-underline px-2.5 py-1 rounded font-medium text-[0.98em] transition-colors duration-150 outline-none inline-block leading-tight hover:bg-mono-800 hover:text-white focus:bg-mono-800 focus:text-white"
                 >
                   Gallery

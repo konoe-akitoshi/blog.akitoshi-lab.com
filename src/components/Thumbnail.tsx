@@ -9,7 +9,7 @@ interface ThumbnailProps {
 
 const Thumbnail = ({ title, thumbnail, created_at, tags }: ThumbnailProps) => (
     <div
-      className="relative w-full h-64 sm:h-72 md:h-80 bg-cover bg-center rounded-2xl shadow-xl overflow-hidden border border-white/10"
+      className="relative w-full h-64 sm:h-72 md:h-80 bg-cover bg-center rounded-2xl shadow-lg overflow-hidden border border-white/10"
       style={{ backgroundImage: thumbnail ? `url(${thumbnail})` : 'linear-gradient(135deg, #525252 0%, #262626 100%)' }}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent">
