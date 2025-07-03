@@ -12,7 +12,7 @@ Blog Design System based on theoretical foundations and practical implementation
 
 ### Implementation Systems
 - **[Spacing System](./spacing-system.md)** - 4pt/8ptグリッド、階層的余白設計
-- **[Border Radius](./border-radius.md)** - 入れ子角丸、控えめシステム
+- **[Border Radius](./border-radius.md)** - 黄金比相対角丸、階層的調和システム
 - **[Responsive Design](./responsive-design.md)** - 流動的グリッド、柔軟な画像、メディアクエリ
 
 ## 🎯 Quick Implementation Guide
@@ -25,20 +25,22 @@ Blog Design System based on theoretical foundations and practical implementation
 --spacing-4: 1rem;       /* 16px */
 --spacing-8: 2rem;       /* 32px */
 
-/* Nested Border Radius */
---radius-sm: 0.375rem;   /* 6px - buttons */
---radius-base: 0.5rem;   /* 8px - images */
---radius-lg: 0.75rem;    /* 12px - cards */
+/* Golden Ratio Border Radius (推奨) */
+--radius-golden-0: 1rem;      /* 16px - Level 0 */
+--radius-golden-1: 0.625rem;  /* 10px - Level 1 */
+--radius-golden-2: 0.375rem;  /* 6px - Level 2 */
+--radius-golden-3: 0.25rem;   /* 4px - Level 3 */
 
-/* Hierarchy Rule */
-innerRadius = outerRadius × 0.75
+/* Golden Ratio Hierarchy Rule */
+childRadius = parentRadius × 0.618 (1/φ)
 ```
 
 ### Component Patterns
-- **Cards**: `rounded-lg` (12px) → content `rounded-md` (8px)
-- **Images**: Parent container radius -2px for nested effect
-- **Buttons**: `rounded-md` (6px) for subtle, approachable feel
+- **Cards**: `rounded-golden-0` (16px) → content `rounded-golden-1` (10px)
+- **Images**: Golden ratio reduction for natural hierarchy
+- **Buttons**: `rounded-golden-2` (6px) for mathematical harmony
 - **Spacing**: Internal padding ≤ External margin
+- **Hierarchy**: Each level = parent × 0.618 for visual balance
 
 ## 📖 Usage in Development
 
