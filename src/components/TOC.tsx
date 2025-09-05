@@ -3,9 +3,10 @@ import { TOCItem } from '@/types';
 
 interface TableOfContentsProps {
   contentSelector?: string;
+  onItemClick?: () => void;
 }
 
-const TableOfContents = ({ contentSelector = '.content' }: TableOfContentsProps) => {
+const TableOfContents = ({ contentSelector = '.content', onItemClick }: TableOfContentsProps) => {
   const [headings, setHeadings] = useState<TOCItem[]>([]);
   const [activeId, setActiveId] = useState('');
 
@@ -49,6 +50,8 @@ const TableOfContents = ({ contentSelector = '.content' }: TableOfContentsProps)
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // Close any parent UI (e.g., mobile modal) if provided
+      if (typeof onItemClick === 'function') onItemClick();
     }
   };
 
@@ -64,6 +67,7 @@ const TableOfContents = ({ contentSelector = '.content' }: TableOfContentsProps)
             className={`toc-item toc-level-${heading.level} ${
               activeId === heading.id ? 'toc-active' : ''
             }`}
+            aria-current={activeId === heading.id ? 'true' : undefined}
           >
             {heading.text}
           </button>

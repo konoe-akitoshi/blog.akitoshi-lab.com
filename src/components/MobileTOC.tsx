@@ -35,7 +35,10 @@ const MobileTOC = ({ contentSelector = '.content' }: MobileTOCProps) => {
               </button>
             </div>
             <div className="mobile-toc-content">
-              <TableOfContents contentSelector={contentSelector} />
+              <TableOfContents
+                contentSelector={contentSelector}
+                onItemClick={() => setIsOpen(false)}
+              />
             </div>
           </div>
         </div>
