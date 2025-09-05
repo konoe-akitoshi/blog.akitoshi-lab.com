@@ -72,7 +72,11 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   }, []);
 
   return (
-    <SessionProvider session={session}>
+    <SessionProvider 
+      session={session}
+      refetchInterval={5 * 60} // 5分間隔でセッションを更新
+      refetchOnWindowFocus={true} // ウィンドウフォーカス時にセッションを確認
+    >
       <>
         <Header />
         <main className="content-wrapper">
