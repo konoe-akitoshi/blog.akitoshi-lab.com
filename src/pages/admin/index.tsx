@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router';
 import { supabase } from '../../lib/supabase';
 import { Transition, Dialog } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
+import { signOut } from 'next-auth/react';
 import { HiTrash, HiPencilAlt, HiPlus } from 'react-icons/hi';
 import Image from 'next/image';
 import { requireAuth } from '../../lib/auth';
@@ -47,6 +48,11 @@ const Admin = ({ posts }: AdminPageProps) => {
   const router = useRouter();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<AdminPost | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showDraftOnly, setShowDraftOnly] = useState(false);
+  const [sortKey, setSortKey] = useState<'newest' | 'oldest' | 'updated' | 'title_asc' | 'title_desc'>("newest");
+  const [pageSize, setPageSize] = useState(10);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const handleDelete = async () => {
     if (!selectedPost?.id) return;
@@ -77,34 +83,145 @@ const Admin = ({ posts }: AdminPageProps) => {
     if (error) {
       console.error('Error deleting post:', error.message);
     } else {
-      alert('Post deleted successfully');
+      alert('記事を削除しました');
       router.reload(); // ページをリロード
     }
     setIsDialogOpen(false);
   };
 
+  const stats = useMemo(() => {
+    const total = posts.length;
+    const drafts = posts.filter(p => p.draft).length;
+    const published = total - drafts;
+    return { total, drafts, published };
+  }, [posts]);
+
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+
+  const processedPosts = useMemo(() => {
+    let list = [...posts];
+
+    if (showDraftOnly) {
+      list = list.filter(p => !!p.draft);
+    }
+
+    if (normalizedQuery) {
+      list = list.filter(p => {
+        const inTitle = p.title?.toLowerCase().includes(normalizedQuery);
+        const inTags = Array.isArray(p.tags) && p.tags.join(' ').toLowerCase().includes(normalizedQuery);
+        return inTitle || inTags;
+      });
+    }
+
+    list.sort((a, b) => {
+      switch (sortKey) {
+        case 'oldest':
+          return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+        case 'updated':
+          return new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime();
+        case 'title_asc':
+          return a.title.localeCompare(b.title, 'ja');
+        case 'title_desc':
+          return b.title.localeCompare(a.title, 'ja');
+        case 'newest':
+        default:
+          return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      }
+    });
+
+    return list;
+  }, [posts, showDraftOnly, normalizedQuery, sortKey]);
+
+  const totalPages = Math.max(1, Math.ceil(processedPosts.length / pageSize));
+  const pageStart = (currentPage - 1) * pageSize;
+  const pagedPosts = useMemo(() => processedPosts.slice(pageStart, pageStart + pageSize), [processedPosts, pageStart, pageSize]);
+
+  const handleChangePage = (next: number) => {
+    const page = Math.min(Math.max(1, next), totalPages);
+    setCurrentPage(page);
+    // スクロールを少し戻して上部ツールバーが見えるように
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
     <PageContainer maxWidth="lg" className="py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold text-gray-800">Content Management</h1>
-        <Button
-          onClick={() => router.push('/admin/create')}
-          variant="primary"
-          size="md"
-          className="flex items-center"
-        >
-          <HiPlus className="mr-2" />
-          New Post
-        </Button>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">コンテンツ管理</h1>
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={() => router.push('/admin/create')}
+            variant="primary"
+            size="md"
+            className="flex items-center"
+          >
+            <HiPlus className="mr-2" />
+            新規作成
+          </Button>
+          <Button
+            onClick={() => signOut({ callbackUrl: '/login' })}
+            variant="outline"
+            size="md"
+          >
+            ログアウト
+          </Button>
+        </div>
       </div>
 
-      {posts.length === 0 ? (
+      <Card variant="subtle" className="mb-6 sticky top-0 z-10">
+        <Card.Content className="grid grid-cols-1 md:grid-cols-12 gap-3">
+          <div className="md:col-span-5">
+            <label className="block text-xs text-gray-600 mb-1">検索</label>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
+              placeholder="タイトル・タグで検索"
+              className="w-full rounded-md border border-mono-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-mono-500 focus:border-mono-500 bg-white"
+            />
+          </div>
+          <div className="md:col-span-3">
+            <label className="block text-xs text-gray-600 mb-1">並び替え</label>
+            <select
+              value={sortKey}
+              onChange={(e) => { setSortKey(e.target.value as any); setCurrentPage(1); }}
+              className="w-full rounded-md border border-mono-300 px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-mono-500 focus:border-mono-500"
+            >
+              <option value="newest">作成日 新しい順</option>
+              <option value="oldest">作成日 古い順</option>
+              <option value="updated">更新日 新しい順</option>
+              <option value="title_asc">タイトル あ→わ</option>
+              <option value="title_desc">タイトル わ→あ</option>
+            </select>
+          </div>
+          <div className="md:col-span-2 flex items-end">
+            <label className="inline-flex items-center gap-2 text-sm select-none">
+              <input
+                type="checkbox"
+                checked={showDraftOnly}
+                onChange={(e) => { setShowDraftOnly(e.target.checked); setCurrentPage(1); }}
+                className="h-4 w-4 rounded border-mono-300 text-mono-800 focus:ring-mono-500"
+              />
+              下書きのみ
+            </label>
+          </div>
+          <div className="md:col-span-2 flex items-end justify-end gap-2">
+            <div className="text-xs text-gray-600">
+              合計 {stats.total}件（公開 {stats.published}・下書き {stats.drafts}）
+            </div>
+          </div>
+        </Card.Content>
+      </Card>
+
+      {processedPosts.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-600">No posts available.</p>
+          <p className="text-gray-600">条件に一致する記事がありません。</p>
         </div>
       ) : (
+        <>
         <div className="space-y-6">
-          {posts.map((post) => (
+          {pagedPosts.map((post) => (
             <Card
               key={post.id}
               variant={post.draft ? "outlined" : "default"}
@@ -177,7 +294,7 @@ const Admin = ({ posts }: AdminPageProps) => {
                   </div>
 
                   {/* アクション - Mobile: 左寄せ、Desktop: 右寄せ */}
-                  <div className="flex sm:flex-col gap-2 sm:flex-shrink-0 sm:w-24">
+                  <div className="flex sm:flex-col gap-2 sm:flex-shrink-0 sm:w-28">
                     <Button
                       onClick={() => router.push(`/admin/edit/${post.id}`)}
                       variant="outline"
@@ -205,6 +322,31 @@ const Admin = ({ posts }: AdminPageProps) => {
             </Card>
           ))}
         </div>
+        {/* Pagination */}
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+          <div className="text-gray-600">
+            {processedPosts.length}件中 {processedPosts.length === 0 ? 0 : pageStart + 1}–{Math.min(pageStart + pageSize, processedPosts.length)}件を表示
+          </div>
+          <div className="flex items-center gap-2">
+            <select
+              value={pageSize}
+              onChange={(e) => { setPageSize(parseInt(e.target.value, 10)); setCurrentPage(1); }}
+              className="rounded-md border border-mono-300 px-2 py-1 bg-white"
+            >
+              <option value={5}>5件/ページ</option>
+              <option value={10}>10件/ページ</option>
+              <option value={20}>20件/ページ</option>
+            </select>
+            <div className="flex items-center gap-1">
+              <Button variant="outline" size="sm" onClick={() => handleChangePage(1)} disabled={currentPage === 1}>«</Button>
+              <Button variant="outline" size="sm" onClick={() => handleChangePage(currentPage - 1)} disabled={currentPage === 1}>前へ</Button>
+              <span className="px-2">{currentPage} / {totalPages}</span>
+              <Button variant="outline" size="sm" onClick={() => handleChangePage(currentPage + 1)} disabled={currentPage === totalPages}>次へ</Button>
+              <Button variant="outline" size="sm" onClick={() => handleChangePage(totalPages)} disabled={currentPage === totalPages}>»</Button>
+            </div>
+          </div>
+        </div>
+        </>
       )}
 
       {/* 削除確認モーダル */}
@@ -238,24 +380,23 @@ const Admin = ({ posts }: AdminPageProps) => {
           >
             <Dialog.Panel className="bg-white p-6 rounded shadow-lg">
               <Dialog.Title className="text-lg font-semibold">
-                Confirm Deletion
+                削除の確認
               </Dialog.Title>
               <Dialog.Description className="text-sm text-gray-600 mt-2">
-                Are you sure you want to delete &quot;{selectedPost?.title}&quot;? This action
-                cannot be undone.
+                「{selectedPost?.title}」を削除しますか？この操作は取り消せません。
               </Dialog.Description>
               <div className="mt-4 flex justify-end space-x-4">
                 <Button
                   onClick={() => setIsDialogOpen(false)}
                   variant="outline"
                 >
-                  Cancel
+                  キャンセル
                 </Button>
                 <Button
                   onClick={handleDelete}
                   variant="danger"
                 >
-                  Delete
+                  削除
                 </Button>
               </div>
             </Dialog.Panel>
