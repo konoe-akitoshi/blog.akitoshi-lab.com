@@ -52,9 +52,11 @@ const LoginPage = () => {
             Username
           </label>
           <input
+            id="username"
             type="text"
             name="username"
             placeholder="Username"
+            autoComplete="username"
             required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
@@ -67,9 +69,11 @@ const LoginPage = () => {
             Password
           </label>
           <input
+            id="password"
             type="password"
             name="password"
             placeholder="Password"
+            autoComplete="current-password"
             required
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
